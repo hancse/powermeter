@@ -99,8 +99,14 @@ void MainWindow::on_btnDisconnect_clicked()
 
 void MainWindow::on_btnConfig_clicked()
 {
-    sd->setModal(true);
-    sd->show();
+    auto type = static_cast<ModbusConnection>(ui->connectType->currentIndex());
+    if (type == Serial) {
+        sd->setModal(true);
+        sd->show();
+    } else if (type == Tcp) {
+        tcpd->setModal(true);
+        tcpd->show();
+    }
 }
 
 void MainWindow::on_connectType_currentIndexChanged(int index)
@@ -147,10 +153,12 @@ void MainWindow::on_readButton_clicked()
 {
     if (!modbusDevice)
         return;
+
     ui->readValue->clear();
     statusBar()->clearMessage();
 
-    if (auto *reply = modbusDevice->sendReadRequest(readRequest(), ui->serverEdit->value())) {
+    if ( auto* reply = modbusDevice->sendReadRequest(readRequest(),
+                                                    ui->serverEdit->value()) ) {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished, this, &MainWindow::readReady);
         else
@@ -268,7 +276,7 @@ void MainWindow::on_writeTable_currentIndexChanged(int index)
 QModbusDataUnit MainWindow::readRequest() const
 {
     const auto table =
-        static_cast<QModbusDataUnit::RegisterType> (ui->writeTable->currentData().toInt());
+        static_cast<QModbusDataUnit::RegisterType>(ui->writeTable->currentData().toInt());
 
     int startAddress = ui->readAddress->value();
     Q_ASSERT(startAddress >= 0 && startAddress < 10);
