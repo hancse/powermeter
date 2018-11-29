@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += serialport serialbus
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,13 +27,19 @@ CONFIG += c++11
 
 SOURCES += \
         src/main.cpp \
-        src/mainwindow.cpp
+        src/mainwindow.cpp \
+    commonsrc/serialdialog.cpp \
+    commonsrc/tcpdialog.cpp
 
 HEADERS += \
-        src/mainwindow.h
+        src/mainwindow.h \
+    commonsrc/serialdialog.h \
+    commonsrc/tcpdialog.h
 
 FORMS += \
-        src/mainwindow.ui
+        src/mainwindow.ui \
+    commonsrc/serialdialog.ui \
+    commonsrc/tcpdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
