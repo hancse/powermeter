@@ -29,17 +29,20 @@ SOURCES += \
         src/main.cpp \
         src/mainwindow.cpp \
     commonsrc/serialdialog.cpp \
-    commonsrc/tcpdialog.cpp
+    commonsrc/tcpdialog.cpp \
+    src/modbusframe.cpp
 
 HEADERS += \
         src/mainwindow.h \
     commonsrc/serialdialog.h \
-    commonsrc/tcpdialog.h
+    commonsrc/tcpdialog.h \
+    src/modbusframe.h
 
 FORMS += \
         src/mainwindow.ui \
     commonsrc/serialdialog.ui \
-    commonsrc/tcpdialog.ui
+    commonsrc/tcpdialog.ui \
+    src/modbusframe.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
