@@ -32,6 +32,8 @@ private slots:
     void on_readWriteButton_clicked();
     void on_writeTable_currentIndexChanged(int index);
 
+    void on_pushButton_clicked();
+
 private:
     QModbusDataUnit readRequest() const;
     QModbusDataUnit writeRequest() const;
@@ -44,6 +46,7 @@ private:
     SerialDialog* sd;
     TcpDialog* tcpd;
 
+    double ByteArrayToDouble(QByteArray ba, double defaultValue);
 };
 
 #endif // MODBUSFRAME_H

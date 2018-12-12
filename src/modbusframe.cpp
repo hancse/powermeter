@@ -4,6 +4,7 @@
 #include <QModbusTcpClient>
 #include <QModbusRtuSerialMaster>
 #include <QUrl>
+#include <QDebug>
 
 enum ModbusConnection {
     Serial,
@@ -280,7 +281,7 @@ QModbusDataUnit ModbusFrame::readRequest() const
         static_cast<QModbusDataUnit::RegisterType>(ui->writeTable->currentData().toInt());
 
     int startAddress = ui->readAddress->value();
-    Q_ASSERT(startAddress >= 0 && startAddress < 10);
+    //Q_ASSERT(startAddress >= 0 && startAddress < 10);
 
     // do not go beyond 10 entries
     int numberOfEntries = qMin(ui->readSize->currentText().toInt(), 10 - startAddress);
@@ -293,10 +294,42 @@ QModbusDataUnit ModbusFrame::writeRequest() const
         static_cast<QModbusDataUnit::RegisterType> (ui->writeTable->currentData().toInt());
 
     int startAddress = ui->writeAddress->value();
-    Q_ASSERT(startAddress >= 0 && startAddress < 10);
+    //Q_ASSERT(startAddress >= 0 && startAddress < 10);
 
     // do not go beyond 10 entries
     int numberOfEntries = qMin(ui->writeSize->currentText().toInt(), 10 - startAddress);
     return QModbusDataUnit(table, startAddress, numberOfEntries);
 }
 
+double ModbusFrame::ByteArrayToDouble(QByteArray ba, double defaultValue = 0.0)
+{
+    float value = static_cast<float>(defaultValue);
+    ba.resize(4);
+    ba[3] = 0x42;
+    ba[2] = 0x48;
+    ba[1] = 0x0A;
+    ba[0] = 0x3D;
+
+    if ( ba.size() >= sizeof(value) ) {
+        //value = *reinterpret_cast<float*>(ba.data());
+        value = *reinterpret_cast<const float*>(ba.data());
+    } else {
+        // The array is not big enough.
+    }
+    qDebug() << value;
+    return static_cast<double>(value);
+}
+
+void ModbusFrame::on_pushButton_clicked()
+{
+    QByteArray ba;
+    ba.resize(4);
+    ba[3] = 0x42;
+    ba[2] = 0x48;
+    ba[1] = 0x0A;
+    ba[0] = 0x3D;
+    float value;
+    //value = *reinterpret_cast<float*>(ba.data());
+    value = *reinterpret_cast<const float*>(ba.data());
+    qDebug() << value;
+}
