@@ -35,8 +35,6 @@ private slots:
     void on_readWriteButton_clicked();
     void on_writeTable_currentIndexChanged(int index);
 
-    void on_pushButton_clicked();
-
 private:
     QModbusDataUnit readRequest() const;
     QModbusDataUnit writeRequest() const;
@@ -50,8 +48,8 @@ private:
     TcpDialog* tcpd;
 
 
-    double freq;
-    double V1, V2, V3, Vavg;
+    //double freq;
+    //double V1, V2, V3, Vavg;
 
     double ByteArrayToDouble(QByteArray ba, double defaultValue);
     double RegistersToDouble(quint16 highWord, quint16 lowWord);

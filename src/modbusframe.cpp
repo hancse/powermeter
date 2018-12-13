@@ -326,16 +326,4 @@ double ModbusFrame::RegistersToDouble(quint16 highWord, quint16 lowWord)
     return static_cast<double>(value);
 }
 
-void ModbusFrame::on_pushButton_clicked()
-{
-    QByteArray ba;
-    ba.resize(4);
-    ba[3] = 0x42;
-    ba[2] = 0x48;
-    ba[1] = 0x0A;
-    ba[0] = 0x3D;
-    float value;
-    //value = *reinterpret_cast<float*>(ba.data());
-    value = *reinterpret_cast<const float*>(ba.data());
-    qDebug() << value;
-}
+

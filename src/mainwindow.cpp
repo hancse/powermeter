@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     mbf = new ModbusFrame(this);
-    mbf->move(100, 10);
+    mbf->move(120, 20);
 }
 
 MainWindow::~MainWindow()
