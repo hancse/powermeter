@@ -14,70 +14,40 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="layoutWidget_5">
+   <widget class="QListWidget" name="listWidget">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>530</y>
-      <width>561</width>
-      <height>25</height>
+      <x>10</x>
+      <y>10</y>
+      <width>101</width>
+      <height>611</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QLabel" name="label_18">
-       <property name="text">
-        <string>Table:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="writeTable_2"/>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>13</width>
-         <height>17</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="readButton_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Read</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="writeButton_2">
-       <property name="text">
-        <string>Write</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="readWriteButton_2">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Read-Write</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <item>
+     <property name="text">
+      <string>Main</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Power</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Charger</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Modbus</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Quit</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

@@ -6,6 +6,7 @@
 
 #include "commonsrc/serialdialog.h"
 #include "commonsrc/tcpdialog.h"
+#include "src/deifmodbus.h"
 
 namespace Ui {
 class ModbusFrame;
@@ -18,6 +19,8 @@ class ModbusFrame : public QFrame
 public:
     explicit ModbusFrame(QWidget *parent = nullptr);
     ~ModbusFrame();
+
+    DEIFModbus* deif;
 
 private slots:
     void on_btnConnect_clicked();
@@ -46,7 +49,13 @@ private:
     SerialDialog* sd;
     TcpDialog* tcpd;
 
+
+    double freq;
+    double V1, V2, V3, Vavg;
+
     double ByteArrayToDouble(QByteArray ba, double defaultValue);
+    double RegistersToDouble(quint16 highWord, quint16 lowWord);
+    void displayData();
 };
 
 #endif // MODBUSFRAME_H

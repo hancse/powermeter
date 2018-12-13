@@ -30,13 +30,15 @@ SOURCES += \
         src/mainwindow.cpp \
     commonsrc/serialdialog.cpp \
     commonsrc/tcpdialog.cpp \
-    src/modbusframe.cpp
+    src/modbusframe.cpp \
+    src/deifmodbus.cpp
 
 HEADERS += \
         src/mainwindow.h \
     commonsrc/serialdialog.h \
     commonsrc/tcpdialog.h \
-    src/modbusframe.h
+    src/modbusframe.h \
+    src/deifmodbus.h
 
 FORMS += \
         src/mainwindow.ui \
