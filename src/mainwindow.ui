@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1024</width>
-    <height>644</height>
+    <height>668</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,6 +48,19 @@
       <string>Quit</string>
      </property>
     </item>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>10</y>
+      <width>902</width>
+      <height>602</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

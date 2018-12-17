@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT       += serialport serialbus
+QT       += serialport serialbus sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,20 +31,23 @@ SOURCES += \
     commonsrc/serialdialog.cpp \
     commonsrc/tcpdialog.cpp \
     src/modbusframe.cpp \
-    src/deifmodbus.cpp
+    src/deifmodbus.cpp \
+    src/sqliteframe.cpp
 
 HEADERS += \
         src/mainwindow.h \
     commonsrc/serialdialog.h \
     commonsrc/tcpdialog.h \
     src/modbusframe.h \
-    src/deifmodbus.h
+    src/deifmodbus.h \
+    src/sqliteframe.h
 
 FORMS += \
         src/mainwindow.ui \
     commonsrc/serialdialog.ui \
     commonsrc/tcpdialog.ui \
-    src/modbusframe.ui
+    src/modbusframe.ui \
+    src/sqliteframe.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

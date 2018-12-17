@@ -12,8 +12,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mbf = new ModbusFrame(this);
-    mbf->move(120, 20);
+    mbf = new ModbusFrame();
+    ui->stackedWidget->addWidget(mbf);
+    sqlf = new SQLiteFrame();
+    ui->stackedWidget->addWidget(sqlf);
+    ui->stackedWidget->setCurrentIndex(0);
+
+    //mbf->move(120, 20);
 }
 
 MainWindow::~MainWindow()
