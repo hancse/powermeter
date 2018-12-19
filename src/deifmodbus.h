@@ -4,7 +4,64 @@
 #include <QObject>
 #include <QModbusClient>
 
-struct AnalogParams {
+struct SysParams {  //@address 0x3000
+    uint16_t passwd;
+    uint16_t mbAddress;
+    uint16_t mbAaddress;
+    uint16_t baudRate;
+    uint16_t voltWiring;
+    uint16_t currWiring;
+    uint16_t lcdTime;
+};
+
+struct SysStatus {  //@address 0x3000
+    uint16_t passwd;
+    uint16_t mbAddress;
+    uint16_t mbAaddress;
+    uint16_t baudRate;
+    uint16_t voltWiring;
+    uint16_t currWiring;
+    uint16_t lcdTime;
+};
+
+struct MeterParams {  //@address 0x3000
+    double freq;
+
+    double phaseVoltage1;
+    double phaseVoltage2;
+    double phaseVoltage3;
+    double avgVoltage;
+    double lineVoltage1;
+    double lineVoltage2;
+    double lineVoltage3;
+    double avgLineVoltage;
+
+    double current1;
+    double current2;
+    double current3;
+    double avgCurrent;
+    double neutralCurrent;
+
+    double phaseAPower;
+    double phaseBPower;
+    double phaseCPower;
+    double systemPower;
+    double phaseAReactPower;
+    double phaseBReactPower;
+    double phaseCReactPower;
+    double systemReactPower;
+    double phaseAApptPower;
+    double phaseBApptPower;
+    double phaseCApptPower;
+    double systemApptPower;
+
+    double phaseAPF;
+    double phaseBPF;
+    double phaseCPF;
+    double systemPF;
+};
+
+struct AnalogParams {  //@address 0x4000
     double freq;
 
     double phaseVoltage1;
