@@ -29,13 +29,18 @@ SQLiteFrame::~SQLiteFrame()
 
 void SQLiteFrame::DatabaseConnect()
 {
-    const QString DRIVER("QSQLITE");
+    const QString DRIVER("QMYSQL");
 
     if(QSqlDatabase::isDriverAvailable(DRIVER))
     {
         QSqlDatabase db = QSqlDatabase::addDatabase(DRIVER);
-
-        db.setDatabaseName(":memory:");
+// sustainablecharging_nl_evcharging
+// unix timestamp
+        db.setDatabaseName("sustainablecharging_nl_sources");
+        db.setHostName("ec2-54-208-101-222.compute-1.amazonaws.com");
+        db.setPort(3306);
+        db.setUserName("sevci-admin");
+        db.setPassword("canterbury");
 
         if(!db.open())
             qWarning() << "MainWindow::DatabaseConnect - ERROR: " << db.lastError().text();
@@ -46,10 +51,23 @@ void SQLiteFrame::DatabaseConnect()
 
 void SQLiteFrame::DatabaseInit()
 {
-    QSqlQuery query("CREATE TABLE people (id INTEGER PRIMARY KEY, name TEXT)");
+    //QSqlQuery query("CREATE TABLE people (id INTEGER PRIMARY KEY, name TEXT)");
 
-    if(!query.isActive())
-        qWarning() << "MainWindow::DatabaseInit - ERROR: " << query.lastError().text();
+    QSqlQuery createQuery("CREATE TABLE source_pv "
+                              "(id BIGINT(20) UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,"
+                               "phaseVoltageL1 float NOT NULL"
+                               "phase_voltage_L2 float NOT NULL,"
+                               "phase_voltage_L3 float NOT NULL,"
+                               "current_L1 float NOT NULL,"
+                               "current_L2 float NOT NULL,"
+                               "current_L3 float NOT NULL,"
+                               "active_power` float NOT NULL,"
+                               "energy float NOT NULL,"
+                               "frequency float NOT NULL,"
+                               "createdAt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP) "
+                          "ENGINE=InnoDB DEFAULT CHARSET=latin1)");
+    if(!createQuery.isActive())
+        qWarning() << "MainWindow::DatabaseInit - ERROR: " << createQuery.lastError().text();
 
 }
 
@@ -57,25 +75,7 @@ void SQLiteFrame::DatabasePopulate()
 {
     QSqlQuery query;
 
-    if(!query.exec("INSERT INTO people(name) VALUES('Eddie Guerrero')"))
-        qWarning() << "MainWindow::DatabasePopulate - ERROR: " << query.lastError().text();
-    if(!query.exec("INSERT INTO people(name) VALUES('Gordon Ramsay')"))
-        qWarning() << "MainWindow::DatabasePopulate - ERROR: " << query.lastError().text();
-    if(!query.exec("INSERT INTO people(name) VALUES('Alan Sugar')"))
-        qWarning() << "MainWindow::DatabasePopulate - ERROR: " << query.lastError().text();
-    if(!query.exec("INSERT INTO people(name) VALUES('Dana Scully')"))
-        qWarning() << "MainWindow::DatabasePopulate - ERROR: " << query.lastError().text();
-    if(!query.exec("INSERT INTO people(name) VALUES('Lila	Wolfe')"))
-        qWarning() << "MainWindow::DatabasePopulate - ERROR: " << query.lastError().text();
-    if(!query.exec("INSERT INTO people(name) VALUES('Ashley Williams')"))
-        qWarning() << "MainWindow::DatabasePopulate - ERROR: " << query.lastError().text();
-    if(!query.exec("INSERT INTO people(name) VALUES('Karen Bryant')"))
-        qWarning() << "MainWindow::DatabasePopulate - ERROR: " << query.lastError().text();
-    if(!query.exec("INSERT INTO people(name) VALUES('Jon Snow')"))
-        qWarning() << "MainWindow::DatabasePopulate - ERROR: " << query.lastError().text();
-    if(!query.exec("INSERT INTO people(name) VALUES('Linus Torvalds')"))
-        qWarning() << "MainWindow::DatabasePopulate - ERROR: " << query.lastError().text();
-    if(!query.exec("INSERT INTO people(name) VALUES('Hayley Moore')"))
+    if(!query.exec("INSERT INTO source_pv(phaseVoltageL1) VALUES(233.456)"))
         qWarning() << "MainWindow::DatabasePopulate - ERROR: " << query.lastError().text();
 }
 

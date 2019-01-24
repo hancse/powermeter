@@ -1,0 +1,15 @@
+4 power meters
+EV Charger
+PV
+Battery
+Load
+
+Meters in 4 Chargers
+
+Load = 4 Chargers per car
+
+V123, I123, freq, P123, Energy123
+
+Load = Grid + Battery + PV
+
+V123, I123, freq, P123, Energy123 4 maal

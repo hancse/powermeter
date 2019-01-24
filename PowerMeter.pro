@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT       += serialport serialbus sql
+QT       += serialport serialbus sql printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,7 +32,10 @@ SOURCES += \
     commonsrc/tcpdialog.cpp \
     src/modbusframe.cpp \
     src/deifmodbus.cpp \
-    src/sqliteframe.cpp
+    src/sqliteframe.cpp \
+    commonsrc/loggingframe.cpp \
+    commonsrc/plotframe2.cpp \
+    thirdparty/QCustomPlot200/qcustomplot.cpp
 
 HEADERS += \
         src/mainwindow.h \
@@ -40,16 +43,23 @@ HEADERS += \
     commonsrc/tcpdialog.h \
     src/modbusframe.h \
     src/deifmodbus.h \
-    src/sqliteframe.h
+    src/sqliteframe.h \
+    commonsrc/loggingframe.h \
+    commonsrc/plotframe2.h \
+    thirdparty/QCustomPlot200/qcustomplot.h
 
 FORMS += \
         src/mainwindow.ui \
     commonsrc/serialdialog.ui \
     commonsrc/tcpdialog.ui \
     src/modbusframe.ui \
-    src/sqliteframe.ui
+    src/sqliteframe.ui \
+    commonsrc/loggingframe.ui \
+    commonsrc/plotframe2.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+INCLUDEPATH += ./thirdparty/QCustomPlot200
