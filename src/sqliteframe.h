@@ -26,6 +26,7 @@ private slots:
 
 private:
     Ui::SQLiteFrame *ui;
+    void DatabaseTest();
 };
 
 #endif // SQLITEFRAME_H
