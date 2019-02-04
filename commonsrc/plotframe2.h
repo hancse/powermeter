@@ -18,9 +18,9 @@ public:
     explicit PlotFrame2(QWidget *parent = nullptr);
     ~PlotFrame2();
 
-    void realtimeUSBSlot(double value);
-    void setXYLabel(const QString &xValue, const QString &yValue);
-    void setYMinMax(double valMin, double valMax);
+    void realtimeUSBSlot(int index, double value);
+    void setXYLabel(int index, const QString &xValue, const QString &yValue);
+    void setYMinMax(int index, double valMin, double valMax);
 
 private slots:
     void setupPlot3();
@@ -30,6 +30,7 @@ private slots:
 private:
     Ui::PlotFrame2 *ui;
     QDialog* pd;
+    QCustomPlot* plot[3];
 
     QTimer* dataTimer;
     double xSpan = 1;

@@ -25,27 +25,46 @@
      <x>5</x>
      <y>10</y>
      <width>440</width>
-     <height>471</height>
+     <height>521</height>
     </rect>
    </property>
    <property name="title">
     <string>Plot</string>
    </property>
-   <widget class="QCustomPlot" name="customPlot" native="true">
+  </widget>
+  <widget class="QGroupBox" name="gbPlotControls">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>530</y>
+     <width>441</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Plot Controls</string>
+   </property>
+   <widget class="QPushButton" name="btnDetach">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
-      <width>420</width>
-      <height>141</height>
+      <y>30</y>
+      <width>75</width>
+      <height>23</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>Detach</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QSpinBox" name="sbSpan">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>370</y>
+      <x>350</x>
+      <y>30</y>
       <width>71</width>
       <height>22</height>
      </rect>
@@ -78,65 +97,8 @@
      <number>600</number>
     </property>
    </widget>
-   <widget class="QCustomPlot" name="customPlot_2" native="true">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>170</y>
-      <width>420</width>
-      <height>141</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QCustomPlot" name="customPlot_3" native="true">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>320</y>
-      <width>420</width>
-      <height>141</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QGroupBox" name="gbPlotControls">
-   <property name="geometry">
-    <rect>
-     <x>5</x>
-     <y>480</y>
-     <width>441</width>
-     <height>121</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Plot Controls</string>
-   </property>
-   <widget class="QPushButton" name="btnDetach">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Detach</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-   </widget>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QCustomPlot</class>
-   <extends>QWidget</extends>
-   <header>qcustomplot.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
