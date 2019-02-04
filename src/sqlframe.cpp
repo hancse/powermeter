@@ -1,5 +1,5 @@
-#include "sqliteframe.h"
-#include "ui_sqliteframe.h"
+#include "sqlframe.h"
+#include "ui_sqlframe.h"
 
 #include <QDebug>
 #include <QIntValidator>
@@ -10,26 +10,30 @@
 #include <QSqlQuery>
 #include <QtSql>
 
-SQLiteFrame::SQLiteFrame(QWidget *parent) :
+SQLFrame::SQLFrame(QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::SQLiteFrame)
+    ui(new Ui::SQLFrame)
 {
     ui->setupUi(this);
+    plf = new PlotFrame2(this);
+    plf->move(450,0);
+
     ui->leInput->setValidator(new QIntValidator(ui->leInput));
 
 // -- DATABASE INIT --
+    qDebug() << QSqlDatabase::drivers();
     DatabaseConnect();
     //DatabaseInit();
     //DatabasePopulate();
     DatabaseTest();
 }
 
-SQLiteFrame::~SQLiteFrame()
+SQLFrame::~SQLFrame()
 {
     delete ui;
 }
 
-void SQLiteFrame::DatabaseConnect()
+void SQLFrame::DatabaseConnect()
 {
     const QString DRIVER("QMYSQL");
 
@@ -54,7 +58,7 @@ void SQLiteFrame::DatabaseConnect()
         qWarning() << "MainWindow::DatabaseConnect - ERROR: no driver " << DRIVER << " available";
 }
 
-void SQLiteFrame::DatabaseInit()
+void SQLFrame::DatabaseInit()
 {
     //QSqlQuery query("CREATE TABLE people (id INTEGER PRIMARY KEY, name TEXT)");
 
@@ -76,7 +80,7 @@ void SQLiteFrame::DatabaseInit()
 
 }
 
-void SQLiteFrame::DatabasePopulate()
+void SQLFrame::DatabasePopulate()
 {
     QSqlQuery query;
 
@@ -84,7 +88,7 @@ void SQLiteFrame::DatabasePopulate()
         qWarning() << "MainWindow::DatabasePopulate - ERROR: " << query.lastError().text();
 }
 
-void SQLiteFrame::DatabaseTest()
+void SQLFrame::DatabaseTest()
 {
     QSqlQuery query;
     query.prepare("SHOW FULL TABLES IN sustainablecharging_nl_evcharging "
@@ -108,7 +112,7 @@ void SQLiteFrame::DatabaseTest()
 
 // ===== PRIVATE SLOTS =====
 
-void SQLiteFrame::on_btnSearch_clicked()
+void SQLFrame::on_btnSearch_clicked()
 {
     QSqlQuery query;
     query.prepare("SELECT name FROM people WHERE id = ?");
@@ -123,7 +127,7 @@ void SQLiteFrame::on_btnSearch_clicked()
         ui->lblOutput->setText("person not found");
 }
 
-void SQLiteFrame::on_leInput_textChanged(const QString &arg1)
+void SQLFrame::on_leInput_textChanged(const QString &arg1)
 {
     if(ui->leInput->text().length() > 0)
         ui->btnSearch->setEnabled(true);

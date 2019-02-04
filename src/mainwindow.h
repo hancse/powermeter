@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "src/modbusframe.h"
-#include "src/sqliteframe.h"
+#include "src/sqlframe.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,7 +26,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     ModbusFrame* mbf;
-    SQLiteFrame* sqlf;
+    SQLFrame* sqlf;
 };
 
 #endif // MAINWINDOW_H

@@ -32,7 +32,7 @@ SOURCES += \
     commonsrc/tcpdialog.cpp \
     src/modbusframe.cpp \
     src/deifmodbus.cpp \
-    src/sqliteframe.cpp \
+    src/sqlframe.cpp \
     commonsrc/loggingframe.cpp \
     commonsrc/plotframe2.cpp \
     thirdparty/QCustomPlot200/qcustomplot.cpp
@@ -43,7 +43,7 @@ HEADERS += \
     commonsrc/tcpdialog.h \
     src/modbusframe.h \
     src/deifmodbus.h \
-    src/sqliteframe.h \
+    src/sqlframe.h \
     commonsrc/loggingframe.h \
     commonsrc/plotframe2.h \
     thirdparty/QCustomPlot200/qcustomplot.h
@@ -53,7 +53,7 @@ FORMS += \
     commonsrc/serialdialog.ui \
     commonsrc/tcpdialog.ui \
     src/modbusframe.ui \
-    src/sqliteframe.ui \
+    src/sqlframe.ui \
     commonsrc/loggingframe.ui \
     commonsrc/plotframe2.ui
 

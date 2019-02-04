@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SQLiteFrame</class>
- <widget class="QFrame" name="SQLiteFrame">
+ <class>SQLFrame</class>
+ <widget class="QFrame" name="SQLFrame">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -52,7 +52,7 @@
   <widget class="QPlainTextEdit" name="pteTables">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>30</x>
      <y>200</y>
      <width>371</width>
      <height>171</height>

@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mbf = new ModbusFrame();
     ui->stackedWidget->addWidget(mbf);
-    sqlf = new SQLiteFrame();
+    sqlf = new SQLFrame();
     ui->stackedWidget->addWidget(sqlf);
     ui->stackedWidget->setCurrentIndex(1);
 

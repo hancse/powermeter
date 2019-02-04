@@ -25,7 +25,7 @@
      <x>5</x>
      <y>10</y>
      <width>440</width>
-     <height>401</height>
+     <height>471</height>
     </rect>
    </property>
    <property name="title">
@@ -37,7 +37,7 @@
       <x>10</x>
       <y>20</y>
       <width>420</width>
-      <height>341</height>
+      <height>141</height>
      </rect>
     </property>
    </widget>
@@ -78,14 +78,34 @@
      <number>600</number>
     </property>
    </widget>
+   <widget class="QCustomPlot" name="customPlot_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>420</width>
+      <height>141</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QCustomPlot" name="customPlot_3" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>320</y>
+      <width>420</width>
+      <height>141</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="gbPlotControls">
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>430</y>
+     <y>480</y>
      <width>441</width>
-     <height>131</height>
+     <height>121</height>
     </rect>
    </property>
    <property name="title">
@@ -94,7 +114,7 @@
    <widget class="QPushButton" name="btnDetach">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>10</x>
       <y>30</y>
       <width>75</width>
       <height>23</height>

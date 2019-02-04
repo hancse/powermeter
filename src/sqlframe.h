@@ -1,19 +1,20 @@
-#ifndef SQLITEFRAME_H
-#define SQLITEFRAME_H
+#ifndef SQLFRAME_H
+#define SQLFRAME_H
 
 #include <QFrame>
+#include "commonsrc/plotframe2.h"
 
 namespace Ui {
-class SQLiteFrame;
+class SQLFrame;
 }
 
-class SQLiteFrame : public QFrame
+class SQLFrame : public QFrame
 {
     Q_OBJECT
 
 public:
-    explicit SQLiteFrame(QWidget *parent = nullptr);
-    ~SQLiteFrame();
+    explicit SQLFrame(QWidget *parent = nullptr);
+    ~SQLFrame();
 
 private:
     void DatabaseConnect();
@@ -25,8 +26,9 @@ private slots:
     void on_leInput_textChanged(const QString &arg1);
 
 private:
-    Ui::SQLiteFrame *ui;
+    Ui::SQLFrame *ui;
+    PlotFrame2* plf;
     void DatabaseTest();
 };
 
-#endif // SQLITEFRAME_H
+#endif // SQLFRAME_H
