@@ -3,6 +3,12 @@
 
 #include <QObject>
 #include <QModbusClient>
+#include <QTimer>
+
+// DEIF is at comport (config button)
+// 0x3000 = 12288 dec
+// 0x4000 = 16384 dec
+// 0x4048 = 16456 dec
 
 struct SysParams {  //@address 0x3000
     uint16_t passwd;
@@ -135,12 +141,14 @@ public:
     AnalogParams getAp() const;
     void RegsToAp(QModbusDataUnit du);
 
+    void readAll();
 signals:
     void dataReady();
 
 public slots:
 
 private:
+    QTimer* deifTimer;
     AnalogParams ap;
     double RegistersToDouble(quint16 highWord, quint16 lowWord);
 };

@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->addWidget(mbf);
     sqlf = new SQLFrame();
     ui->stackedWidget->addWidget(sqlf);
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(0);
 
     //mbf->move(120, 20);
 }

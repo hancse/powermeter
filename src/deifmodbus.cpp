@@ -4,7 +4,8 @@
 
 DEIFModbus::DEIFModbus(QObject *parent) : QObject(parent)
 {
-
+    deifTimer = new QTimer(this);
+    connect(deifTimer, &QTimer::timeout, this, &DEIFModbus::readAll);
 }
 
 double DEIFModbus::RegistersToDouble(quint16 highWord, quint16 lowWord)
@@ -14,6 +15,11 @@ double DEIFModbus::RegistersToDouble(quint16 highWord, quint16 lowWord)
     value = *reinterpret_cast<float*>(&lw);
     qDebug() << value;
     return static_cast<double>(value);
+}
+
+void DEIFModbus::readAll()
+{
+
 }
 
 AnalogParams DEIFModbus::getAp() const
