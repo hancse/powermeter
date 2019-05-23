@@ -52,7 +52,13 @@ void ModbusFrame::displayData()
     ui->lblV1->setText(QString("%1 V").arg(a.phaseVoltage1));
     ui->lblV2->setText(QString("%1 V").arg(a.phaseVoltage2));
     ui->lblV3->setText(QString("%1 V").arg(a.phaseVoltage3));
-    ui->lblVavg->setText(QString("%1 V").arg(a.avgVoltage));
+    ui->lblCurr1->setText(QString("%1 V").arg(a.avgVoltage));
+    ui->lblCurr2->setText(QString("%1 V").arg(a.avgVoltage));
+    ui->lblCurr3->setText(QString("%1 V").arg(a.avgVoltage));
+    ui->lblPower1->setText(QString("%1 V").arg(a.avgVoltage));
+    ui->lblPower2->setText(QString("%1 V").arg(a.avgVoltage));
+    ui->lblPower3->setText(QString("%1 V").arg(a.avgVoltage));
+    ui->lblTotalEnergy->setText(QString("%1 V").arg(a.avgVoltage));
 }
 
 void ModbusFrame::on_btnConnect_clicked()
@@ -298,32 +304,7 @@ QModbusDataUnit ModbusFrame::writeRequest() const
     return QModbusDataUnit(table, startAddress, numberOfEntries);
 }
 
-double ModbusFrame::ByteArrayToDouble(QByteArray ba, double defaultValue = 0.0)
-{
-    float value = static_cast<float>(defaultValue);
-    ba.resize(4);
-    ba[3] = 0x42;
-    ba[2] = 0x48;
-    ba[1] = 0x0A;
-    ba[0] = 0x3D;
 
-    if ( ba.size() >= sizeof(value) ) {
-        //value = *reinterpret_cast<float*>(ba.data());
-        value = *reinterpret_cast<const float*>(ba.data());
-    } else {
-        // The array is not big enough.
-    }
-    qDebug() << value;
-    return static_cast<double>(value);
-}
 
-double ModbusFrame::RegistersToDouble(quint16 highWord, quint16 lowWord)
-{
-    quint32 lw = (highWord << 16) + lowWord;
-    float value;
-    value = *reinterpret_cast<float*>(&lw);
-    qDebug() << value;
-    return static_cast<double>(value);
-}
 
 

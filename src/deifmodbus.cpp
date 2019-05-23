@@ -55,3 +55,22 @@ void DEIFModbus::RegsToAp(QModbusDataUnit du)
              << ap.phaseVoltage1 << ap.phaseVoltage2 << ap.phaseVoltage3 << ap.avgVoltage;
     emit dataReady();
 }
+
+double DEIFModbus::ByteArrayToDouble(QByteArray ba, double defaultValue = 0.0)
+{
+    float value = static_cast<float>(defaultValue);
+    ba.resize(4);
+    ba[3] = 0x42;
+    ba[2] = 0x48;
+    ba[1] = 0x0A;
+    ba[0] = 0x3D;
+
+    if ( ba.size() >= sizeof(value) ) {
+        //value = *reinterpret_cast<float*>(ba.data());
+        value = *reinterpret_cast<const float*>(ba.data());
+    } else {
+        // The array is not big enough.
+    }
+    qDebug() << value;
+    return static_cast<double>(value);
+}

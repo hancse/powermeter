@@ -51,8 +51,6 @@ private:
     //double freq;
     //double V1, V2, V3, Vavg;
 
-    double ByteArrayToDouble(QByteArray ba, double defaultValue);
-    double RegistersToDouble(quint16 highWord, quint16 lowWord);
     void displayData();
 };
 
