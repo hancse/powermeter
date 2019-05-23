@@ -9,6 +9,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QtSql>
+#include <QList>
+#include "backendhandler.h"
 
 SQLFrame::SQLFrame(QWidget *parent) :
     QFrame(parent),
@@ -26,6 +28,8 @@ SQLFrame::SQLFrame(QWidget *parent) :
     //DatabaseInit();
     //DatabasePopulate();
     DatabaseTest();
+
+    msg2db["pi"] = 3.14;
 }
 
 SQLFrame::~SQLFrame()
@@ -135,3 +139,63 @@ void SQLFrame::on_leInput_textChanged(const QString &arg1)
     else
         ui->btnSearch->setEnabled(false);
 }
+
+void SQLFrame::testSerializeAndDeserializePerson()
+{
+   Person person;
+   person.setId(3);
+   person.setName("Ugo");
+   person.setSurname("Sugo");
+   person.setEmail("ugolugo@test.it");
+
+   QString json = PersonJsonSerializer::serialize(person);
+
+   // To see the produced JSON
+    qDebug() << json;
+    //printf(json.data());
+
+   Person parsedPerson;
+   PersonJsonSerializer::parse(json, parsedPerson);
+
+}
+
+void SQLFrame::testSerializeAndDeserializeContainer()
+{
+   PersonContainer container;
+
+   Person p1;
+   p1.setId(13);
+   p1.setName("Davide");
+   p1.setSurname("Ling");
+   p1.setEmail("davideling@hotmail.it");
+   //container.add(p1);
+
+   Person p2;
+   p2.setId(15);
+   p2.setName("Pippo");
+   p2.setSurname("Foo");
+   p2.setEmail("pippo@foo.it");
+   //container.add(p2);
+
+   // Serialize
+   QString json = PersonJsonSerializer::serialize(container);
+
+  qDebug() << json;
+
+   // Parse serialization output to rebuild persons list
+   PersonContainer parsedContainer;
+   PersonJsonSerializer::parse(json, parsedContainer);
+
+   //QList<Person> persons = parsedContainer.getPersons();
+
+}
+void SQLFrame::on_pushButton_clicked()
+{
+    testSerializeAndDeserializePerson();
+}
+
+void SQLFrame::on_pushButton_2_clicked()
+{
+    testSerializeAndDeserializeContainer();
+}
+

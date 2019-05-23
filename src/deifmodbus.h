@@ -25,27 +25,27 @@ struct SysStatus {  //@address 0x3000
 };
 
 struct MeterParams {  //@address 0x3000
-    double freq;
+        double freq;
 
-    double phaseVoltage1;
-    double phaseVoltage2;
-    double phaseVoltage3;
+        double phaseVoltage1;
+        double phaseVoltage2;
+        double phaseVoltage3;
     double avgVoltage;
     double lineVoltage1;
     double lineVoltage2;
     double lineVoltage3;
     double avgLineVoltage;
 
-    double current1;
-    double current2;
-    double current3;
+        double current1;
+        double current2;
+        double current3;
     double avgCurrent;
     double neutralCurrent;
 
-    double phaseAPower;
-    double phaseBPower;
-    double phaseCPower;
-    double systemPower;
+        double phaseAPower;
+        double phaseBPower;
+        double phaseCPower;
+        double systemPower;
     double phaseAReactPower;
     double phaseBReactPower;
     double phaseCReactPower;
@@ -103,6 +103,18 @@ struct AnalogParams {  //@address 0x4000
     double powerDemand;
     double reactPowerDemand;
     double apptPowerDemand;
+};
+
+struct EnergyMeasurement {  //@address 0x4048
+    //Energy IMP F4/F7 0~999999999 dword R/W
+    //Energy EXP F4/F7 0~999999999 dword R/W
+    //Reactive energy IMP F5/F8 0~999999999 dword R/W
+    //Reactive energy EXP F5/F8 0~999999999 dword R/W
+    double energyTotal;      //F4/F7 0~999999999 dword R/W
+    //Energy NET F4/F7 0~999999999 dword R/W
+   // Reactive energy TOTAL F5/F8 0~999999999 dword R/W
+   // Reactive energy NET F5/F8 0~999999999 dword R/W
+   // Apparent energy F6/F9 0~999999999 dword R/W
 };
 
 const int SYSTEM_PARAMS_BASE_ADDRESS = 0x1000;
