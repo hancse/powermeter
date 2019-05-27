@@ -2,8 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
+
+#include "src/topframe.h"
 #include "src/modbusframe.h"
 #include "src/sqlframe.h"
+#include "commonsrc/loggingframe.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,16 +21,34 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private:
-
-
 private slots:
+    void setStackIndex(int index);
 
+    void on_btnLogStart_clicked();
+    void on_btnLogStop_clicked();
+    void on_btnInsert_clicked();
+
+    void on_actionAbout_Qt_triggered();
+    void on_actionAbout_triggered();
+    void on_actionExit_triggered();
 
 private:
     Ui::MainWindow *ui;
+    QTimer* logTimer;
+    QString commentLine;
+    bool isLogging = false;
+    QString iniPathFileName;
+
+    TopFrame* topf;
     ModbusFrame* mbf;
     SQLFrame* sqlf;
+    LoggingFrame* logf;
+
+    void populateStack();
+    void displayAllMeas(QDateTime timestamp, double ratio);
+    void loadSettings(QString iniFilename);
+    void saveSettings(QString iniFilename);
+    QString searchIniFile();
 };
 
 #endif // MAINWINDOW_H

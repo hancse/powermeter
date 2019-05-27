@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>fonts/balance-scale.png</file>
+        <file>fonts/balance-scale.svg</file>
+        <file>fonts/times.svg</file>
+        <file>fonts/file-alt.svg</file>
+        <file>fonts/tachometer-alt.svg</file>
+    </qresource>
+</RCC>

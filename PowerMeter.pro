@@ -12,6 +12,14 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = PowerMeter
 TEMPLATE = app
 
+VERSION = 1.0.0
+QMAKE_TARGET_COMPANY = Hogeschool va Arnhem en Nijmegen
+QMAKE_TARGET_PRODUCT = PowerMeter - OEM
+QMAKE_TARGET_DESCRIPTION = control of DEIF power meter
+QMAKE_TARGET_COPYRIGHT = 2018-2019 PJM van Kan
+
+#win32: RC_ICONS += images/lid.ico
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -26,6 +34,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    commonsrc/aboutdialog.cpp \
+    commonsrc/stripframe2.cpp \
     src/backendhandler.cpp \
     src/personcontainer.cpp \
         src/main.cpp \
@@ -39,9 +49,12 @@ SOURCES += \
     src/sqlframe.cpp \
     commonsrc/loggingframe.cpp \
     commonsrc/plotframe2.cpp \
+    src/topframe.cpp \
     thirdparty/QCustomPlot200/qcustomplot.cpp
 
 HEADERS += \
+    commonsrc/aboutdialog.h \
+    commonsrc/stripframe2.h \
     src/backendhandler.h \
     src/personcontainer.h \
     src/jsonserializable.h \
@@ -55,16 +68,20 @@ HEADERS += \
     src/sqlframe.h \
     commonsrc/loggingframe.h \
     commonsrc/plotframe2.h \
+    src/topframe.h \
     thirdparty/QCustomPlot200/qcustomplot.h
 
 FORMS += \
+    commonsrc/aboutdialog.ui \
+    commonsrc/stripframe2.ui \
         src/mainwindow.ui \
     commonsrc/serialdialog.ui \
     commonsrc/tcpdialog.ui \
     src/modbusframe.ui \
     src/sqlframe.ui \
     commonsrc/loggingframe.ui \
-    commonsrc/plotframe2.ui
+    commonsrc/plotframe2.ui \
+    src/topframe.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -73,3 +90,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 INCLUDEPATH += ./thirdparty/QCustomPlot200
 INCLUDEPATH += ./thirdparty/json-develop/single_include/nlohmann
+
+RESOURCES += \
+    awesome5.qrc \
+    powermeter.qrc
+
+# compiled with MSVC2015_64 also works in MSVC2017_64
+include ( C:\Qwt-6.1.4\features\qwt.prf )
+#include ( C:\QwtPolar-1.1.1\features\qwtpolar.prf )
