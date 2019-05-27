@@ -1,5 +1,6 @@
 #include "loggingframe.h"
 #include "ui_loggingframe.h"
+
 #include <QDebug>
 
 LoggingFrame::LoggingFrame(QWidget *parent) :
@@ -7,6 +8,7 @@ LoggingFrame::LoggingFrame(QWidget *parent) :
     ui(new Ui::LoggingFrame)
 {
     ui->setupUi(this);
+    setLogDir( QDir("C:/Data") );
 }
 
 LoggingFrame::~LoggingFrame()
@@ -21,6 +23,7 @@ void LoggingFrame::write(const QString &line)
     //QFile file("C:/Test/simple.txt");
     if(logFile.isOpen() ) {
         logStream << line << endl;
+        ui->plainTextEdit->appendPlainText(line);
         //qDebug() << "Writing finished";
     } else {
         //qDebug() << "Error: logging stream not open";
@@ -69,26 +72,42 @@ void LoggingFrame::on_btnRead_clicked()
     //read();
 }
 
+QString LoggingFrame::getLogHeader() const
+{
+    return logHeader;
+}
+
+void LoggingFrame::setLogHeader(const QString &value)
+{
+    logHeader = value;
+}
+
 void LoggingFrame::setLogFile(const QString &value)
 {
     logFile.setFileName(logDir.absoluteFilePath(value));
     ui->leLogDir->setText(logFile.fileName());
 }
 
-
-void LoggingFrame::on_btnStartLog_clicked()
+/**
+ * @brief LoggingFrame::on_btnStart_clicked
+ *
+ * https://wiki.qt.io/Simple-logger
+ */
+void LoggingFrame::on_btnStart_clicked()
 {
     if(logFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
         // We're going to streaming text to the file
+        qDebug() << logFile.fileName();
         logStream.setDevice(&logFile);
+        logStream.setCodec("UTF-8");
 
         // Write header line to log file:
-        logStream << "# unixTime, year,month,day, hour,min,sec, sys,acc,mag, compAz,compAlt, measAz,measAlt, "
-                  "temp1, temp2, temp3, temp4, sourceVolts, cellCurrentmA, north, east, south, west" << endl;
+        logStream << logHeader << endl;
+        ui->plainTextEdit->appendPlainText(logHeader);
     }
 }
 
-void LoggingFrame::on_btnStopLog_clicked()
+void LoggingFrame::on_btnStop_clicked()
 {
     if(logFile.isOpen()) {
         logFile.close();

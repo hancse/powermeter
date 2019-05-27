@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>632</width>
-    <height>378</height>
+    <width>900</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="font">
@@ -29,7 +29,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>30</y>
+     <y>20</y>
      <width>41</width>
      <height>16</height>
     </rect>
@@ -41,10 +41,10 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>33</x>
-     <y>60</y>
+     <x>10</x>
+     <y>50</y>
      <width>75</width>
-     <height>23</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -55,19 +55,22 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>27</y>
-     <width>561</width>
+     <y>20</y>
+     <width>380</width>
      <height>20</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="btnWrite">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>90</y>
-     <width>80</width>
-     <height>21</height>
+     <x>310</x>
+     <y>50</y>
+     <width>61</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -75,12 +78,15 @@
    </property>
   </widget>
   <widget class="QPushButton" name="btnRead">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>130</y>
-     <width>80</width>
-     <height>21</height>
+     <x>380</x>
+     <y>50</y>
+     <width>61</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -90,33 +96,39 @@
   <widget class="QPlainTextEdit" name="plainTextEdit">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>90</y>
-     <width>451</width>
-     <height>261</height>
+     <x>10</x>
+     <y>100</y>
+     <width>881</width>
+     <height>490</height>
     </rect>
    </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
   </widget>
-  <widget class="QPushButton" name="btnStartLog">
+  <widget class="QPushButton" name="btnStart">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>170</y>
-     <width>80</width>
-     <height>21</height>
+     <x>90</x>
+     <y>50</y>
+     <width>101</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>Start logging</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnStopLog">
+  <widget class="QPushButton" name="btnStop">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>210</y>
-     <width>80</width>
-     <height>21</height>
+     <x>200</x>
+     <y>50</y>
+     <width>101</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">

@@ -2,7 +2,7 @@
 #define LOGGINGFRAME_H
 
 #include <QFrame>
-#include <QFile>
+
 #include <QDir>
 #include <QTextStream>
 #include <QFile>
@@ -16,18 +16,22 @@ class LoggingFrame : public QFrame
     Q_OBJECT
 
 public:
-    explicit LoggingFrame(QWidget *parent = 0);
+    explicit LoggingFrame(QWidget *parent = nullptr);
     ~LoggingFrame();
 
+// getters and setters
     QDir getLogDir() const;
     void setLogDir(const QDir &value);
+    void setLogFile(const QString &value);
 
     void write(const QString &line);
     void read();
 
-    void setLogFile(const QString &value);
-    void on_btnStartLog_clicked();
-    void on_btnStopLog_clicked();
+    void on_btnStart_clicked();
+    void on_btnStop_clicked();
+
+    QString getLogHeader() const;
+    void setLogHeader(const QString &value);
 
 private slots:
     void on_btnWrite_clicked();
@@ -38,6 +42,7 @@ private:
     QDir logDir;
     QFile logFile;
     QTextStream logStream;
+    QString logHeader;
 };
 
 #endif // LOGGINGFRAME_H
