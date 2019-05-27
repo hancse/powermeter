@@ -26,7 +26,7 @@ public:
     void connectTCP();
 private slots:
     void on_btnConnect_clicked();
-    void on_btnDisconnect_clicked();
+    //void on_btnDisconnect_clicked();
     void on_btnConfig_clicked();
 
     void on_connectType_currentIndexChanged(int index);
@@ -40,6 +40,7 @@ private slots:
 private:
     QModbusDataUnit readRequest() const;
     QModbusDataUnit writeRequest() const;
+    QModbusDataUnit DEIFReadRequest(int startAddress, int numEntries) const;
 
 private:
     Ui::ModbusFrame *ui;
