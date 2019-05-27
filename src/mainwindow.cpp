@@ -20,6 +20,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    logTimer = new QTimer(this);
+    logTimer->setInterval(60000);
+    //connect(this->logTimer, &QTimer::timeout,
+        //    this,&MainWindow::displayAllMeas);
 
     //QFont font("Font Awesome 5 Free Solid", 32);
 
@@ -144,7 +148,8 @@ void MainWindow::on_btnLogStart_clicked()
 // set log file with timestamp in filename
     logf->setLogFile("C:/Data/Phidgets_" + dtString + ".log");
 // set header of logfile according to displayMeas method
-    logf->setLogHeader("# unixTime, yyyy-MM-dd, hh:mm:ss:zzz, ratio, position");
+    logf->setLogHeader("# unixTime, yyyy-MM-dd, hh:mm:ss, Freq, "
+                       "V1, V2, V3, I1, I2, I3, P1, P2, P3, TotalEnergy");
 // press on "Start" button in LogFrame
     logf->on_btnStart_clicked();
     isLogging = true;

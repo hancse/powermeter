@@ -138,6 +138,8 @@ public:
     explicit DEIFModbus(QObject *parent = nullptr);
     ~DEIFModbus();
 
+    QTimer* deifTimer;
+
     AnalogParams getAp() const;
     void RegsToAp(QModbusDataUnit du);
 
@@ -150,7 +152,6 @@ signals:
 public slots:
 
 private:
-    QTimer* deifTimer;
     QModbusReply* lastRequest;
     QModbusClient* modbusDevice;
 

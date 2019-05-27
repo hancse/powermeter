@@ -21,6 +21,8 @@ ModbusFrame::ModbusFrame(QWidget *parent) :
 
     deif = new DEIFModbus(this);
 
+    connect(deif->deifTimer, &QTimer::timeout, this, &ModbusFrame::readDEIF);
+
     connect(deif, &DEIFModbus::dataReady,
             this, &ModbusFrame::displayData);
 
@@ -177,7 +179,7 @@ void ModbusFrame::onStateChanged(int state)
         ui->btnConnect->setText(tr("Disconnect"));
 }
 
-void ModbusFrame::on_readButton_clicked()
+void ModbusFrame::readDEIF()
 {
     if (!modbusDevice)
         return;
@@ -195,6 +197,27 @@ void ModbusFrame::on_readButton_clicked()
     } else {
         ui->lblStatus->setText(tr("Read error: ") + modbusDevice->errorString());
     }
+}
+
+void ModbusFrame::on_readButton_clicked()
+{
+    readDEIF();
+    //if (!modbusDevice)
+    //    return;
+
+    //ui->readValue->clear();
+    //ui->lblStatus->clear();
+
+    //if ( auto* reply = modbusDevice->sendReadRequest(deif->DEIFReadRequest(METER_PARAM_BASE_ADDRESS, 18),
+    //                                                ui->serverEdit->value()) ) {
+    //    if (!reply->isFinished())
+    //        connect(reply, &QModbusReply::finished,
+    //                this, &ModbusFrame::readReady);
+    //    else
+    //        delete reply; // broadcast replies return immediately
+   // } else {
+   //     ui->lblStatus->setText(tr("Read error: ") + modbusDevice->errorString());
+   // }
 }
 
 void ModbusFrame::readReady()
@@ -320,3 +343,8 @@ QModbusDataUnit ModbusFrame::DEIFReadRequest(int startAddress, int numEntries) c
 }
 
 
+
+void ModbusFrame::on_checkAuto_clicked(bool checked)
+{
+    (checked) ? deif->deifTimer->start(1000) : deif->deifTimer->stop();
+}

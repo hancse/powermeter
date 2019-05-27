@@ -37,6 +37,8 @@ private slots:
     void on_readWriteButton_clicked();
     void on_writeTable_currentIndexChanged(int index);
 
+    void on_checkAuto_clicked(bool checked);
+
 private:
     QModbusDataUnit readRequest() const;
     QModbusDataUnit writeRequest() const;
@@ -51,6 +53,7 @@ private:
     TcpDialog* tcpd;
 
     void displayData();
+    void readDEIF();
 };
 
 #endif // MODBUSFRAME_H

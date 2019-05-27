@@ -939,6 +939,19 @@ color: lime;</string>
     <string>Total Energy</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="checkAuto">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>470</y>
+     <width>70</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>auto</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

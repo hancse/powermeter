@@ -5,7 +5,7 @@
 DEIFModbus::DEIFModbus(QObject *parent) : QObject(parent)
 {
     deifTimer = new QTimer(this);
-    connect(deifTimer, &QTimer::timeout, this, &DEIFModbus::readAll);
+    //connect(deifTimer, &QTimer::timeout, this, &DEIFModbus::readAll);
 }
 
 DEIFModbus::~DEIFModbus()

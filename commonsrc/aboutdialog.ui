@@ -31,7 +31,7 @@
           </font>
          </property>
          <property name="text">
-          <string>AQtuator</string>
+          <string>PowerMeter</string>
          </property>
         </widget>
        </item>
@@ -41,7 +41,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../aqtuator.qrc">:/images/images/lid.png</pixmap>
+          <pixmap resource="../powermeter.qrc">:/images/images/MIC-2 MKII.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -72,7 +72,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../aqtuator.qrc"/>
+  <include location="../powermeter.qrc"/>
  </resources>
  <connections>
   <connection>
