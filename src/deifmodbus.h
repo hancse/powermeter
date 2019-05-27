@@ -142,7 +142,7 @@ public:
     void RegsToAp(QModbusDataUnit du);
 
     void readAll();
-
+    QModbusDataUnit DEIFReadRequest(int startAddress, quint16 numEntries) const;
 
 signals:
     void dataReady();
@@ -158,7 +158,7 @@ private:
 
     QModbusDataUnit readRequest() const;
     QModbusDataUnit writeRequest() const;
-    QModbusDataUnit DEIFReadRequest(int startAddress, quint16 numEntries) const;
+
 
     double ByteArrayToDouble(QByteArray ba, double defaultValue);
     double RegistersToDouble(quint16 highWord, quint16 lowWord);

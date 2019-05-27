@@ -52,13 +52,13 @@ void ModbusFrame::displayData()
     ui->lblV1->setText(QString("%1 V").arg(a.phaseVoltage1));
     ui->lblV2->setText(QString("%1 V").arg(a.phaseVoltage2));
     ui->lblV3->setText(QString("%1 V").arg(a.phaseVoltage3));
-    ui->lblCurr1->setText(QString("%1 V").arg(a.avgVoltage));
-    ui->lblCurr2->setText(QString("%1 V").arg(a.avgVoltage));
-    ui->lblCurr3->setText(QString("%1 V").arg(a.avgVoltage));
-    ui->lblPower1->setText(QString("%1 V").arg(a.avgVoltage));
-    ui->lblPower2->setText(QString("%1 V").arg(a.avgVoltage));
-    ui->lblPower3->setText(QString("%1 V").arg(a.avgVoltage));
-    ui->lblTotalEnergy->setText(QString("%1 V").arg(a.avgVoltage));
+    ui->lblCurr1->setText(QString("%1 A").arg(a.phaseCurrent1));
+    ui->lblCurr2->setText(QString("%1 A").arg(a.phaseCurrent2));
+    ui->lblCurr3->setText(QString("%1 A").arg(a.phaseCurrent3));
+    ui->lblPower1->setText(QString("%1 W").arg(a.phaseL1Power));
+    ui->lblPower2->setText(QString("%1 W").arg(a.phaseL2Power));
+    ui->lblPower3->setText(QString("%1 W").arg(a.phaseL3Power));
+    ui->lblTotalEnergy->setText(QString("%1 kWh").arg(a.systemPower));
 }
 
 void ModbusFrame::connectRTU()
@@ -185,7 +185,7 @@ void ModbusFrame::on_readButton_clicked()
     ui->readValue->clear();
     ui->lblStatus->clear();
 
-    if ( auto* reply = modbusDevice->sendReadRequest(DEIFReadRequest(METER_PARAM_BASE_ADDRESS, 18),
+    if ( auto* reply = modbusDevice->sendReadRequest(deif->DEIFReadRequest(METER_PARAM_BASE_ADDRESS, 18),
                                                     ui->serverEdit->value()) ) {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished,
