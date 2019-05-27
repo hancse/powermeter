@@ -31,40 +31,39 @@ struct SysStatus {  //@address 0x3000
 };
 
 struct MeterParams {  //@address 0x3000
-        double freq;
-
-        double phaseVoltage1;
-        double phaseVoltage2;
-        double phaseVoltage3;
+    double freq;
+    double phaseVoltage1;
+    double phaseVoltage2;
+    double phaseVoltage3;
     double avgVoltage;
-    double lineVoltage1;
-    double lineVoltage2;
-    double lineVoltage3;
-    double avgLineVoltage;
+    //double lineVoltage1;
+    //double lineVoltage2;
+    //double lineVoltage3;
+    //double avgLineVoltage;
 
-        double current1;
-        double current2;
-        double current3;
-    double avgCurrent;
-    double neutralCurrent;
+    double current1;
+    double current2;
+    double current3;
+    //double avgCurrent;
+    //double neutralCurrent;
 
-        double phaseAPower;
-        double phaseBPower;
-        double phaseCPower;
-        double systemPower;
-    double phaseAReactPower;
-    double phaseBReactPower;
-    double phaseCReactPower;
-    double systemReactPower;
-    double phaseAApptPower;
-    double phaseBApptPower;
-    double phaseCApptPower;
-    double systemApptPower;
+    double phaseAPower;
+    double phaseBPower;
+    double phaseCPower;
+    double systemPower;
+    //double phaseAReactPower;
+    //double phaseBReactPower;
+    //double phaseCReactPower;
+    //double systemReactPower;
+    //double phaseAApptPower;
+    //double phaseBApptPower;
+    //double phaseCApptPower;
+    //double systemApptPower;
 
-    double phaseAPF;
-    double phaseBPF;
-    double phaseCPF;
-    double systemPF;
+    //double phaseAPF;
+    //double phaseBPF;
+    //double phaseCPF;
+    //double systemPF;
 };
 
 struct AnalogParams {  //@address 0x4000
@@ -74,41 +73,41 @@ struct AnalogParams {  //@address 0x4000
     double phaseVoltage2;
     double phaseVoltage3;
     double avgVoltage;
-    double lineVoltage1;
-    double lineVoltage2;
-    double lineVoltage3;
-    double avgLineVoltage;
+    //double lineVoltage1;
+    //double lineVoltage2;
+    //double lineVoltage3;
+    //double avgLineVoltage;
 
     double phaseCurrent1;
     double phaseCurrent2;
     double phaseCurrent3;
-    double avgCurrent;
-    double neutralCurrent;
+    //double avgCurrent;
+    //double neutralCurrent;
 
     double phaseL1Power;
     double phaseL2Power;
     double phaseL3Power;
     double systemPower;
-    double phaseL1ReactPower;
-    double phaseL2ReactPower;
-    double phaseL3ReactPower;
-    double systemReactPower;
-    double phaseL1ApptPower;
-    double phaseL2ApptPower;
-    double phaseL3ApptPower;
-    double systemApptPower;
+    //double phaseL1ReactPower;
+    //double phaseL2ReactPower;
+    //double phaseL3ReactPower;
+    //double systemReactPower;
+    //double phaseL1ApptPower;
+    //double phaseL2ApptPower;
+    //double phaseL3ApptPower;
+    //double systemApptPower;
 
-    double phaseL1PF;
-    double phaseL2PF;
-    double phaseL3PF;
-    double systemPF;
+    //double phaseL1PF;
+    //double phaseL2PF;
+    //double phaseL3PF;
+    //double systemPF;
 
-    double voltUnbalFact;
-    double currUnbalFact;
-    double loadCharacter;
-    double powerDemand;
-    double reactPowerDemand;
-    double apptPowerDemand;
+    //double voltUnbalFact;
+    //double currUnbalFact;
+    //double loadCharacter;
+    //double powerDemand;
+    //double reactPowerDemand;
+    //double apptPowerDemand;
 };
 
 struct EnergyMeasurement {  //@address 0x4048
@@ -137,11 +136,13 @@ class DEIFModbus : public QObject
     Q_OBJECT
 public:
     explicit DEIFModbus(QObject *parent = nullptr);
+    ~DEIFModbus();
 
     AnalogParams getAp() const;
     void RegsToAp(QModbusDataUnit du);
 
     void readAll();
+
 
 signals:
     void dataReady();
@@ -157,6 +158,7 @@ private:
 
     QModbusDataUnit readRequest() const;
     QModbusDataUnit writeRequest() const;
+    QModbusDataUnit DEIFReadRequest(int startAddress, quint16 numEntries) const;
 
     double ByteArrayToDouble(QByteArray ba, double defaultValue);
     double RegistersToDouble(quint16 highWord, quint16 lowWord);

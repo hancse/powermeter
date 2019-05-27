@@ -185,7 +185,7 @@ void ModbusFrame::on_readButton_clicked()
     ui->readValue->clear();
     ui->lblStatus->clear();
 
-    if ( auto* reply = modbusDevice->sendReadRequest(DEIFReadRequest(0x3000, 10),
+    if ( auto* reply = modbusDevice->sendReadRequest(DEIFReadRequest(METER_PARAM_BASE_ADDRESS, 18),
                                                     ui->serverEdit->value()) ) {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished,
