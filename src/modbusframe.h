@@ -22,6 +22,8 @@ public:
 
     DEIFModbus* deif;
 
+    void connectRTU();
+    void connectTCP();
 private slots:
     void on_btnConnect_clicked();
     void on_btnDisconnect_clicked();
@@ -46,10 +48,6 @@ private:
     QModbusClient* modbusDevice;
     SerialDialog* sd;
     TcpDialog* tcpd;
-
-
-    //double freq;
-    //double V1, V2, V3, Vavg;
 
     void displayData();
 };

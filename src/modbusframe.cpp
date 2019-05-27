@@ -61,39 +61,66 @@ void ModbusFrame::displayData()
     ui->lblTotalEnergy->setText(QString("%1 V").arg(a.avgVoltage));
 }
 
+void ModbusFrame::connectRTU()
+{
+    SerialDialog::PortParameters p = sd->getCp();
+    ui->portEdit->setText(p.name);
+    modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
+                                            ui->portEdit->text());
+    modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
+                                            p.parity);
+    modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
+                                            p.baudRate);
+    modbusDevice->setConnectionParameter(QModbusDevice::SerialDataBitsParameter,
+                                            p.dataBits);
+    modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
+                                            p.stopBits);
+    modbusDevice->setTimeout(p.responseTime);
+    modbusDevice->setNumberOfRetries(p.numberOfRetries);
+}
+
+void ModbusFrame::connectTCP()
+{
+    TcpDialog::PortParameters u = tcpd->getUp();
+    //const QUrl url = QUrl::fromUserInput(ui->portEdit->text());
+    modbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter, u.url.port());
+    modbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter, u.url.host());
+    modbusDevice->setTimeout(u.responseTime);
+    modbusDevice->setNumberOfRetries(u.numberOfRetries);
+}
+
 void ModbusFrame::on_btnConnect_clicked()
 {
-    if (!modbusDevice)  // no device defined, nothing to connect
+    if (!modbusDevice)  // no device defined, nothing to connect or disconnect
         return;
 
     ui->lblStatus->clear();
     if (modbusDevice->state() != QModbusDevice::ConnectedState) {
         if (static_cast<ModbusConnection> (ui->connectType->currentIndex()) == Serial) {
-
-            SerialDialog::PortParameters p = sd->getCp();
-            ui->portEdit->setText(p.name);
-            modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
-                                                    ui->portEdit->text());
-            modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
-                                                    p.parity);
-            modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
-                                                    p.baudRate);
-            modbusDevice->setConnectionParameter(QModbusDevice::SerialDataBitsParameter,
-                                                    p.dataBits);
-            modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
-                                                    p.stopBits);
-            modbusDevice->setTimeout(p.responseTime);
-            modbusDevice->setNumberOfRetries(p.numberOfRetries);
+            connectRTU();
+            //SerialDialog::PortParameters p = sd->getCp();
+            //ui->portEdit->setText(p.name);
+            //modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
+            //                                        ui->portEdit->text());
+            //modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
+            //                                        p.parity);
+            //modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
+            //                                        p.baudRate);
+            //modbusDevice->setConnectionParameter(QModbusDevice::SerialDataBitsParameter,
+            //                                        p.dataBits);
+            //modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
+            //                                        p.stopBits);
+            //modbusDevice->setTimeout(p.responseTime);
+            //modbusDevice->setNumberOfRetries(p.numberOfRetries);
 
         } else {
-
-            TcpDialog::PortParameters u = tcpd->getUp();
+            connectTCP();
+            //TcpDialog::PortParameters u = tcpd->getUp();
             //const QUrl url = QUrl::fromUserInput(ui->portEdit->text());
-            modbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter, u.url.port());
-            modbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter, u.url.host());
-            modbusDevice->setTimeout(u.responseTime);
-            modbusDevice->setNumberOfRetries(u.numberOfRetries);
-
+            //modbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter, u.url.port());
+            //modbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter, u.url.host());
+            //modbusDevice->setTimeout(u.responseTime);
+            //modbusDevice->setNumberOfRetries(u.numberOfRetries);
         }
 
         if (!modbusDevice->connectDevice()) {

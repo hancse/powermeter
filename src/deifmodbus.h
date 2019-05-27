@@ -142,6 +142,7 @@ public:
     void RegsToAp(QModbusDataUnit du);
 
     void readAll();
+
 signals:
     void dataReady();
 
