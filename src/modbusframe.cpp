@@ -114,19 +114,7 @@ void ModbusFrame::on_btnConnect_clicked()
         ui->btnConnect->setText("Connect");
     }
 }
-/*
-void ModbusFrame::on_btnDisconnect_clicked()
-{
-    if (!modbusDevice)  // no device defined, nothing to connect
-        return;
 
-    ui->lblStatus->clear();
-    if (modbusDevice->state() == QModbusDevice::ConnectedState) {
-        modbusDevice->disconnectDevice();
-        ui->btnConnect->setText("Connect");
-    }
-}
-*/
 void ModbusFrame::on_btnConfig_clicked()
 {
     auto type = static_cast<ModbusConnection>(ui->connectType->currentIndex());

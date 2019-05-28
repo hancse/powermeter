@@ -160,7 +160,6 @@ private:
     QModbusDataUnit readRequest() const;
     QModbusDataUnit writeRequest() const;
 
-
     double ByteArrayToDouble(QByteArray ba, double defaultValue);
     double RegistersToDouble(quint16 highWord, quint16 lowWord);
 };

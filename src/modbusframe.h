@@ -24,9 +24,9 @@ public:
 
     void connectRTU();
     void connectTCP();
+
 private slots:
     void on_btnConnect_clicked();
-    //void on_btnDisconnect_clicked();
     void on_btnConfig_clicked();
 
     void on_connectType_currentIndexChanged(int index);
