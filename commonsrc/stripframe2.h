@@ -24,8 +24,8 @@ public:
     ~StripFrame2();
 
     void realTimeSlot(QDateTime newDT, double newData);
-    void setXYLabel(const QString &xLabel, const QString &yLabel);
-    void setYMinMax(const double &minValue, const double &maxValue);
+    void setXYLabel(int plotIndex, const QString &xLabel, const QString &yLabel);
+    void setYMinMax(int plotIndex, const double &minValue, const double &maxValue);
 
     void setupPlot();
     void setXSpanSec(double value);
@@ -34,10 +34,10 @@ public:
     void setHistory(int value);
 
     void setAutoY(bool autovalue);
-    void scaleYAxisUp();
-    void scaleYAxisDown();
-    double getYMin() const;
-    double getYMax() const;
+    void scaleYAxisUp(int plotIndex);
+    void scaleYAxisDown(int plotIndex);
+    double getYMin(int plotIndex) const;
+    double getYMax(int plotIndex) const;
 
 private slots:
     void on_btnDetach_clicked(bool checked);
@@ -55,10 +55,10 @@ private:
     QTimer* dataTimer;
 
 // plot objects
-    QwtPlot* plot[1];
-    QwtPlotCurve* curve[2];
-    QwtDateScaleDraw* scaleDraw;
-    QwtDateScaleEngine* scaleEngine;
+    QwtPlot* plot[3];
+    QwtPlotCurve* curve[9];
+    QwtDateScaleDraw* scaleDraw[3];
+    QwtDateScaleEngine* scaleEngine[3];
 
     int dataCount = 0; // initialize to 0
     int history = 60; // initialize to 60 points, to avoid out-of-range in constructor
@@ -73,11 +73,11 @@ private:
 
 // y-axis
     QVector<double> data = QVector<double>(60, 0.0);
-    double yMin = 0.0;
-    double yMax = 1.0;
+    double yMin[3] = {0.0, 0.0, 0.0};
+    double yMax[3] = {1.0, 1.0, 1.0};
     QString yLabel;
 
-
+    void clearPlot(int plotIndex);
 };
 
 #endif // STRIPFRAME2_H

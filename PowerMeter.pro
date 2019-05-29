@@ -92,7 +92,6 @@ INCLUDEPATH += ./thirdparty/QCustomPlot200
 INCLUDEPATH += ./thirdparty/json-develop/single_include/nlohmann
 
 RESOURCES += \
-    aqtuator.qrc \
     awesome5.qrc \
     powermeter.qrc
 

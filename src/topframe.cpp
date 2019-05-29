@@ -6,6 +6,8 @@ TopFrame::TopFrame(QWidget *parent) :
     ui(new Ui::TopFrame)
 {
     ui->setupUi(this);
+    strpf = new StripFrame2(this);
+    strpf->move(450,0);
 }
 
 TopFrame::~TopFrame()
