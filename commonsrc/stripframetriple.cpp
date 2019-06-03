@@ -29,9 +29,14 @@ StripFrameTriple::StripFrameTriple(QWidget *parent) :
         curve[n][0] = new QwtPlotCurve("RatioLine");
         curve[n][0]->setRenderHint( QwtPlotItem::RenderAntialiased, true );
         curve[n][0]->attach(plot[n]);
+
         curve[n][1] = new QwtPlotCurve("CurrentRatio");
         curve[n][1]->setRenderHint( QwtPlotItem::RenderAntialiased, true );
         curve[n][1]->attach(plot[n]);
+
+        curve[n][2] = new QwtPlotCurve("CurrentRatio");
+        curve[n][2]->setRenderHint( QwtPlotItem::RenderAntialiased, true );
+        curve[n][2]->attach(plot[n]);
 
         scaleDraw[n] = new QwtDateScaleDraw(Qt::LocalTime);
         scaleEngine[n] = new QwtDateScaleEngine( Qt::LocalTime );
@@ -99,8 +104,6 @@ void StripFrameTriple::setupPlot()
         scaleWidget->setMinBorderDist( 0, fmh / 2 );
         scaleWidget->setMinBorderDist( 0, 20 );
 
-        //plot[n]->setAxisTitle( QwtPlot::yLeft, "Cpu Usage [%]" );
-        //plot[n]->setAxisScale( QwtPlot::yLeft, 0, 100 );
         plot[n]->setAxisFont(QwtPlot::yLeft, QFont("Arial", 8));
 
 // basic attributes of QwtPlotCurve
@@ -113,6 +116,8 @@ void StripFrameTriple::setupPlot()
         curve[n][0]->setVisible(true);
         //curve[1]->attach(plot[0]);
         curve[n][1]->setVisible(true);
+        //curve[2]->attach(plot[0]);
+        curve[n][2]->setVisible(true);
 
         xScaleLow = QwtDate::toDouble(dt.addSecs(-xSpanSec));
         xScaleHigh = QwtDate::toDouble(dt);
@@ -120,14 +125,14 @@ void StripFrameTriple::setupPlot()
         timeDT[0] = dt;
     }
 // optionally, setup a timer that repeatedly calls realTimeDummySlot:
-//    connect(dataTimer, SIGNAL(timeout()),
-//            this, SLOT(realtimeDummySlot()));
-//    dataTimer->start(1000);
+    connect(dataTimer, &QTimer::timeout,
+           this, &StripFrameTriple::realTimeDummySlot);
+    dataTimer->start(1000);
 }
 
 void StripFrameTriple::realTimeDummySlot()
 {
-    double newDummyData = 230.0 + 0.02*qrand();
+    double newDummyData = 230.0 + 0.0002*qrand();
     realTimeSlot(0, QDateTime::currentDateTime(), newDummyData);
 }
 

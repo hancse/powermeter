@@ -46,7 +46,7 @@ private slots:
     void on_btnDetach_clicked(bool checked);
     void on_sbSpan_valueChanged(int arg1);
     void on_btnClear_clicked();    
-    void realTimeDummySlot();
+
 
     void on_tBtnUp_clicked();
 
@@ -81,6 +81,7 @@ private:
     QString yLabel;
 
     void clearPlot(int plotIndex);
+    void realTimeDummySlot();
 };
 
 #endif // STRIPFRAMETRIPLE_H
