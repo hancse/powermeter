@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>StripFrame2</class>
- <widget class="QFrame" name="StripFrame2">
+ <class>StripFrameTriple</class>
+ <widget class="QFrame" name="StripFrameTriple">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -1,14 +1,14 @@
-#include "stripframe2.h"
-#include "ui_stripframe2.h"
+#include "stripframetriple.h"
+#include "ui_stripframetriple.h"
 
 #include <qwt_plot_layout.h>
 #include <qwt_scale_widget.h>
 #include <qwt_symbol.h>
 #include <cmath>
 
-StripFrame2::StripFrame2(QWidget *parent) :
+StripFrameTriple::StripFrameTriple(QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::StripFrame2)
+    ui(new Ui::StripFrameTriple)
 {
     ui->setupUi(this);
 
@@ -22,16 +22,16 @@ StripFrame2::StripFrame2(QWidget *parent) :
     dataTimer = new QTimer(this);
     setXSpanSec(ui->sbSpan->value());
 
-    for ( int n=0; n < 3; n++) {
+    for ( int n=0; n < NUMPLOTS; n++) {
         plot[n] = new QwtPlot(this);
-        plot[n]->move(0, 20 + n*150);
+        plot[n]->move(0, 10 + n*170);
 
-    curve[0] = new QwtPlotCurve("RatioLine");
-    curve[0]->setRenderHint( QwtPlotItem::RenderAntialiased, true );
-    curve[0]->attach(plot[0]);
-    curve[1] = new QwtPlotCurve("CurrentRatio");
-    curve[1]->setRenderHint( QwtPlotItem::RenderAntialiased, true );
-    curve[1]->attach(plot[0]);
+        curve[n][0] = new QwtPlotCurve("RatioLine");
+        curve[n][0]->setRenderHint( QwtPlotItem::RenderAntialiased, true );
+        curve[n][0]->attach(plot[n]);
+        curve[n][1] = new QwtPlotCurve("CurrentRatio");
+        curve[n][1]->setRenderHint( QwtPlotItem::RenderAntialiased, true );
+        curve[n][1]->attach(plot[n]);
 
         scaleDraw[n] = new QwtDateScaleDraw(Qt::LocalTime);
         scaleEngine[n] = new QwtDateScaleEngine( Qt::LocalTime );
@@ -40,16 +40,16 @@ StripFrame2::StripFrame2(QWidget *parent) :
     setupPlot();
 }
 
-StripFrame2::~StripFrame2()
+StripFrameTriple::~StripFrameTriple()
 {
     delete ui;
 }
 
-void StripFrame2::setupPlot()
+void StripFrameTriple::setupPlot()
 {
 // basic attributes of QwtPlot
-    for ( int n=0; n < 3; n++) {
-        plot[n]->resize(440, 150);
+    for ( int n=0; n < NUMPLOTS; n++) {
+        plot[n]->resize(440, 160);
 
         const int margin = 5;
         plot[n]->setContentsMargins( margin, margin, margin, margin );
@@ -58,18 +58,17 @@ void StripFrame2::setupPlot()
         plot[n]->setAxisAutoScale(QwtPlot::xBottom, false);
         plot[n]->plotLayout()->setAlignCanvasToScales( true );
     }
-    setXYLabel(0,"time", "AC Phase Voltage (V)");
+    setXYLabel(0,"", "AC Voltage (V)");
     setYMinMax(0, 210, 250);
-    setXYLabel(1,"time", "AC Phase Current (A)");
+    setXYLabel(1,"", "AC Current (A)");
     setYMinMax(1, 0, 80);
-    setXYLabel(2,"time", "AC Phase Power (kW)");
+    setXYLabel(2,"time", "AC Power (kW)");
     setYMinMax(2, 0, 50);
 
-    for ( int n=0; n < 3; n++) {
+    for ( int n=0; n < NUMPLOTS; n++) {
 //Set x-axis scaling: these are permanent settings for QDateScaleDraw object
         scaleDraw[n]->setDateFormat(QwtDate::Minute, "hh:mm:ss");
         scaleDraw[n]->setDateFormat(QwtDate::Second, "hh:mm:ss");
-
 
         plot[n]->setAxisScaleDraw(QwtPlot::xBottom, scaleDraw[n]);
         plot[n]->setAxisScaleEngine(QwtPlot::xBottom, scaleEngine[n]);
@@ -100,20 +99,20 @@ void StripFrame2::setupPlot()
         scaleWidget->setMinBorderDist( 0, fmh / 2 );
         scaleWidget->setMinBorderDist( 0, 20 );
 
-        plot[n]->setAxisTitle( QwtPlot::yLeft, "Cpu Usage [%]" );
-        plot[n]->setAxisScale( QwtPlot::yLeft, 0, 100 );
+        //plot[n]->setAxisTitle( QwtPlot::yLeft, "Cpu Usage [%]" );
+        //plot[n]->setAxisScale( QwtPlot::yLeft, 0, 100 );
         plot[n]->setAxisFont(QwtPlot::yLeft, QFont("Arial", 8));
 
 // basic attributes of QwtPlotCurve
-        curve[0]->setPen(QPen(Qt::blue, 1));
-        curve[1]->setSymbol(new QwtSymbol(QwtSymbol::Ellipse,
+        curve[n][0]->setPen(QPen(Qt::blue, 1));
+        curve[n][1]->setSymbol(new QwtSymbol(QwtSymbol::Ellipse,
                                    QBrush(Qt::blue),
                                    QPen(Qt::blue),
                                    QSize(4,4)));
         //curve[0]->attach(plot[0]);
-        curve[0]->setVisible(true);
+        curve[n][0]->setVisible(true);
         //curve[1]->attach(plot[0]);
-        curve[1]->setVisible(true);
+        curve[n][1]->setVisible(true);
 
         xScaleLow = QwtDate::toDouble(dt.addSecs(-xSpanSec));
         xScaleHigh = QwtDate::toDouble(dt);
@@ -126,13 +125,13 @@ void StripFrame2::setupPlot()
 //    dataTimer->start(1000);
 }
 
-void StripFrame2::realTimeDummySlot()
+void StripFrameTriple::realTimeDummySlot()
 {
-    double newDummyData = 40.0 + 0.0002*qrand();
-    realTimeSlot(QDateTime::currentDateTime(), newDummyData);
+    double newDummyData = 230.0 + 0.02*qrand();
+    realTimeSlot(0, QDateTime::currentDateTime(), newDummyData);
 }
 
-void StripFrame2::realTimeSlot(QDateTime newDT, double newData)
+void StripFrameTriple::realTimeSlot(int plotIndex, QDateTime newDT, double newData)
 {
 // use new timestamp, increment dataCount
    //QDateTime newDT = QDateTime::currentDateTime();
@@ -154,23 +153,23 @@ void StripFrame2::realTimeSlot(QDateTime newDT, double newData)
     timeData[0] = newTimeData;
     timeDT[0] = newDT;
 
-    plot[0]->setAxisScale( QwtPlot::xBottom,
+    plot[plotIndex]->setAxisScale( QwtPlot::xBottom,
                            QwtDate::toDouble(timeDT[0].addSecs(-1.02*xSpanSec)),
                            QwtDate::toDouble(timeDT[0].addSecs(0.02*xSpanSec)) );
 
 // pass pointers to timestamps/data to curve with setRawSamples; use dataCount points!
-    curve[0]->setRawSamples(timeData.begin(), data.begin(), dataCount );
-    curve[1]->setRawSamples(timeData.begin(), data.begin(), 1 );
+    curve[plotIndex][0]->setRawSamples(timeData.begin(), data.begin(), dataCount );
+    curve[plotIndex][1]->setRawSamples(timeData.begin(), data.begin(), 1 );
 
 // check
     //qDebug() << timeDT[0].toString("hh:mm:ss:zzz")
              //<< timeDT[dataCount-1].toString("hh:mm:ss:zzz")
              //<< data[0] << data[dataCount-1] << dataCount;
 // replot
-    plot[0]->replot();
+    plot[plotIndex]->replot();
 }
 
-void StripFrame2::on_sbSpan_valueChanged(int arg1)
+void StripFrameTriple::on_sbSpan_valueChanged(int arg1)
 {
     setXSpanSec(static_cast<double>(arg1));
     //history =
@@ -183,7 +182,7 @@ void StripFrame2::on_sbSpan_valueChanged(int arg1)
     //    scaleDraw->setDateFormat(QwtDate::Minute, "hh:mm:ss");
 }
 
-void StripFrame2::setYMinMax(int plotIndex, const double &minValue, const double &maxValue)
+void StripFrameTriple::setYMinMax(int plotIndex, const double &minValue, const double &maxValue)
 {
 // update private members
     yMin[plotIndex] = minValue;
@@ -192,40 +191,40 @@ void StripFrame2::setYMinMax(int plotIndex, const double &minValue, const double
     plot[plotIndex]->setAxisScale(QwtPlot::yLeft, yMin[plotIndex], yMax[plotIndex]);
 }
 
-void StripFrame2::setXYLabel(int plotIndex, const QString &xLabel, const QString &yLabel)
+void StripFrameTriple::setXYLabel(int plotIndex, const QString &xLabel, const QString &yLabel)
 {
     QwtText xText(xLabel);
     xText.setFont(QFont("Arial", 10, QFont::Bold));
-    plot[0]->setAxisTitle( QwtPlot::xBottom, xText);
+    plot[plotIndex]->setAxisTitle( QwtPlot::xBottom, xText);
 
     QwtText yText(yLabel);
     xText.setFont(QFont("Arial", 10, QFont::Bold));
     plot[plotIndex]->setAxisTitle( QwtPlot::yLeft, yText );
 }
 
-void StripFrame2::clearPlot(int plotIndex)
+void StripFrameTriple::clearPlot(int plotIndex)
 {
     //curve[0]->setRawSamples(timeData.begin(), data.begin(), 0 );
     //curve[1]->setRawSamples(timeData.begin(), data.begin(), 0 );
-    curve[3*plotIndex]->setData( nullptr );
-    curve[3*plotIndex + 1]->setData( nullptr );
-    curve[3*plotIndex + 2]->setData( nullptr );
+    curve[plotIndex][0]->setData( nullptr );
+    curve[plotIndex][1]->setData( nullptr );
+    curve[plotIndex][2]->setData( nullptr );
     dataCount = 0;
     plot[plotIndex]-> replot();
 }
-void StripFrame2::on_btnClear_clicked()
+void StripFrameTriple::on_btnClear_clicked()
 {
     for (int n=0; n<3; n++) {
         clearPlot(n);
     }
 }
 
-int StripFrame2::getHistory() const
+int StripFrameTriple::getHistory() const
 {
     return history;
 }
 
-void StripFrame2::setHistory(int value)
+void StripFrameTriple::setHistory(int value)
 {
     history = value;
     timeData.resize(history);
@@ -233,12 +232,12 @@ void StripFrame2::setHistory(int value)
     data.resize(history);
 }
 
-void StripFrame2::setXSpanSec(double value)
+void StripFrameTriple::setXSpanSec(double value)
 {
     xSpanSec = value;
 }
 
-void StripFrame2::on_btnDetach_clicked(bool checked)
+void StripFrameTriple::on_btnDetach_clicked(bool checked)
 {
     if (checked) {
         plot[0]->setParent(pd);
@@ -252,12 +251,12 @@ void StripFrame2::on_btnDetach_clicked(bool checked)
     }
 }
 
-void StripFrame2::setAutoY(bool autovalue)
+void StripFrameTriple::setAutoY(bool autovalue)
 {
     plot[0]->setAxisAutoScale(QwtPlot::yLeft, autovalue);
 }
 
-void StripFrame2::scaleYAxisUp(int plotIndex)
+void StripFrameTriple::scaleYAxisUp(int plotIndex)
 {
     double oldMax = yMax[plotIndex];
     double oldMaxLog = log10(oldMax);
@@ -267,7 +266,7 @@ void StripFrame2::scaleYAxisUp(int plotIndex)
     plot[plotIndex]->setAxisScale(QwtPlot::yLeft, yMin[plotIndex], yMax[plotIndex]);
 }
 
-void StripFrame2::scaleYAxisDown(int plotIndex)
+void StripFrameTriple::scaleYAxisDown(int plotIndex)
 {
     double oldMax = yMax[plotIndex];
     double oldMaxLog = log10(oldMax);
@@ -277,22 +276,22 @@ void StripFrame2::scaleYAxisDown(int plotIndex)
     plot[plotIndex]->setAxisScale(QwtPlot::yLeft, yMin[plotIndex], yMax[plotIndex]);
 }
 
-void StripFrame2::on_tBtnUp_clicked()
+void StripFrameTriple::on_tBtnUp_clicked()
 {
     scaleYAxisUp(0);
 }
 
-void StripFrame2::on_tBtnDown_clicked()
+void StripFrameTriple::on_tBtnDown_clicked()
 {
     scaleYAxisDown(0);
 }
 
-double StripFrame2::getYMax(int plotIndex) const
+double StripFrameTriple::getYMax(int plotIndex) const
 {
     return yMax[plotIndex];
 }
 
-double StripFrame2::getYMin(int plotIndex) const
+double StripFrameTriple::getYMin(int plotIndex) const
 {
     return yMin[plotIndex];
 }

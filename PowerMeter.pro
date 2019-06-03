@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT       += serialport serialbus sql printsupport
+QT       += serialport serialbus sql printsupport network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -35,7 +35,7 @@ CONFIG += c++11
 
 SOURCES += \
     commonsrc/aboutdialog.cpp \
-    commonsrc/stripframe2.cpp \
+    commonsrc/stripframetriple.cpp \
     src/backendhandler.cpp \
     src/personcontainer.cpp \
         src/main.cpp \
@@ -54,7 +54,7 @@ SOURCES += \
 
 HEADERS += \
     commonsrc/aboutdialog.h \
-    commonsrc/stripframe2.h \
+    commonsrc/stripframetriple.h \
     src/backendhandler.h \
     src/personcontainer.h \
     src/jsonserializable.h \
@@ -73,7 +73,7 @@ HEADERS += \
 
 FORMS += \
     commonsrc/aboutdialog.ui \
-    commonsrc/stripframe2.ui \
+    commonsrc/stripframetriple.ui \
         src/mainwindow.ui \
     commonsrc/serialdialog.ui \
     commonsrc/tcpdialog.ui \

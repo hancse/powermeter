@@ -1,5 +1,5 @@
-#ifndef STRIPFRAME2_H
-#define STRIPFRAME2_H
+#ifndef STRIPFRAMETRIPLE_H
+#define STRIPFRAMETRIPLE_H
 
 #include <QFrame>
 #include <QDialog>
@@ -12,18 +12,21 @@
 #include <qwt_date_scale_engine.h>
 
 namespace Ui {
-class StripFrame2;
+class StripFrameTriple;
 }
 
-class StripFrame2 : public QFrame
+class StripFrameTriple : public QFrame
 {
     Q_OBJECT
 
 public:
-    explicit StripFrame2(QWidget *parent = nullptr);
-    ~StripFrame2();
+    explicit StripFrameTriple(QWidget *parent = nullptr);
+    ~StripFrameTriple();
 
-    void realTimeSlot(QDateTime newDT, double newData);
+    static const int NUMPLOTS = 3;
+    static const int NUMCURVESPERPLOT = 3;
+
+    void realTimeSlot(int plotIndex, QDateTime newDT, double newData);
     void setXYLabel(int plotIndex, const QString &xLabel, const QString &yLabel);
     void setYMinMax(int plotIndex, const double &minValue, const double &maxValue);
 
@@ -50,15 +53,15 @@ private slots:
     void on_tBtnDown_clicked();
 
 private:
-    Ui::StripFrame2 *ui;
+    Ui::StripFrameTriple *ui;
     QDialog* pd;
     QTimer* dataTimer;
 
 // plot objects
-    QwtPlot* plot[3];
-    QwtPlotCurve* curve[9];
-    QwtDateScaleDraw* scaleDraw[3];
-    QwtDateScaleEngine* scaleEngine[3];
+    QwtPlot* plot[NUMPLOTS];
+    QwtPlotCurve* curve[NUMPLOTS][NUMCURVESPERPLOT];
+    QwtDateScaleDraw* scaleDraw[NUMPLOTS];
+    QwtDateScaleEngine* scaleEngine[NUMPLOTS];
 
     int dataCount = 0; // initialize to 0
     int history = 60; // initialize to 60 points, to avoid out-of-range in constructor
@@ -73,11 +76,11 @@ private:
 
 // y-axis
     QVector<double> data = QVector<double>(60, 0.0);
-    double yMin[3] = {0.0, 0.0, 0.0};
-    double yMax[3] = {1.0, 1.0, 1.0};
+    double yMin[NUMPLOTS] = {0.0, 0.0, 0.0};
+    double yMax[NUMPLOTS] = {1.0, 1.0, 1.0};
     QString yLabel;
 
     void clearPlot(int plotIndex);
 };
 
-#endif // STRIPFRAME2_H
+#endif // STRIPFRAMETRIPLE_H

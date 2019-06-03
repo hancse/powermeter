@@ -2,7 +2,7 @@
 #define TOPFRAME_H
 
 #include <QFrame>
-#include "commonsrc/stripframe2.h"
+#include "commonsrc/stripframetriple.h"
 
 namespace Ui {
 class TopFrame;
@@ -18,7 +18,7 @@ public:
 
 private:
     Ui::TopFrame *ui;
-    StripFrame2* strpf;
+    StripFrameTriple* strpf;
 };
 
 #endif // TOPFRAME_H
