@@ -12,7 +12,7 @@ class BackendHandler : public QObject
 {
     Q_OBJECT
 public:
-    BackendHandler();
+    BackendHandler(QWidget *parent);
     ~BackendHandler();
 
     void postRequest(QByteArray &postData);
@@ -20,9 +20,12 @@ signals:
 
 public slots:
 
+private slots:
+    void onFinish(QNetworkReply *rep);
+
 private:
     json msg2db;
-    void onFinish(QNetworkReply *rep);
+
 };
 
 #endif // BACKENDHANDLER_H

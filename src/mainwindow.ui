@@ -17,7 +17,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>AQtuator</string>
+   <string>PowerMeter</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -56,13 +56,13 @@
       <string>         Main          </string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>:/images/images/lid.png</normaloff>:/images/images/lid.png</iconset>
+      <iconset resource="../powermeter.qrc">
+       <normaloff>:/images/fonts/rainbow.svg</normaloff>:/images/fonts/rainbow.svg</iconset>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>       Bridge          </string>
+      <string>     Database          </string>
      </property>
      <property name="font">
       <font>
@@ -76,7 +76,7 @@
     </item>
     <item>
      <property name="text">
-      <string>       Actuator      </string>
+      <string>       Modbus      </string>
      </property>
      <property name="icon">
       <iconset resource="../powermeter.qrc">

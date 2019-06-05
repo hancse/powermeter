@@ -6,5 +6,6 @@
         <file>fonts/file-alt.svg</file>
         <file>fonts/tachometer-alt.svg</file>
         <file>images/MIC-2 MKII.png</file>
+        <file>fonts/rainbow.svg</file>
     </qresource>
 </RCC>

@@ -1,8 +1,8 @@
 #include "backendhandler.h"
 
+#include <QDebug>
 
-
-BackendHandler::BackendHandler()
+BackendHandler::BackendHandler(QWidget *parent)
 {
     msg2db["pi"] = 3.14;
 }
@@ -14,7 +14,7 @@ BackendHandler::~BackendHandler()
 
 void BackendHandler::postRequest(QByteArray & postData)
 {
-    QUrl url = QUrl("abc.com");
+    QUrl url = QUrl("https://hannl-sustainablecharching-be-app.azurewebsites.net");
 
     QNetworkAccessManager* mgr = new QNetworkAccessManager(this);
 
@@ -34,5 +34,5 @@ void BackendHandler::postRequest(QByteArray & postData)
 
 void BackendHandler::onFinish(QNetworkReply *rep)
 {
-
+ qDebug() << "finished"; // << rep->
 }

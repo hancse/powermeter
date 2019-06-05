@@ -8,6 +8,7 @@
 #include "src/modbusframe.h"
 #include "src/sqlframe.h"
 #include "commonsrc/loggingframe.h"
+#include "backendhandler.h"
 
 namespace Ui {
 class MainWindow;
@@ -43,9 +44,10 @@ private:
     ModbusFrame* mbf;
     SQLFrame* sqlf;
     LoggingFrame* logf;
+    BackendHandler* backend;
 
     void populateStack();
-    void displayAllMeas(QDateTime timestamp, double ratio);
+    void displayAllMeas();
     void loadSettings(QString iniFilename);
     void saveSettings(QString iniFilename);
     QString searchIniFile();

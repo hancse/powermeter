@@ -48,7 +48,8 @@ void SQLFrame::DatabaseConnect()
 // unix timestamp
         db.setDatabaseName("sustainablecharging_nl_evcharging");
         //db.setHostName("ec2-54-208-101-222.compute-1.amazonaws.com");
-        db.setHostName("ec2-54-208-101-222.compute-1.amazonaws.com");
+        //db.setHostName("ec2-54-208-101-222.compute-1.amazonaws.com");
+        db.setHostName("hannl-lmrt-db.mysql.database.azure.com");
         db.setPort(3306);
         db.setUserName("sevci-admin");
         db.setPassword("canterbury");

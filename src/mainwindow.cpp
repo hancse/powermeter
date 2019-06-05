@@ -6,6 +6,7 @@
 #include "commonsrc/aboutdialog.h"
 #include "fonts/IconsFontAwesome5.h"
 
+
 enum ModbusConnection {
     Serial,
     Tcp
@@ -21,9 +22,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     logTimer = new QTimer(this);
-    logTimer->setInterval(60000);
+    logTimer->setInterval(5000);
+    //logTimer->start();
+
     //connect(this->logTimer, &QTimer::timeout,
-        //    this,&MainWindow::displayAllMeas);
+           //this,&MainWindow::displayAllMeas);
 
     //QFont font("Font Awesome 5 Free Solid", 32);
 
@@ -38,6 +41,11 @@ MainWindow::MainWindow(QWidget *parent) :
     //iniPathFileName = searchIniFile();
     //qDebug() << iniPathFileName;
     //loadSettings(iniPathFileName);
+    backend = new BackendHandler(this);
+
+    connect(mbf->deif, &DEIFModbus::dataReady,
+            this, &MainWindow::displayAllMeas);
+
 }
 
 /**
@@ -53,11 +61,12 @@ MainWindow::~MainWindow()
  * @param timestamp: from load cell bridge measurement
  * @param ratio: from load cell
  */
-void MainWindow::displayAllMeas(QDateTime timestamp, double ratio)
+void MainWindow::displayAllMeas()
 {
     //ratio = ratio - bf->bridge->getZeroRatio();
     //double position = mf->pot->getPotmeterRatio();
-
+    QDateTime timestamp = QDateTime(QDateTime::currentDateTime());
+    double ratio = 0.500;
     if (isLogging) {
     //QString line;
 
@@ -82,6 +91,9 @@ void MainWindow::displayAllMeas(QDateTime timestamp, double ratio)
              commentLine.clear();
          }
     }
+    QByteArray ba = "test";
+    backend->postRequest(ba);
+    qDebug() << "POST done";
 }
 
 /**
