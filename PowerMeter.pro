@@ -37,15 +37,12 @@ SOURCES += \
     commonsrc/aboutdialog.cpp \
     commonsrc/stripframetriple.cpp \
     src/backendhandler.cpp \
-    src/personcontainer.cpp \
         src/main.cpp \
         src/mainwindow.cpp \
     commonsrc/serialdialog.cpp \
     commonsrc/tcpdialog.cpp \
     src/modbusframe.cpp \
     src/deifmodbus.cpp \
-    src/person.cpp \
-    src/personjsonserializer.cpp \
     src/sqlframe.cpp \
     commonsrc/loggingframe.cpp \
     commonsrc/plotframe2.cpp \
@@ -56,15 +53,11 @@ HEADERS += \
     commonsrc/aboutdialog.h \
     commonsrc/stripframetriple.h \
     src/backendhandler.h \
-    src/personcontainer.h \
-    src/jsonserializable.h \
         src/mainwindow.h \
     commonsrc/serialdialog.h \
     commonsrc/tcpdialog.h \
     src/modbusframe.h \
     src/deifmodbus.h \
-    src/person.h \
-    src/personjsonserializer.h \
     src/sqlframe.h \
     commonsrc/loggingframe.h \
     commonsrc/plotframe2.h \

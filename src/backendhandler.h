@@ -5,8 +5,8 @@
 #include <QtNetwork>
 //#include <QtJson>
 #include <QSsl>
-#include <QSslSocket>
-#include <QSslConfiguration>
+//#include <QSslSocket>
+//#include <QSslConfiguration>
 
 #include "thirdparty/json-develop/single_include/nlohmann/json.hpp"
 
@@ -31,8 +31,8 @@ private slots:
 
 private:
     json msg2db;
-    QSslSocket* socket;
-    QSslConfiguration sslConfig;
+    //QSslSocket* socket;
+    //QSslConfiguration sslConfig;
     //QSslSocket::sslLibraryBuildVersionString();
 
 };

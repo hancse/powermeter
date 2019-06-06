@@ -3,9 +3,6 @@
 
 #include <QFrame>
 #include "commonsrc/plotframe2.h"
-#include "person.h"
-#include "personjsonserializer.h"
-#include "personcontainer.h"
 #include "thirdparty/json-develop/single_include/nlohmann/json.hpp"
 
 namespace Ui {
@@ -49,8 +46,6 @@ private:
     Ui::SQLFrame *ui;
     PlotFrame2* plf;
     void DatabaseTest();
-    void testSerializeAndDeserializePerson();
-    void testSerializeAndDeserializeContainer();
     json msg2db;
 };
 

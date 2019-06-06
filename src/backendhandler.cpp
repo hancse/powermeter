@@ -6,12 +6,12 @@ BackendHandler::BackendHandler(QWidget *parent)
 {
     msg2db["pi"] = 3.14;
     //msg2db.parse();
-    socket = new QSslSocket(this);
-    qDebug() << socket->sslLibraryBuildVersionString();
+    //socket = new QSslSocket(this);
+
     qDebug() << "Support SSL:  " << QSslSocket::supportsSsl()
             << "\nLib Build Version String: " << QSslSocket::sslLibraryBuildVersionString();
 
-    sslConfig.setProtocol(QSsl::TlsV1_0);
+    //sslConfig.setProtocol(QSsl::TlsV1_0);
 
 }
 
