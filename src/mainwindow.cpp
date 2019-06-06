@@ -92,7 +92,7 @@ void MainWindow::displayAllMeas()
          }
     }
     QByteArray ba = "test";
-    backend->postRequest(ba);
+    backend->postRequest("https://hannl-sustainablecharching-be-app.azurewebsites.net", ba);
     qDebug() << "POST done";
 }
 
@@ -211,7 +211,7 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_pushButton_clicked()
 {
     QByteArray ba = backend->test_serialize();
-    backend->postRequest(ba);
+    backend->postRequest("https://hannl-sustainablecharching-be-app.azurewebsites.net", ba);
 }
 
 /**

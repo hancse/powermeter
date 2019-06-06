@@ -8,6 +8,8 @@ BackendHandler::BackendHandler(QWidget *parent)
     //msg2db.parse();
     socket = new QSslSocket(this);
     qDebug() << socket->sslLibraryBuildVersionString();
+    qDebug() << "Support SSL:  " << QSslSocket::supportsSsl()
+            << "\nLib Build Version String: " << QSslSocket::sslLibraryBuildVersionString();
 
     sslConfig.setProtocol(QSsl::TlsV1_0);
 
@@ -68,13 +70,26 @@ QByteArray BackendHandler::test_serialize()
 }
 
 //https://gist.github.com/rla/3163550
-void BackendHandler::postRequest(QByteArray &postData)
+void BackendHandler::postRequest(QString ipName, QByteArray &postData)
 {
-    QUrl url = QUrl("https://hannl-sustainablecharching-be-app.azurewebsites.net");
+    ipName = "https://hannl-sustainablecharching-be-app.azurewebsites.net";
+    QUrl url = QUrl(ipName);
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    request.setSslConfiguration(sslConfig);
+    if (ipName.startsWith("https")) {
+// SSL Configuration
+        QSslConfiguration sslConfiguration(QSslConfiguration::defaultConfiguration());
+        //QSslConfiguration sslConfiguration = request.sslConfiguration();
+        //sslConfiguration.setProtocol(QSsl::TlsV1_2OrLater);
+        sslConfiguration.setPeerVerifyMode (QSslSocket::VerifyNone);
+        sslConfiguration.setProtocol (QSsl::AnyProtocol);
+        request.setSslConfiguration(sslConfiguration);
+    } else {
+           // TODO: Try to get https
+    }
+
+    //request.setSslConfiguration(sslConfig);
 
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
 

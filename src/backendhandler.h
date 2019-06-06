@@ -19,7 +19,7 @@ public:
     BackendHandler(QWidget *parent);
     ~BackendHandler();
 
-    void postRequest(QByteArray &postData);
+    void postRequest(QString ipName, QByteArray &postData);
     int postRequest2(QString requestType, QUrl params);
     QByteArray test_serialize();
 signals:
