@@ -98,3 +98,12 @@ RESOURCES += \
 # compiled with MSVC2015_64 also works in MSVC2017_64
 include ( C:\Qwt-6.1.4\features\qwt.prf )
 #include ( C:\QwtPolar-1.1.1\features\qwtpolar.prf )
+
+win32: LIBS += -LC:/OpenSSL-Win64/lib/ -llibeay32
+win32: LIBS += -LC:/OpenSSL-Win64/lib/ -lssleay32
+
+INCLUDEPATH += C:/OpenSSL-Win64/include
+DEPENDPATH += C:/OpenSSL-Win64/include
+
+
+

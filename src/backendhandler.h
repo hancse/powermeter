@@ -3,6 +3,10 @@
 
 #include <QObject>
 #include <QtNetwork>
+//#include <QtJson>
+#include <QSsl>
+#include <QSslSocket>
+#include <QSslConfiguration>
 
 #include "thirdparty/json-develop/single_include/nlohmann/json.hpp"
 
@@ -16,6 +20,8 @@ public:
     ~BackendHandler();
 
     void postRequest(QByteArray &postData);
+    int postRequest2(QString requestType, QUrl params);
+    QByteArray test_serialize();
 signals:
 
 public slots:
@@ -25,6 +31,9 @@ private slots:
 
 private:
     json msg2db;
+    QSslSocket* socket;
+    QSslConfiguration sslConfig;
+    //QSslSocket::sslLibraryBuildVersionString();
 
 };
 

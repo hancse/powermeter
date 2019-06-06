@@ -200,3 +200,8 @@ void SQLFrame::on_pushButton_2_clicked()
     testSerializeAndDeserializeContainer();
 }
 
+
+void SQLFrame::on_btnJSON_clicked()
+{
+
+}

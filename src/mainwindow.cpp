@@ -208,6 +208,11 @@ void MainWindow::on_actionExit_triggered()
     qApp->quit();
 }
 
+void MainWindow::on_pushButton_clicked()
+{
+    QByteArray ba = backend->test_serialize();
+    backend->postRequest(ba);
+}
 
 /**
  * Search the configuration file.
@@ -302,12 +307,5 @@ void MainWindow::saveSettings(QString iniFilename)
     qs.endGroup();
 }
 */
-
-
-
-
-
-
-
 
 
