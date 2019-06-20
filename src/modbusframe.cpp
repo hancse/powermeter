@@ -13,9 +13,9 @@ enum ModbusConnection {
 
 ModbusFrame::ModbusFrame(QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::ModbusFrame),
-    lastRequest(nullptr),
-    modbusDevice(nullptr)
+    ui(new Ui::ModbusFrame)
+    //lastRequest(nullptr),
+    //modbusDevice(nullptr)
 {
     ui->setupUi(this);
 
@@ -42,9 +42,9 @@ ModbusFrame::ModbusFrame(QWidget *parent) :
 ModbusFrame::~ModbusFrame()
 {
     delete ui;
-    if (modbusDevice)
-        modbusDevice->disconnectDevice();
-    delete modbusDevice;
+    //if (modbusDevice)
+    //    modbusDevice->disconnectDevice();
+    //delete modbusDevice;
 }
 
 void ModbusFrame::displayData()
@@ -67,50 +67,50 @@ void ModbusFrame::connectRTU()
 {
     SerialDialog::PortParameters p = sd->getCp();
     ui->portEdit->setText(p.name);
-    modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
+    deif->modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
                                             ui->portEdit->text());
-    modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
+    deif->modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
                                             p.parity);
-    modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
+    deif->modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
                                             p.baudRate);
-    modbusDevice->setConnectionParameter(QModbusDevice::SerialDataBitsParameter,
+    deif->modbusDevice->setConnectionParameter(QModbusDevice::SerialDataBitsParameter,
                                             p.dataBits);
-    modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
+    deif->modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
                                             p.stopBits);
-    modbusDevice->setTimeout(p.responseTime);
-    modbusDevice->setNumberOfRetries(p.numberOfRetries);
+    deif->modbusDevice->setTimeout(p.responseTime);
+    deif->modbusDevice->setNumberOfRetries(p.numberOfRetries);
 }
 
 void ModbusFrame::connectTCP()
 {
     TcpDialog::PortParameters u = tcpd->getUp();
     //const QUrl url = QUrl::fromUserInput(ui->portEdit->text());
-    modbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter, u.url.port());
-    modbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter, u.url.host());
-    modbusDevice->setTimeout(u.responseTime);
-    modbusDevice->setNumberOfRetries(u.numberOfRetries);
+    deif->modbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter, u.url.port());
+    deif->modbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter, u.url.host());
+    deif->modbusDevice->setTimeout(u.responseTime);
+    deif->modbusDevice->setNumberOfRetries(u.numberOfRetries);
 }
 
 void ModbusFrame::on_btnConnect_clicked()
 {
-    if (!modbusDevice)  // no device defined, nothing to connect or disconnect
+    if (!deif->modbusDevice)  // no device defined, nothing to connect or disconnect
         return;
 
     ui->lblStatus->clear();
-    if (modbusDevice->state() != QModbusDevice::ConnectedState) {
+    if (deif->modbusDevice->state() != QModbusDevice::ConnectedState) {
         if (static_cast<ModbusConnection> (ui->connectType->currentIndex()) == Serial) {
             connectRTU();
         } else {
             connectTCP();
         }
 
-        if (!modbusDevice->connectDevice()) {
-            ui->lblStatus->setText(tr("Connect failed: ") + modbusDevice->errorString());
+        if (!deif->modbusDevice->connectDevice()) {
+            ui->lblStatus->setText(tr("Connect failed: ") + deif->modbusDevice->errorString());
         } else {
             ui->btnConnect->setText("Disconnect");
         }
     } else {
-        modbusDevice->disconnectDevice();
+        deif->modbusDevice->disconnectDevice();
         ui->btnConnect->setText("Connect");
     }
 }
@@ -129,32 +129,32 @@ void ModbusFrame::on_btnConfig_clicked()
 
 void ModbusFrame::on_connectType_currentIndexChanged(int index)
 {
-    if (modbusDevice) {
-        modbusDevice->disconnectDevice();
-        delete modbusDevice;
-        modbusDevice = nullptr;
+    if (deif->modbusDevice) {
+        deif->modbusDevice->disconnectDevice();
+        delete deif->modbusDevice;
+        deif->modbusDevice = nullptr;
     }
 
     auto type = static_cast<ModbusConnection>(index);
     if (type == Serial) {
-        modbusDevice = new QModbusRtuSerialMaster(this);
+        deif->modbusDevice = new QModbusRtuSerialMaster(this);
     } else if (type == Tcp) {
-        modbusDevice = new QModbusTcpClient(this);
+        deif->modbusDevice = new QModbusTcpClient(this);
         if (ui->portEdit->text().isEmpty())
             ui->portEdit->setText(QLatin1Literal("127.0.0.1:502"));
     }
 
-    connect(modbusDevice, &QModbusClient::errorOccurred, [this](QModbusDevice::Error) {
-        ui->lblStatus->setText(modbusDevice->errorString());
+    connect(deif->modbusDevice, &QModbusClient::errorOccurred, [this](QModbusDevice::Error) {
+        ui->lblStatus->setText(deif->modbusDevice->errorString());
     });
 
-    if (!modbusDevice) {
+    if (!deif->modbusDevice) {
         if (type == Serial)
             ui->lblStatus->setText(tr("Could not create Modbus master."));
         else
             ui->lblStatus->setText(tr("Could not create Modbus client."));
     } else {
-        connect(modbusDevice, &QModbusClient::stateChanged,
+        connect(deif->modbusDevice, &QModbusClient::stateChanged,
                 this, &ModbusFrame::onStateChanged);
     }
 }
@@ -169,13 +169,13 @@ void ModbusFrame::onStateChanged(int state)
 
 void ModbusFrame::readDEIF()
 {
-    if (!modbusDevice)
+    if (!deif->modbusDevice)
         return;
 
     ui->readValue->clear();
     ui->lblStatus->clear();
 
-    if ( auto* reply = modbusDevice->sendReadRequest(deif->DEIFReadRequest(METER_PARAM_BASE_ADDRESS, 18),
+    if ( auto* reply = deif->modbusDevice->sendReadRequest(deif->DEIFReadRequest(METER_PARAM_BASE_ADDRESS, 18),
                                                     ui->serverEdit->value()) ) {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished,
@@ -183,7 +183,7 @@ void ModbusFrame::readDEIF()
         else
             delete reply; // broadcast replies return immediately
     } else {
-        ui->lblStatus->setText(tr("Read error: ") + modbusDevice->errorString());
+        ui->lblStatus->setText(tr("Read error: ") + deif->modbusDevice->errorString());
     }
 }
 
@@ -222,9 +222,8 @@ void ModbusFrame::readReady()
                                      .arg(QString::number(unit.value(i),
                                           unit.registerType() <= QModbusDataUnit::Coils ? 10 : 16));
             ui->readValue->addItem(entry);
-            deif->RegsToAp(unit);
-
         }
+        deif->RegsToAp(unit);
     } else if (reply->error() == QModbusDevice::ProtocolError) {
         ui->lblStatus->setText(tr("Read response error: %1 (Modbus exception: 0x%2)").
                                     arg(reply->errorString()).
@@ -240,14 +239,14 @@ void ModbusFrame::readReady()
 
 void ModbusFrame::on_writeButton_clicked()
 {
-    if (!modbusDevice)
+    if (!deif->modbusDevice)
         return;
     ui->lblStatus->clear();
 
     QModbusDataUnit writeUnit = writeRequest();
     QModbusDataUnit::RegisterType table = writeUnit.registerType();
 
-    if (auto *reply = modbusDevice->sendWriteRequest(writeUnit, ui->serverEdit->value())) {
+    if (auto *reply = deif->modbusDevice->sendWriteRequest(writeUnit, ui->serverEdit->value())) {
         if (!reply->isFinished()) {
             connect(reply, &QModbusReply::finished, this, [this, reply]() {
                 if (reply->error() == QModbusDevice::ProtocolError) {
@@ -264,13 +263,13 @@ void ModbusFrame::on_writeButton_clicked()
             reply->deleteLater();
         }
     } else {
-        ui->lblStatus->setText(tr("Write error: ") + modbusDevice->errorString());
+        ui->lblStatus->setText(tr("Write error: ") + deif->modbusDevice->errorString());
     }
 }
 
 void ModbusFrame::on_readWriteButton_clicked()
 {
-    if (!modbusDevice)
+    if (!deif->modbusDevice)
         return;
     ui->readValue->clear();
     ui->lblStatus->clear();
@@ -278,7 +277,7 @@ void ModbusFrame::on_readWriteButton_clicked()
     QModbusDataUnit writeUnit = writeRequest();
     QModbusDataUnit::RegisterType table = writeUnit.registerType();
 
-    if (auto *reply = modbusDevice->sendReadWriteRequest(readRequest(), writeUnit,
+    if (auto *reply = deif->modbusDevice->sendReadWriteRequest(readRequest(), writeUnit,
         ui->serverEdit->value())) {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished,
@@ -286,7 +285,7 @@ void ModbusFrame::on_readWriteButton_clicked()
         else
             delete reply; // broadcast replies return immediately
     } else {
-        ui->lblStatus->setText(tr("Read error: ") + modbusDevice->errorString());
+        ui->lblStatus->setText(tr("Read error: ") + deif->modbusDevice->errorString());
     }
 }
 

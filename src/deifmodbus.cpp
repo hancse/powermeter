@@ -2,7 +2,10 @@
 
 #include <QDebug>
 
-DEIFModbus::DEIFModbus(QObject *parent) : QObject(parent)
+DEIFModbus::DEIFModbus(QObject *parent) :
+    QObject(parent),
+    lastRequest(nullptr),
+    modbusDevice(nullptr)
 {
     deifTimer = new QTimer(this);
     //connect(deifTimer, &QTimer::timeout, this, &DEIFModbus::readAll);
@@ -10,8 +13,11 @@ DEIFModbus::DEIFModbus(QObject *parent) : QObject(parent)
 
 DEIFModbus::~DEIFModbus()
 {
-
+    if (modbusDevice)
+        modbusDevice->disconnectDevice();
+    delete modbusDevice;
 }
+
 
 QModbusDataUnit DEIFModbus::DEIFReadRequest(int startAddress, quint16 numEntries) const
 {
