@@ -2,7 +2,7 @@
 #define MODBUSFRAME_H
 
 #include <QFrame>
-#include <QModbusClient>
+//#include <QModbusClient>
 
 #include "commonsrc/serialdialog.h"
 #include "commonsrc/tcpdialog.h"
@@ -47,8 +47,8 @@ private:
 private:
     Ui::ModbusFrame *ui;
 
-    QModbusReply* lastRequest;
-    QModbusClient* modbusDevice;
+    //QModbusReply* lastRequest;
+    //QModbusClient* modbusDevice;
     SerialDialog* sd;
     TcpDialog* tcpd;
 
