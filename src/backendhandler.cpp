@@ -44,19 +44,25 @@ QByteArray BackendHandler::test_serialize()
     double power = 230.0;
     double energy = 230.0;
     double frequency = 230.0;
-    qint64 timestamp = 1559821982;
+    //qint64 timestamp = 1559821982;
+
+
+    QDateTime timestamp = QDateTime(QDateTime::currentDateTime());
+    timestamp.setTimeZone(QTimeZone::utc());
+    quint64 unixTime = timestamp.toMSecsSinceEpoch();
+
 
     QString strmsg = "{ ";
-    strmsg.append( QString("\"phaseVoltageL1\": %1").arg(phaseVoltageL1, 0, 'f', 1) );
-    strmsg.append( QString("\"phaseVoltageL2\": %1").arg(phaseVoltageL2, 0, 'f', 1) );
-    strmsg.append( QString("\"phaseVoltageL3\": %1").arg(phaseVoltageL3, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL1\": %1").arg(currentL1, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL2\": %1").arg(currentL2, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL3\": %1").arg(currentL3, 0, 'f', 1) );
-    strmsg.append( QString("\"power\": %1").arg(power, 0, 'f', 1) );
-    strmsg.append( QString("\"energy\": %1").arg(energy, 0, 'f', 1) );
-    strmsg.append( QString("\"frequency\": %1").arg(frequency, 0, 'f', 1) );
-    strmsg.append( QString("\"timestamp\": %1").arg(timestamp) );
+    strmsg.append( QString("\"phaseVoltageL1\": %1,").arg(phaseVoltageL1, 0, 'f', 1) );
+    strmsg.append( QString("\"phaseVoltageL2\": %1,").arg(phaseVoltageL2, 0, 'f', 1) );
+    strmsg.append( QString("\"phaseVoltageL3\": %1,").arg(phaseVoltageL3, 0, 'f', 1) );
+    strmsg.append( QString("\"currentL1\": %1,").arg(currentL1, 0, 'f', 1) );
+    strmsg.append( QString("\"currentL2\": %1,").arg(currentL2, 0, 'f', 1) );
+    strmsg.append( QString("\"currentL3\": %1,").arg(currentL3, 0, 'f', 1) );
+    strmsg.append( QString("\"power\": %1,").arg(power, 0, 'f', 1) );
+    strmsg.append( QString("\"energy\": %1,").arg(energy, 0, 'f', 1) );
+    strmsg.append( QString("\"frequency\": %1,").arg(frequency, 0, 'f', 1) );
+    strmsg.append( QString("\"timestamp\": %1").arg(unixTime) );
     strmsg.append( " }_json");
 
     QByteArray bamsg = QByteArray();
@@ -72,7 +78,8 @@ QByteArray BackendHandler::test_serialize()
 //https://gist.github.com/rla/3163550
 void BackendHandler::postRequest(QString ipName, QByteArray &postData)
 {
-    ipName = "https://hannl-sustainablecharching-be-app.azurewebsites.net";
+    //ipName = "https://hannl-sustainablecharching-be-app.azurewebsites.net";
+    ipName = "http://localhost:8080/sevci_backend_war/measurements";
     QUrl url = QUrl(ipName);
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");

@@ -222,9 +222,8 @@ void ModbusFrame::readReady()
                                      .arg(QString::number(unit.value(i),
                                           unit.registerType() <= QModbusDataUnit::Coils ? 10 : 16));
             ui->readValue->addItem(entry);
-            deif->RegsToAp(unit);
-
         }
+        deif->RegsToAp(unit);
     } else if (reply->error() == QModbusDevice::ProtocolError) {
         ui->lblStatus->setText(tr("Read response error: %1 (Modbus exception: 0x%2)").
                                     arg(reply->errorString()).
