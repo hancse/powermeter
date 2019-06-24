@@ -18,13 +18,89 @@ DEIFModbus::~DEIFModbus()
     delete modbusDevice;
 }
 
-
-QModbusDataUnit DEIFModbus::DEIFReadRequest(int startAddress, quint16 numEntries) const
+void DEIFModbus::readReady()
 {
-    //const auto table =
-        //static_cast<QModbusDataUnit::RegisterType>(ui->writeTable->currentData().toInt());
+    auto reply = qobject_cast<QModbusReply *>(sender());
+    if (!reply)
+        return;
 
-    return QModbusDataUnit(QModbusDataUnit::HoldingRegisters, startAddress, numEntries);
+    if (reply->error() == QModbusDevice::NoError) {
+        const QModbusDataUnit unit = reply->result();
+        for (uint i = 0; i < unit.valueCount(); i++) {
+            const QString entry = tr("Address: %1, Value: %2")
+                                     .arg(unit.startAddress() + i)
+                                     .arg(QString::number(unit.value(i),
+                                          unit.registerType() <= QModbusDataUnit::Coils ? 10 : 16));
+            //ui->readValue->addItem(entry);
+        }
+        this->RegsToAp(unit);
+    } else if (reply->error() == QModbusDevice::ProtocolError) {
+        QString errmsg(tr("Read response error: %1 (Modbus exception: 0x%2)").
+                                    arg(reply->errorString()).
+                                    arg(reply->rawResult().exceptionCode(), -1, 16));
+        qDebug() << errmsg;
+    } else {
+        QString errmsg(tr("Read response error: %1 (code: 0x%2)").
+                                    arg(reply->errorString()).
+                                    arg(reply->error(), -1, 16));
+        qDebug() << errmsg;
+    }
+
+    reply->deleteLater();
+}
+
+void DEIFModbus::readDEIF(int serverAddress, int regType)
+{
+    if (!modbusDevice)
+        return;
+
+    //ui->readValue->clear();
+    //ui->lblStatus->clear();
+
+    if ( auto* reply = modbusDevice->sendReadRequest(DEIFReadRequest(regType, METER_PARAM_BASE_ADDRESS, 18),
+                                                    serverAddress) ) {
+        if (!reply->isFinished())
+            connect(reply, &QModbusReply::finished,
+                    this, &DEIFModbus::readReady);
+        else
+            delete reply; // broadcast replies return immediately
+    } else {
+        QString errmsg(tr("Read error: ") + modbusDevice->errorString());
+        qDebug() << errmsg;
+    }
+}
+
+QModbusDataUnit DEIFModbus::readRequest(int regType, int startAddress,
+                                        int numberOfEntries) const
+{
+    const auto table =
+        static_cast<QModbusDataUnit::RegisterType>(regType);
+    return QModbusDataUnit(table, startAddress, numberOfEntries);
+}
+
+QModbusDataUnit DEIFModbus::writeRequest(int regType, int startAddress,
+                                         int numberOfEntries) const
+{
+    const auto table =
+        static_cast<QModbusDataUnit::RegisterType>(regType);
+    return QModbusDataUnit(table, startAddress, numberOfEntries);
+}
+
+QModbusDataUnit DEIFModbus::DEIFReadRequest(int regType, int startAddress, int numberOfEntries) const
+{
+    const auto table =
+        static_cast<QModbusDataUnit::RegisterType>(regType);
+    return QModbusDataUnit(table, startAddress, numberOfEntries);
+}
+
+int DEIFModbus::getServerAddress() const
+{
+    return serverAddress;
+}
+
+void DEIFModbus::setServerAddress(int value)
+{
+    serverAddress = value;
 }
 
 double DEIFModbus::RegistersToDouble(quint16 highWord, quint16 lowWord)
@@ -88,3 +164,4 @@ double DEIFModbus::ByteArrayToDouble(QByteArray ba, double defaultValue = 0.0)
     qDebug() << value;
     return static_cast<double>(value);
 }
+

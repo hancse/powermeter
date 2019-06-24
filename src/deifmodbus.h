@@ -19,11 +19,16 @@ public:
 
     QTimer* deifTimer;
 
+    void readDEIF(int serverAddress, int regType);
+
     AnalogParams getAp() const;
     void RegsToAp(QModbusDataUnit du);
 
     void readAll();
-    QModbusDataUnit DEIFReadRequest(int startAddress, quint16 numEntries) const;
+    //QModbusDataUnit DEIFReadRequest(int startAddress, quint16 numEntries) const;
+
+    int getServerAddress() const;
+    void setServerAddress(int value);
 
 signals:
     void dataReady();
@@ -35,12 +40,16 @@ private:
     //QModbusClient* modbusDevice;
 
     AnalogParams ap;
+    int serverAddress = -1;
 
-    QModbusDataUnit readRequest() const;
-    QModbusDataUnit writeRequest() const;
+    QModbusDataUnit readRequest(int regType, int startAddress, int numberOfEntries) const;
+    QModbusDataUnit writeRequest(int regType, int startAddress, int numberOfEntries) const;
+    QModbusDataUnit DEIFReadRequest(int regType, int startAddress, int numberOfEntries) const;
 
     double ByteArrayToDouble(QByteArray ba, double defaultValue);
     double RegistersToDouble(quint16 highWord, quint16 lowWord);
+
+    void readReady();
 };
 
 #endif // DEIFMODBUS_H

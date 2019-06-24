@@ -175,7 +175,7 @@ void ModbusFrame::readDEIF()
     ui->readValue->clear();
     ui->lblStatus->clear();
 
-    if ( auto* reply = deif->modbusDevice->sendReadRequest(deif->DEIFReadRequest(METER_PARAM_BASE_ADDRESS, 18),
+    if ( auto* reply = deif->modbusDevice->sendReadRequest(DEIFReadRequest(METER_PARAM_BASE_ADDRESS, 18),
                                                     ui->serverEdit->value()) ) {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished,
@@ -189,7 +189,10 @@ void ModbusFrame::readDEIF()
 
 void ModbusFrame::on_readButton_clicked()
 {
-    readDEIF();
+    //readDEIF();
+    deif->readDEIF(ui->serverEdit->value(), ui->writeTable->currentData().toInt());
+    //deif->readDEIF(deif->getServerAddress(), ui->writeTable->currentData().toInt());
+
     //if (!modbusDevice)
     //    return;
 
