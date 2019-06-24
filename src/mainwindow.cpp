@@ -93,19 +93,21 @@ void MainWindow::displayAllMeas()
     }
 
     timestamp.setTimeZone(QTimeZone::utc());
-    quint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
+    qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
+
+    AnalogParams ap = mbf->deif->getAp();
 
     QString strmsg = "{ ";
-    strmsg.append( QString("\"phaseVoltageL1\": %1,").arg(, 0, 'f', 1) );
-    strmsg.append( QString("\"phaseVoltageL2\": %1,").arg(phaseVoltageL2, 0, 'f', 1) );
-    strmsg.append( QString("\"phaseVoltageL3\": %1,").arg(phaseVoltageL3, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL1\": %1,").arg(currentL1, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL2\": %1,").arg(currentL2, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL3\": %1,").arg(currentL3, 0, 'f', 1) );
-    strmsg.append( QString("\"power\": %1,").arg(power, 0, 'f', 1) );
-    strmsg.append( QString("\"energy\": %1,").arg(energy, 0, 'f', 1) );
-    strmsg.append( QString("\"frequency\": %1,").arg(frequency, 0, 'f', 1) );
-    strmsg.append( QString("\"timestamp\": %1").arg(unixTime) );
+    strmsg.append( QString("\"phaseVoltageL1\": %1,").arg(ap.phaseVoltage1, 0, 'f', 1) );
+    strmsg.append( QString("\"phaseVoltageL2\": %1,").arg(ap.phaseVoltage2, 0, 'f', 1) );
+    strmsg.append( QString("\"phaseVoltageL3\": %1,").arg(ap.phaseVoltage3, 0, 'f', 1) );
+    strmsg.append( QString("\"currentL1\": %1,").arg(ap.phaseCurrent1, 0, 'f', 1) );
+    strmsg.append( QString("\"currentL2\": %1,").arg(ap.phaseCurrent2, 0, 'f', 1) );
+    strmsg.append( QString("\"currentL3\": %1,").arg(ap.phaseCurrent3, 0, 'f', 1) );
+    strmsg.append( QString("\"power\": %1,").arg(ap.systemPower, 0, 'f', 1) );
+    //strmsg.append( QString("\"energy\": %1,").arg(ap.energy, 0, 'f', 1) );
+    strmsg.append( QString("\"frequency\": %1,").arg(ap.freq, 0, 'f', 1) );
+    strmsg.append( QString("\"timestamp\": %1").arg(unixTimestamp) );
     strmsg.append( " }_json");
 
     QByteArray bamsg = QByteArray();
