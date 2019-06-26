@@ -141,8 +141,12 @@ void DEIFModbus::RegsToAp(QModbusDataUnit du)
     ap.phaseL3Power = RegistersToDouble(du.value(32), du.value(33));
     ap.systemPower = RegistersToDouble(du.value(34), du.value(35));
 
-    qDebug() << du.valueCount() << du.value(0) << du.value(1) << ap.freq
-             << ap.phaseVoltage1 << ap.phaseVoltage2 << ap.phaseVoltage3 << ap.avgVoltage;
+    qDebug() << du.valueCount() << du.value(0) << du.value(1) << endl
+             << "Phase Voltage: " << ap.phaseVoltage1 << ap.phaseVoltage2 << ap.phaseVoltage3 << ap.avgVoltage << endl
+             << "Current: " << ap.phaseCurrent1 << ap.phaseCurrent2 << ap.phaseCurrent3 << endl
+             << "PhaseL Power: " << ap.phaseL1Power << ap.phaseL2Power << ap.phaseL3Power << endl
+             << "System power: " << ap.systemPower << endl
+             << "Freq: " << ap.freq;
     emit dataReady();
 }
 
@@ -164,4 +168,3 @@ double DEIFModbus::ByteArrayToDouble(QByteArray ba, double defaultValue = 0.0)
     qDebug() << value;
     return static_cast<double>(value);
 }
-

@@ -35,21 +35,21 @@ QByteArray BackendHandler::test_serialize()
                  "\"frequency\": 300.0, "
                  "\"timestamp\": 300.0 }"_json;
 
-    double phaseVoltageL1 = 230.0;
-    double phaseVoltageL2 = 230.0;
-    double phaseVoltageL3 = 230.0;
-    double currentL1 = 230.0;
-    double currentL2 = 230.0;
-    double currentL3 = 230.0;
-    double power = 230.0;
-    double energy = 230.0;
-    double frequency = 230.0;
+    double phaseVoltageL1 = 228.1;
+    double phaseVoltageL2 = 229.0;
+    double phaseVoltageL3 = 229.1;
+    double currentL1 = 0.0;
+    double currentL2 = 0.0;
+    double currentL3 = 0.0;
+    double power = 0.0;
+    double energy = 228.7;
+    double frequency = 50.0;
     //qint64 timestamp = 1559821982;
 
 
     QDateTime timestamp = QDateTime(QDateTime::currentDateTime());
     timestamp.setTimeZone(QTimeZone::utc());
-    quint64 unixTime = timestamp.toMSecsSinceEpoch();
+    qint64 unixTime = timestamp.toMSecsSinceEpoch();
 
 
     QString strmsg = "{ ";
@@ -71,6 +71,7 @@ QByteArray BackendHandler::test_serialize()
     qDebug() << jdmp.data() << endl
              << msg.dump().data() << endl
              << bamsg;
+
     return bamsg;
 
 }
@@ -79,7 +80,11 @@ QByteArray BackendHandler::test_serialize()
 void BackendHandler::postRequest(QString ipName, QByteArray &postData)
 {
     //ipName = "https://hannl-sustainablecharching-be-app.azurewebsites.net";
-    ipName = "http://localhost:8080/sevci_backend_war/measurements";
+
+    //ipName = "http://localhost:8080/sevci_backend_war/measurements";
+    //Local Development URL (endpoint) when running the Java API
+    ipName = "http://localhost:8080/sevci-backend-2.0/measurements";
+
     QUrl url = QUrl(ipName);
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");

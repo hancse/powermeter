@@ -112,8 +112,11 @@ void MainWindow::displayAllMeas()
 
     QByteArray bamsg = QByteArray();
     bamsg.append(strmsg);
+    qDebug() << bamsg;
 
-    backend->postRequest("", bamsg);
+    //backend->postRequest("", bamsg);
+    backend->postRequest("http://localhost:8080/sevci_backend_war/measurements", bamsg);
+
     qDebug() << "POST done";
 }
 

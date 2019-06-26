@@ -20,7 +20,7 @@ public:
     ~BackendHandler();
 
     void postRequest(QString ipName, QByteArray &postData);
-    int postRequest2(QString requestType, QUrl params);
+    //int postRequest2(QString requestType, QUrl params);
     QByteArray test_serialize();
 signals:
 
