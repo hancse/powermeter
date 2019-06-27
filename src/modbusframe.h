@@ -38,7 +38,7 @@ private slots:
     void on_checkAuto_clicked(bool checked);
 
 private:
-    QModbusDataUnit writeRequest() const;
+    QModbusDataUnit writeRequest(int regType, int startAddress, int numOfEntries) const;
 
 private:
     Ui::ModbusFrame *ui;

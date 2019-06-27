@@ -176,8 +176,10 @@ void ModbusFrame::on_writeButton_clicked()
     if (!deif->modbusDevice)
         return;
     ui->lblStatus->clear();
-
-    QModbusDataUnit writeUnit = writeRequest();
+/*
+    QModbusDataUnit writeUnit = writeRequest(ui->writeTable->currentData().toInt(),
+                                             ui->writeAddress->value(),
+                                             10);
     QModbusDataUnit::RegisterType table = writeUnit.registerType();
 
     if (auto *reply = deif->modbusDevice->sendWriteRequest(writeUnit, ui->serverEdit->value())) {
@@ -199,6 +201,7 @@ void ModbusFrame::on_writeButton_clicked()
     } else {
         ui->lblStatus->setText(tr("Write error: ") + deif->modbusDevice->errorString());
     }
+    */
 }
 
 /*
@@ -233,17 +236,6 @@ void ModbusFrame::on_writeTable_currentIndexChanged(int index)
     ui->readWriteButton->setEnabled(index == 3);
     ui->writeButton->setEnabled(coilsOrHolding);
     ui->writeGroupBox->setEnabled(coilsOrHolding);
-}
-
-QModbusDataUnit ModbusFrame::writeRequest() const
-{
-    const auto table =
-        static_cast<QModbusDataUnit::RegisterType> (ui->writeTable->currentData().toInt());
-
-    int startAddress = ui->writeAddress->value();
-    int numberOfEntries = ui->writeSize->currentText().toInt();
-
-    return QModbusDataUnit(table, startAddress, numberOfEntries);
 }
 
 void ModbusFrame::on_checkAuto_clicked(bool checked)
