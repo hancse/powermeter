@@ -32,17 +32,17 @@ private slots:
     void on_connectType_currentIndexChanged(int index);
     void onStateChanged(int state);
     void on_readButton_clicked();
-    void readReady();
+    //void readReady();
     void on_writeButton_clicked();
-    void on_readWriteButton_clicked();
+    //void on_readWriteButton_clicked();
     void on_writeTable_currentIndexChanged(int index);
 
     void on_checkAuto_clicked(bool checked);
 
 private:
-    QModbusDataUnit readRequest() const;
+    //QModbusDataUnit readRequest() const;
     QModbusDataUnit writeRequest() const;
-    QModbusDataUnit DEIFReadRequest(int startAddress, int numEntries) const;
+    //QModbusDataUnit DEIFReadRequest(int startAddress, int numEntries) const;
 
 private:
     Ui::ModbusFrame *ui;

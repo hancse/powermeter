@@ -1,0 +1,4 @@
+3 power meters
+- reading from grid
+- reading from PV
+- reading to and from battery

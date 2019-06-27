@@ -21,7 +21,9 @@ ModbusFrame::ModbusFrame(QWidget *parent) :
 
     deif = new DEIFModbus(this);
 
-    connect(deif->deifTimer, &QTimer::timeout, this, &ModbusFrame::readDEIF);
+    //connect(deif->deifTimer, &QTimer::timeout, this, &ModbusFrame::readDEIF);
+    connect(deif->deifTimer, &QTimer::timeout,
+            this, &ModbusFrame::on_readButton_clicked);
 
     connect(deif, &DEIFModbus::dataReady,
             this, &ModbusFrame::displayData);
@@ -33,6 +35,7 @@ ModbusFrame::ModbusFrame(QWidget *parent) :
     ui->writeTable->addItem(tr("Discrete Inputs"), QModbusDataUnit::DiscreteInputs);
     ui->writeTable->addItem(tr("Input Registers"), QModbusDataUnit::InputRegisters);
     ui->writeTable->addItem(tr("Holding Registers"), QModbusDataUnit::HoldingRegisters);
+    ui->writeTable->setCurrentIndex(3);
 
     ui->connectType->setCurrentIndex(0);
     on_connectType_currentIndexChanged(0);
@@ -167,6 +170,7 @@ void ModbusFrame::onStateChanged(int state)
         ui->btnConnect->setText(tr("Disconnect"));
 }
 
+/*
 void ModbusFrame::readDEIF()
 {
     if (!deif->modbusDevice)
@@ -186,31 +190,16 @@ void ModbusFrame::readDEIF()
         ui->lblStatus->setText(tr("Read error: ") + deif->modbusDevice->errorString());
     }
 }
+*/
 
 void ModbusFrame::on_readButton_clicked()
 {
     //readDEIF();
     deif->readDEIF(ui->serverEdit->value(), ui->writeTable->currentData().toInt());
     //deif->readDEIF(deif->getServerAddress(), ui->writeTable->currentData().toInt());
-
-    //if (!modbusDevice)
-    //    return;
-
-    //ui->readValue->clear();
-    //ui->lblStatus->clear();
-
-    //if ( auto* reply = modbusDevice->sendReadRequest(deif->DEIFReadRequest(METER_PARAM_BASE_ADDRESS, 18),
-    //                                                ui->serverEdit->value()) ) {
-    //    if (!reply->isFinished())
-    //        connect(reply, &QModbusReply::finished,
-    //                this, &ModbusFrame::readReady);
-    //    else
-    //        delete reply; // broadcast replies return immediately
-   // } else {
-   //     ui->lblStatus->setText(tr("Read error: ") + modbusDevice->errorString());
-   // }
 }
 
+/*
 void ModbusFrame::readReady()
 {
     auto reply = qobject_cast<QModbusReply *>(sender());
@@ -239,6 +228,7 @@ void ModbusFrame::readReady()
 
     reply->deleteLater();
 }
+*/
 
 void ModbusFrame::on_writeButton_clicked()
 {
@@ -270,6 +260,7 @@ void ModbusFrame::on_writeButton_clicked()
     }
 }
 
+/*
 void ModbusFrame::on_readWriteButton_clicked()
 {
     if (!deif->modbusDevice)
@@ -282,15 +273,17 @@ void ModbusFrame::on_readWriteButton_clicked()
 
     if (auto *reply = deif->modbusDevice->sendReadWriteRequest(readRequest(), writeUnit,
         ui->serverEdit->value())) {
-        if (!reply->isFinished())
+        if (!reply->isFinished()) {
             connect(reply, &QModbusReply::finished,
                     this, &ModbusFrame::readReady);
-        else
+       } else {
             delete reply; // broadcast replies return immediately
+       }
     } else {
         ui->lblStatus->setText(tr("Read error: ") + deif->modbusDevice->errorString());
     }
 }
+*/
 
 void ModbusFrame::on_writeTable_currentIndexChanged(int index)
 {
@@ -301,6 +294,7 @@ void ModbusFrame::on_writeTable_currentIndexChanged(int index)
     ui->writeGroupBox->setEnabled(coilsOrHolding);
 }
 
+/*
 QModbusDataUnit ModbusFrame::readRequest() const
 {
     const auto table =
@@ -311,6 +305,7 @@ QModbusDataUnit ModbusFrame::readRequest() const
 
     return QModbusDataUnit(table, startAddress, numberOfEntries);
 }
+*/
 
 QModbusDataUnit ModbusFrame::writeRequest() const
 {
@@ -323,7 +318,7 @@ QModbusDataUnit ModbusFrame::writeRequest() const
     return QModbusDataUnit(table, startAddress, numberOfEntries);
 }
 
-
+/*
 QModbusDataUnit ModbusFrame::DEIFReadRequest(int startAddress, int numEntries) const
 {
     const auto table =
@@ -331,8 +326,7 @@ QModbusDataUnit ModbusFrame::DEIFReadRequest(int startAddress, int numEntries) c
 
     return QModbusDataUnit(table, startAddress, numEntries);
 }
-
-
+*/
 
 void ModbusFrame::on_checkAuto_clicked(bool checked)
 {
