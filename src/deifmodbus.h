@@ -40,6 +40,7 @@ private:
     //QModbusClient* modbusDevice;
 
     AnalogParams ap;
+    EnergyMeasurement em;
     int serverAddress = -1;
 
     QModbusDataUnit readRequest(int regType, int startAddress, int numberOfEntries) const;
@@ -50,6 +51,8 @@ private:
     double RegistersToDouble(quint16 highWord, quint16 lowWord);
 
     void readReady();
+    void RegsToEm(QModbusDataUnit du);
+    quint32 RegistersToDWord(quint16 highWord, quint16 lowWord);
 };
 
 #endif // DEIFMODBUS_H

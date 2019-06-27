@@ -32,6 +32,7 @@ void DEIFModbus::readReady()
                                      .arg(QString::number(unit.value(i),
                                           unit.registerType() <= QModbusDataUnit::Coils ? 10 : 16));
             //ui->readValue->addItem(entry);
+            qDebug() << entry;
         }
         this->RegsToAp(unit);
     } else if (reply->error() == QModbusDevice::ProtocolError) {
@@ -57,8 +58,10 @@ void DEIFModbus::readDEIF(int serverAddress, int regType)
     //ui->readValue->clear();
     //ui->lblStatus->clear();
 
-    if ( auto* reply = modbusDevice->sendReadRequest(DEIFReadRequest(regType, METER_PARAM_BASE_ADDRESS, 18),
-                                                    serverAddress) ) {
+    if ( auto* reply = modbusDevice->sendReadRequest(DEIFReadRequest(regType,
+                                                     METER_PARAM_BASE_ADDRESS,
+                                                     18),
+                                                     serverAddress) ) {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished,
                     this, &DEIFModbus::readReady);
@@ -70,37 +73,11 @@ void DEIFModbus::readDEIF(int serverAddress, int regType)
     }
 }
 
-QModbusDataUnit DEIFModbus::readRequest(int regType, int startAddress,
-                                        int numberOfEntries) const
-{
-    const auto table =
-        static_cast<QModbusDataUnit::RegisterType>(regType);
-    return QModbusDataUnit(table, startAddress, numberOfEntries);
-}
-
-QModbusDataUnit DEIFModbus::writeRequest(int regType, int startAddress,
-                                         int numberOfEntries) const
-{
-    const auto table =
-        static_cast<QModbusDataUnit::RegisterType>(regType);
-    return QModbusDataUnit(table, startAddress, numberOfEntries);
-}
-
 QModbusDataUnit DEIFModbus::DEIFReadRequest(int regType, int startAddress, int numberOfEntries) const
 {
     const auto table =
         static_cast<QModbusDataUnit::RegisterType>(regType);
     return QModbusDataUnit(table, startAddress, numberOfEntries);
-}
-
-int DEIFModbus::getServerAddress() const
-{
-    return serverAddress;
-}
-
-void DEIFModbus::setServerAddress(int value)
-{
-    serverAddress = value;
 }
 
 double DEIFModbus::RegistersToDouble(quint16 highWord, quint16 lowWord)
@@ -112,14 +89,16 @@ double DEIFModbus::RegistersToDouble(quint16 highWord, quint16 lowWord)
     return static_cast<double>(value);
 }
 
+quint32 DEIFModbus::RegistersToDWord(quint16 highWord, quint16 lowWord)
+{
+    quint32 value = (highWord << 16) + lowWord;
+    qDebug() << value;
+    return value;
+}
+
 void DEIFModbus::readAll()
 {
 
-}
-
-AnalogParams DEIFModbus::getAp() const
-{
-    return ap;
 }
 
 void DEIFModbus::RegsToAp(QModbusDataUnit du)
@@ -150,6 +129,19 @@ void DEIFModbus::RegsToAp(QModbusDataUnit du)
     emit dataReady();
 }
 
+void DEIFModbus::RegsToEm(QModbusDataUnit du)
+{
+    em.energyTotal = RegistersToDWord(du.value(16), du.value(17));
+
+
+    qDebug() << du.valueCount()
+             <<  du.value(16) << du.value(17)
+             << du.value(18) << du.value(19)
+             << "Total Energy: " << em.energyTotal;
+
+    emit dataReady();
+}
+
 double DEIFModbus::ByteArrayToDouble(QByteArray ba, double defaultValue = 0.0)
 {
     float value = static_cast<float>(defaultValue);
@@ -167,4 +159,39 @@ double DEIFModbus::ByteArrayToDouble(QByteArray ba, double defaultValue = 0.0)
     }
     qDebug() << value;
     return static_cast<double>(value);
+}
+
+//=======Getters and Setters===================================================
+
+AnalogParams DEIFModbus::getAp() const
+{
+    return ap;
+}
+
+int DEIFModbus::getServerAddress() const
+{
+    return serverAddress;
+}
+
+void DEIFModbus::setServerAddress(int value)
+{
+    serverAddress = value;
+}
+
+//=======================================================================
+
+QModbusDataUnit DEIFModbus::readRequest(int regType, int startAddress,
+                                        int numberOfEntries) const
+{
+    const auto table =
+        static_cast<QModbusDataUnit::RegisterType>(regType);
+    return QModbusDataUnit(table, startAddress, numberOfEntries);
+}
+
+QModbusDataUnit DEIFModbus::writeRequest(int regType, int startAddress,
+                                         int numberOfEntries) const
+{
+    const auto table =
+        static_cast<QModbusDataUnit::RegisterType>(regType);
+    return QModbusDataUnit(table, startAddress, numberOfEntries);
 }
