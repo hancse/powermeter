@@ -31,7 +31,6 @@ void DEIFModbus::readReady()
                                      .arg(unit.startAddress() + i)
                                      .arg(QString::number(unit.value(i),
                                           unit.registerType() <= QModbusDataUnit::Coils ? 10 : 16));
-            //ui->readValue->addItem(entry);
             qDebug() << entry;
         }
         this->RegsToAp(unit);
@@ -54,9 +53,6 @@ void DEIFModbus::readDEIF(int serverAddress, int regType)
 {
     if (!modbusDevice)
         return;
-
-    //ui->readValue->clear();
-    //ui->lblStatus->clear();
 
     if ( auto* reply = modbusDevice->sendReadRequest(DEIFReadRequest(regType,
                                                      METER_PARAM_BASE_ADDRESS,
