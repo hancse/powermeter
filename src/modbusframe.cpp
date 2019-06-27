@@ -14,14 +14,11 @@ enum ModbusConnection {
 ModbusFrame::ModbusFrame(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::ModbusFrame)
-    //lastRequest(nullptr),
-    //modbusDevice(nullptr)
 {
     ui->setupUi(this);
 
     deif = new DEIFModbus(this);
-
-    //connect(deif->deifTimer, &QTimer::timeout, this, &ModbusFrame::readDEIF);
+;
     connect(deif->deifTimer, &QTimer::timeout,
             this, &ModbusFrame::on_readButton_clicked);
 
@@ -45,9 +42,6 @@ ModbusFrame::ModbusFrame(QWidget *parent) :
 ModbusFrame::~ModbusFrame()
 {
     delete ui;
-    //if (modbusDevice)
-    //    modbusDevice->disconnectDevice();
-    //delete modbusDevice;
 }
 
 void ModbusFrame::displayData()
@@ -170,65 +164,12 @@ void ModbusFrame::onStateChanged(int state)
         ui->btnConnect->setText(tr("Disconnect"));
 }
 
-/*
-void ModbusFrame::readDEIF()
-{
-    if (!deif->modbusDevice)
-        return;
-
-    ui->readValue->clear();
-    ui->lblStatus->clear();
-
-    if ( auto* reply = deif->modbusDevice->sendReadRequest(DEIFReadRequest(METER_PARAM_BASE_ADDRESS, 18),
-                                                    ui->serverEdit->value()) ) {
-        if (!reply->isFinished())
-            connect(reply, &QModbusReply::finished,
-                    this, &ModbusFrame::readReady);
-        else
-            delete reply; // broadcast replies return immediately
-    } else {
-        ui->lblStatus->setText(tr("Read error: ") + deif->modbusDevice->errorString());
-    }
-}
-*/
-
 void ModbusFrame::on_readButton_clicked()
 {
     //readDEIF();
     deif->readDEIF(ui->serverEdit->value(), ui->writeTable->currentData().toInt());
     //deif->readDEIF(deif->getServerAddress(), ui->writeTable->currentData().toInt());
 }
-
-/*
-void ModbusFrame::readReady()
-{
-    auto reply = qobject_cast<QModbusReply *>(sender());
-    if (!reply)
-        return;
-
-    if (reply->error() == QModbusDevice::NoError) {
-        const QModbusDataUnit unit = reply->result();
-        for (uint i = 0; i < unit.valueCount(); i++) {
-            const QString entry = tr("Address: %1, Value: %2")
-                                     .arg(unit.startAddress() + i)
-                                     .arg(QString::number(unit.value(i),
-                                          unit.registerType() <= QModbusDataUnit::Coils ? 10 : 16));
-            ui->readValue->addItem(entry);
-        }
-        deif->RegsToAp(unit);
-    } else if (reply->error() == QModbusDevice::ProtocolError) {
-        ui->lblStatus->setText(tr("Read response error: %1 (Modbus exception: 0x%2)").
-                                    arg(reply->errorString()).
-                                    arg(reply->rawResult().exceptionCode(), -1, 16));
-    } else {
-        ui->lblStatus->setText(tr("Read response error: %1 (code: 0x%2)").
-                                    arg(reply->errorString()).
-                                    arg(reply->error(), -1, 16));
-    }
-
-    reply->deleteLater();
-}
-*/
 
 void ModbusFrame::on_writeButton_clicked()
 {
@@ -294,19 +235,6 @@ void ModbusFrame::on_writeTable_currentIndexChanged(int index)
     ui->writeGroupBox->setEnabled(coilsOrHolding);
 }
 
-/*
-QModbusDataUnit ModbusFrame::readRequest() const
-{
-    const auto table =
-        static_cast<QModbusDataUnit::RegisterType>(ui->writeTable->currentData().toInt());
-
-    int startAddress = ui->readAddress->value();
-    int numberOfEntries = ui->readSize->currentText().toInt();
-
-    return QModbusDataUnit(table, startAddress, numberOfEntries);
-}
-*/
-
 QModbusDataUnit ModbusFrame::writeRequest() const
 {
     const auto table =
@@ -317,16 +245,6 @@ QModbusDataUnit ModbusFrame::writeRequest() const
 
     return QModbusDataUnit(table, startAddress, numberOfEntries);
 }
-
-/*
-QModbusDataUnit ModbusFrame::DEIFReadRequest(int startAddress, int numEntries) const
-{
-    const auto table =
-        static_cast<QModbusDataUnit::RegisterType>(ui->writeTable->currentData().toInt());
-
-    return QModbusDataUnit(table, startAddress, numEntries);
-}
-*/
 
 void ModbusFrame::on_checkAuto_clicked(bool checked)
 {
