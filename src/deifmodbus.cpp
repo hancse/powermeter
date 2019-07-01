@@ -33,7 +33,20 @@ void DEIFModbus::readReady()
                                           unit.registerType() <= QModbusDataUnit::Coils ? 10 : 16));
             qDebug() << entry;
         }
-        this->RegsToAp(unit);
+
+        switch (unit.startAddress()) {
+        case METER_PARAM_BASE_ADDRESS:
+            RegsToAp(unit);
+            break;
+        case RT_ENERGY_BASE_ADDRESS:
+            RegsToEm(unit);
+            break;
+        default:
+            break;
+        }
+
+        //this->RegsToAp(unit);
+
     } else if (reply->error() == QModbusDevice::ProtocolError) {
         QString errmsg(tr("Read response error: %1 (Modbus exception: 0x%2)").
                                     arg(reply->errorString()).
