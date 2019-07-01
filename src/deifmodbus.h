@@ -19,7 +19,7 @@ public:
 
     QTimer* deifTimer;
 
-    void readDEIF(int serverAddress, int regType);
+    void readDEIF(int regType, int serverAddress, int StartAddress, int numberOfEntries);
 
     AnalogParams getAp() const;
     void RegsToAp(QModbusDataUnit du);
@@ -43,9 +43,9 @@ private:
     EnergyMeasurement em;
     int serverAddress = -1;
 
-    QModbusDataUnit readRequest(int regType, int startAddress, int numberOfEntries) const;
-    QModbusDataUnit writeRequest(int regType, int startAddress, int numberOfEntries) const;
-    QModbusDataUnit DEIFReadRequest(int regType, int startAddress, int numberOfEntries) const;
+    //QModbusDataUnit readRequest(int regType, int startAddress, int numberOfEntries) const;
+    //QModbusDataUnit writeRequest(int regType, int startAddress, int numberOfEntries) const;
+    //QModbusDataUnit DEIFReadRequest(int regType, int startAddress, int numberOfEntries) const;
 
     double ByteArrayToDouble(QByteArray ba, double defaultValue);
     double RegistersToDouble(quint16 highWord, quint16 lowWord);

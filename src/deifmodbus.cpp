@@ -49,15 +49,31 @@ void DEIFModbus::readReady()
     reply->deleteLater();
 }
 
-void DEIFModbus::readDEIF(int serverAddress, int regType)
+/*
+QModbusDataUnit DEIFModbus::DEIFReadRequest(int regType, int startAddress, int numberOfEntries) const
+{
+    const auto table =
+        static_cast<QModbusDataUnit::RegisterType>(regType);
+    return QModbusDataUnit(table, startAddress, numberOfEntries);
+}
+*/
+
+void DEIFModbus::readDEIF(int regType, int serverAddress,
+                          int startAddress, int numberOfEntries)
 {
     if (!modbusDevice)
         return;
 
-    if ( auto* reply = modbusDevice->sendReadRequest(DEIFReadRequest(regType,
-                                                     METER_PARAM_BASE_ADDRESS,
-                                                     18),
-                                                     serverAddress) ) {
+    const auto table =
+        static_cast<QModbusDataUnit::RegisterType>(regType);
+    QModbusDataUnit unit = QModbusDataUnit(table, startAddress, numberOfEntries);
+
+    //if ( auto* reply = modbusDevice->sendReadRequest(DEIFReadRequest(regType,
+                                                    // METER_PARAM_BASE_ADDRESS,
+                                                    // 18),
+                                                    // serverAddress) ) {
+
+    if ( auto* reply = modbusDevice->sendReadRequest(unit, serverAddress) ) {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished,
                     this, &DEIFModbus::readReady);
@@ -67,13 +83,6 @@ void DEIFModbus::readDEIF(int serverAddress, int regType)
         QString errmsg(tr("Read error: ") + modbusDevice->errorString());
         qDebug() << errmsg;
     }
-}
-
-QModbusDataUnit DEIFModbus::DEIFReadRequest(int regType, int startAddress, int numberOfEntries) const
-{
-    const auto table =
-        static_cast<QModbusDataUnit::RegisterType>(regType);
-    return QModbusDataUnit(table, startAddress, numberOfEntries);
 }
 
 double DEIFModbus::RegistersToDouble(quint16 highWord, quint16 lowWord)
@@ -176,6 +185,7 @@ void DEIFModbus::setServerAddress(int value)
 
 //=======================================================================
 
+/*
 QModbusDataUnit DEIFModbus::readRequest(int regType, int startAddress,
                                         int numberOfEntries) const
 {
@@ -191,3 +201,4 @@ QModbusDataUnit DEIFModbus::writeRequest(int regType, int startAddress,
         static_cast<QModbusDataUnit::RegisterType>(regType);
     return QModbusDataUnit(table, startAddress, numberOfEntries);
 }
+*/

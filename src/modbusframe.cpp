@@ -167,7 +167,10 @@ void ModbusFrame::onStateChanged(int state)
 void ModbusFrame::on_readButton_clicked()
 {
     //readDEIF();
-    deif->readDEIF(ui->serverEdit->value(), ui->writeTable->currentData().toInt());
+    deif->readDEIF(ui->writeTable->currentData().toInt(),
+                   ui->serverEdit->value(),
+                   METER_PARAM_BASE_ADDRESS,
+                   18);
     //deif->readDEIF(deif->getServerAddress(), ui->writeTable->currentData().toInt());
 }
 
