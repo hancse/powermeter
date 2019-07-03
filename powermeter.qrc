@@ -7,5 +7,6 @@
         <file>fonts/tachometer-alt.svg</file>
         <file>images/MIC-2 MKII.png</file>
         <file>fonts/rainbow.svg</file>
+        <file>images/Charging.png</file>
     </qresource>
 </RCC>

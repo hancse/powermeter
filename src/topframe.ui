@@ -13,7 +13,28 @@
   <property name="windowTitle">
    <string>Frame</string>
   </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>20</y>
+     <width>840</width>
+     <height>520</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="../powermeter.qrc">:/images/images/Charging.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../powermeter.qrc"/>
+ </resources>
  <connections/>
 </ui>
