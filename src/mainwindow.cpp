@@ -43,9 +43,10 @@ MainWindow::MainWindow(QWidget *parent) :
     //loadSettings(iniPathFileName);
     backend = new BackendHandler(this);
 
-    connect(mbf->deif, &DEIFModbus::dataReady,
-            this, &MainWindow::displayAllMeas);
-
+    for (int n = 0; n < NUMDEIFS; n++) {
+        connect(mbf[n]->deif, &DEIFModbus::dataReady,
+                this, &MainWindow::displayAllMeas);
+    }
 }
 
 /**
@@ -95,7 +96,7 @@ void MainWindow::displayAllMeas()
     timestamp.setTimeZone(QTimeZone::utc());
     qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
 
-    AnalogParams ap = mbf->deif->getAp();
+    AnalogParams ap = mbf[0]->deif->getAp();
 
     QString strmsg = "{ ";
     strmsg.append( QString("\"phaseVoltageL1\": %1,").arg(ap.phaseVoltage1, 0, 'f', 1) );
@@ -140,10 +141,13 @@ void MainWindow::setStackIndex(int index)
     case 3:
         ui->stackedWidget->setCurrentIndex(index);
         break;
-/*    case 4:
-        ui->stackedWidget->setCurrentIndex(index);
-        break; */
     case 4:
+        ui->stackedWidget->setCurrentIndex(index);
+        break;
+    case 5:
+        ui->stackedWidget->setCurrentIndex(index);
+        break;
+    case 6:
         qApp->quit();
         break;
     }
@@ -159,14 +163,16 @@ void MainWindow::populateStack()
     topf = new TopFrame();
     ui->stackedWidget->addWidget(topf);  //0
 
-    mbf = new ModbusFrame();
-    ui->stackedWidget->addWidget(mbf);  //1
+    for (int n = 0; n < NUMDEIFS; n++) {
+        mbf[n] = new ModbusFrame();
+        ui->stackedWidget->addWidget(mbf[n]);  //1,2,3
+    }
 
     sqlf = new SQLFrame();
-    ui->stackedWidget->addWidget(sqlf);  //2
+    ui->stackedWidget->addWidget(sqlf);  //4
 
     logf = new LoggingFrame();
-    ui->stackedWidget->addWidget(logf);  //3
+    ui->stackedWidget->addWidget(logf);  //5
 
     qDebug() << "# pages:" <<ui->stackedWidget->count();
 }

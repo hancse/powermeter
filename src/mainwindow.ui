@@ -62,6 +62,33 @@
     </item>
     <item>
      <property name="text">
+      <string>     Modbus 0     </string>
+     </property>
+     <property name="icon">
+      <iconset resource="../powermeter.qrc">
+       <normaloff>:/images/images/MIC-2 MKII.png</normaloff>:/images/images/MIC-2 MKII.png</iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>     Modbus 1     </string>
+     </property>
+     <property name="icon">
+      <iconset resource="../powermeter.qrc">
+       <normaloff>:/images/images/MIC-2 MKII.png</normaloff>:/images/images/MIC-2 MKII.png</iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>     Modbus 2     </string>
+     </property>
+     <property name="icon">
+      <iconset resource="../powermeter.qrc">
+       <normaloff>:/images/images/MIC-2 MKII.png</normaloff>:/images/images/MIC-2 MKII.png</iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string>     Database          </string>
      </property>
      <property name="font">
@@ -72,15 +99,6 @@
      <property name="icon">
       <iconset resource="../powermeter.qrc">
        <normaloff>:/images/fonts/balance-scale.svg</normaloff>:/images/fonts/balance-scale.svg</iconset>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>       Modbus      </string>
-     </property>
-     <property name="icon">
-      <iconset resource="../powermeter.qrc">
-       <normaloff>:/images/fonts/tachometer-alt.svg</normaloff>:/images/fonts/tachometer-alt.svg</iconset>
      </property>
     </item>
     <item>

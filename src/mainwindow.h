@@ -22,6 +22,8 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    static const int NUMDEIFS = 3;
+
 private slots:
     void setStackIndex(int index);
 
@@ -43,7 +45,7 @@ private:
     QString iniPathFileName;
 
     TopFrame* topf;
-    ModbusFrame* mbf;
+    ModbusFrame* mbf[NUMDEIFS];
     SQLFrame* sqlf;
     LoggingFrame* logf;
     BackendHandler* backend;
