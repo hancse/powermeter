@@ -16,6 +16,8 @@ ModbusFrame::ModbusFrame(QWidget *parent) :
     ui(new Ui::ModbusFrame)
 {
     ui->setupUi(this);
+    strpf = new StripFrameTriple(this);
+    strpf->move(550,0);
 
     deif = new DEIFModbus(this);
 ;

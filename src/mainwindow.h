@@ -22,7 +22,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    static const int NUMDEIFS = 3;
+    static const int NUMDEIFS = 4;
 
 private slots:
     void setStackIndex(int index);

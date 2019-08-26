@@ -165,7 +165,7 @@ void MainWindow::populateStack()
 
     for (int n = 0; n < NUMDEIFS; n++) {
         mbf[n] = new ModbusFrame();
-        ui->stackedWidget->addWidget(mbf[n]);  //1,2,3
+        ui->stackedWidget->addWidget(mbf[n]);  //1,2,3,4
     }
 
     sqlf = new SQLFrame();

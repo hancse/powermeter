@@ -2,6 +2,7 @@
 #define MODBUSFRAME_H
 
 #include <QFrame>
+#include "commonsrc/stripframetriple.h"
 
 #include "commonsrc/serialdialog.h"
 #include "commonsrc/tcpdialog.h"
@@ -45,6 +46,7 @@ private:
 
     SerialDialog* sd;
     TcpDialog* tcpd;
+    StripFrameTriple* strpf;
 
     void displayData();
     void readDEIF();

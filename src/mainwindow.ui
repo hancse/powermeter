@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>740</height>
+    <width>1121</width>
+    <height>741</height>
    </rect>
   </property>
   <property name="font">
@@ -29,7 +29,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>91</width>
+      <width>98</width>
       <height>600</height>
      </rect>
     </property>
@@ -62,7 +62,7 @@
     </item>
     <item>
      <property name="text">
-      <string>     Modbus 0     </string>
+      <string>     Modbus 0   </string>
      </property>
      <property name="icon">
       <iconset resource="../powermeter.qrc">
@@ -71,7 +71,7 @@
     </item>
     <item>
      <property name="text">
-      <string>     Modbus 1     </string>
+      <string>     Modbus 1    </string>
      </property>
      <property name="icon">
       <iconset resource="../powermeter.qrc">
@@ -80,7 +80,7 @@
     </item>
     <item>
      <property name="text">
-      <string>     Modbus 2     </string>
+      <string>     Modbus 2   </string>
      </property>
      <property name="icon">
       <iconset resource="../powermeter.qrc">
@@ -89,7 +89,16 @@
     </item>
     <item>
      <property name="text">
-      <string>     Database          </string>
+      <string>     Modbus 3   </string>
+     </property>
+     <property name="icon">
+      <iconset resource="../powermeter.qrc">
+       <normaloff>:/images/images/MIC-2 MKII.png</normaloff>:/images/images/MIC-2 MKII.png</iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    Database    </string>
      </property>
      <property name="font">
       <font>
@@ -103,7 +112,7 @@
     </item>
     <item>
      <property name="text">
-      <string>       Logging       </string>
+      <string>     Logging      </string>
      </property>
      <property name="icon">
       <iconset resource="../powermeter.qrc">
@@ -125,7 +134,7 @@
      <rect>
       <x>110</x>
       <y>10</y>
-      <width>900</width>
+      <width>1000</width>
       <height>600</height>
      </rect>
     </property>
@@ -214,7 +223,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>1121</width>
      <height>21</height>
     </rect>
    </property>
