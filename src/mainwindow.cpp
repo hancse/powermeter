@@ -148,6 +148,9 @@ void MainWindow::setStackIndex(int index)
         ui->stackedWidget->setCurrentIndex(index);
         break;
     case 6:
+        ui->stackedWidget->setCurrentIndex(index);
+        break;
+    case 7:
         qApp->quit();
         break;
     }
@@ -169,10 +172,10 @@ void MainWindow::populateStack()
     }
 
     sqlf = new SQLFrame();
-    ui->stackedWidget->addWidget(sqlf);  //4
+    ui->stackedWidget->addWidget(sqlf);  //5
 
     logf = new LoggingFrame();
-    ui->stackedWidget->addWidget(logf);  //5
+    ui->stackedWidget->addWidget(logf);  //6
 
     qDebug() << "# pages:" <<ui->stackedWidget->count();
 }

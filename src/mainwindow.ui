@@ -62,7 +62,7 @@
     </item>
     <item>
      <property name="text">
-      <string>     Modbus 0   </string>
+      <string>         GRID         </string>
      </property>
      <property name="icon">
       <iconset resource="../powermeter.qrc">
@@ -71,7 +71,7 @@
     </item>
     <item>
      <property name="text">
-      <string>     Modbus 1    </string>
+      <string>            PV           </string>
      </property>
      <property name="icon">
       <iconset resource="../powermeter.qrc">
@@ -80,7 +80,7 @@
     </item>
     <item>
      <property name="text">
-      <string>     Modbus 2   </string>
+      <string>      BATTERY      </string>
      </property>
      <property name="icon">
       <iconset resource="../powermeter.qrc">
@@ -89,7 +89,7 @@
     </item>
     <item>
      <property name="text">
-      <string>     Modbus 3   </string>
+      <string>         LOAD         </string>
      </property>
      <property name="icon">
       <iconset resource="../powermeter.qrc">

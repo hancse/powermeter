@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
+    <width>1000</width>
     <height>600</height>
    </rect>
   </property>
@@ -22,7 +22,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>70</x>
      <y>20</y>
      <width>840</width>
      <height>520</height>
@@ -38,11 +38,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QGroupBox" name="gbPV">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>30</y>
+     <y>20</y>
      <width>211</width>
      <height>141</height>
     </rect>
@@ -203,17 +203,17 @@ color: lime;</string>
     </layout>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_2">
+  <widget class="QGroupBox" name="gbLoad">
    <property name="geometry">
     <rect>
-     <x>650</x>
+     <x>750</x>
      <y>340</y>
      <width>211</width>
      <height>141</height>
     </rect>
    </property>
    <property name="title">
-    <string>Load</string>
+    <string>LOAD</string>
    </property>
    <widget class="QWidget" name="layoutWidget_3">
     <property name="geometry">
@@ -368,7 +368,7 @@ color: lime;</string>
     </layout>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_3">
+  <widget class="QGroupBox" name="gbGrid">
    <property name="geometry">
     <rect>
      <x>560</x>
@@ -378,7 +378,7 @@ color: lime;</string>
     </rect>
    </property>
    <property name="title">
-    <string>Grid</string>
+    <string>GRID</string>
    </property>
    <widget class="QWidget" name="layoutWidget_4">
     <property name="geometry">
@@ -533,17 +533,17 @@ color: lime;</string>
     </layout>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_4">
+  <widget class="QGroupBox" name="gbBat">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>430</y>
+     <x>160</x>
+     <y>420</y>
      <width>211</width>
      <height>141</height>
     </rect>
    </property>
    <property name="title">
-    <string>Battery</string>
+    <string>BATTERY</string>
    </property>
    <widget class="QWidget" name="layoutWidget_5">
     <property name="geometry">
