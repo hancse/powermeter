@@ -54,7 +54,7 @@ public:
 
     struct PortParameters {
         QString name;
-        qint32 baudRate = QSerialPort::Baud19200;
+        qint32 baudRate = QSerialPort::Baud38400;
         QString stringBaudRate;
         QSerialPort::DataBits dataBits = QSerialPort::Data8;
         QString stringDataBits;

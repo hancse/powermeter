@@ -125,9 +125,9 @@ void StripFrameTriple::setupPlot()
         timeDT[0] = dt;
     }
 // optionally, setup a timer that repeatedly calls realTimeDummySlot:
-    connect(dataTimer, &QTimer::timeout,
-           this, &StripFrameTriple::realTimeDummySlot);
-    dataTimer->start(1000);
+    //connect(dataTimer, &QTimer::timeout,
+      //     this, &StripFrameTriple::realTimeDummySlot);
+    dataTimer->start(2000);
 }
 
 void StripFrameTriple::realTimeDummySlot()

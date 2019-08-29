@@ -60,6 +60,12 @@ void ModbusFrame::displayData()
     ui->lblPower2->setText(QString("%1 W").arg(a.phaseL2Power));
     ui->lblPower3->setText(QString("%1 W").arg(a.phaseL3Power));
     ui->lblTotalEnergy->setText(QString("%1 kWh").arg(a.systemPower));
+
+    QDateTime dt = QDateTime::currentDateTime();
+    this->strpf->realTimeSlot(0, dt, a.phaseVoltage1);
+    this->strpf->realTimeSlot(1, dt, a.phaseCurrent1);
+    this->strpf->realTimeSlot(2, dt, a.phaseL1Power);
+
 }
 
 void ModbusFrame::connectRTU()
@@ -245,5 +251,5 @@ void ModbusFrame::on_writeTable_currentIndexChanged(int index)
 
 void ModbusFrame::on_checkAuto_clicked(bool checked)
 {
-    (checked) ? deif->deifTimer->start(1000) : deif->deifTimer->stop();
+    (checked) ? deif->deifTimer->start(2000) : deif->deifTimer->stop();
 }

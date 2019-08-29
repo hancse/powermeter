@@ -175,7 +175,7 @@ void SerialDialog::fillPortsInfo()
 void SerialDialog::updateParameters()
 {
     cp.name = ui->cbSerialPortInfo->currentText();
-    ui->cbBaud->setCurrentIndex(1);
+    ui->cbBaud->setCurrentIndex(2);
 
     if (ui->cbBaud->currentIndex() == 5) {
         cp.baudRate = ui->cbBaud->currentText().toInt();
