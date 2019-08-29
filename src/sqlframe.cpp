@@ -17,8 +17,8 @@ SQLFrame::SQLFrame(QWidget *parent) :
     ui(new Ui::SQLFrame)
 {
     ui->setupUi(this);
-    plf = new PlotFrame2(this);
-    plf->move(450,0);
+    //plf = new PlotFrame2(this);
+    //plf->move(450,0);
 
     ui->leInput->setValidator(new QIntValidator(ui->leInput));
 

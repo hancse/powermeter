@@ -2,7 +2,7 @@
 #define SQLFRAME_H
 
 #include <QFrame>
-#include "commonsrc/plotframe2.h"
+//#include "commonsrc/plotframe2.h"
 #include "thirdparty/json-develop/single_include/nlohmann/json.hpp"
 
 namespace Ui {
@@ -44,7 +44,7 @@ private slots:
 
 private:
     Ui::SQLFrame *ui;
-    PlotFrame2* plf;
+    //PlotFrame2* plf;
     void DatabaseTest();
     json msg2db;
 };

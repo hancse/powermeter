@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT       += serialport serialbus sql printsupport network
+QT       += serialport serialbus sql network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -45,9 +45,7 @@ SOURCES += \
     src/deifmodbus.cpp \
     src/sqlframe.cpp \
     commonsrc/loggingframe.cpp \
-    commonsrc/plotframe2.cpp \
-    src/topframe.cpp \
-    thirdparty/QCustomPlot200/qcustomplot.cpp
+    src/topframe.cpp
 
 HEADERS += \
     commonsrc/aboutdialog.h \
@@ -61,9 +59,7 @@ HEADERS += \
     src/deifmodbus.h \
     src/sqlframe.h \
     commonsrc/loggingframe.h \
-    commonsrc/plotframe2.h \
-    src/topframe.h \
-    thirdparty/QCustomPlot200/qcustomplot.h
+    src/topframe.h
 
 FORMS += \
     commonsrc/aboutdialog.ui \
@@ -74,7 +70,6 @@ FORMS += \
     src/modbusframe.ui \
     src/sqlframe.ui \
     commonsrc/loggingframe.ui \
-    commonsrc/plotframe2.ui \
     src/topframe.ui
 
 # Default rules for deployment.
