@@ -48,7 +48,7 @@ ModbusFrame::~ModbusFrame()
 
 void ModbusFrame::displayData()
 {
-    Mk2AnalogParams a = deif->getAp();
+    Mk2AnalogParams a = deif->getMk2Ap();
     ui->lblFreq->setText(QString("%1 Hz").arg(a.freq));
     ui->lblV1->setText(QString("%1 V").arg(a.phaseVoltage1));
     ui->lblV2->setText(QString("%1 V").arg(a.phaseVoltage2));
@@ -177,7 +177,7 @@ void ModbusFrame::on_readButton_clicked()
     //readDEIF();
     deif->readDEIF(ui->writeTable->currentData().toInt(),
                    ui->serverEdit->value(),
-                   METER_PARAM_BASE_ADDRESS,
+                   MK2_ANALOG_BASE_ADDRESS,
                    18);
     //deif->readDEIF(deif->getServerAddress(), ui->writeTable->currentData().toInt());
 }

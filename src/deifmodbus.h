@@ -22,8 +22,8 @@ public:
 
     void readDEIF(int regType, int serverAddress, int StartAddress, int numberOfEntries);
 
-    Mk2AnalogParams getAp() const;
-    void RegsToAp(QModbusDataUnit du);
+    Mk2AnalogParams getMk2Ap() const;
+    void RegsToMk2Ap(QModbusDataUnit du);
 
     void readAll();
     //QModbusDataUnit DEIFReadRequest(int startAddress, quint16 numEntries) const;
@@ -40,8 +40,12 @@ private:
     //QModbusReply* lastRequest;
     //QModbusClient* modbusDevice;
 
-    Mk2AnalogParams ap;
-    Mk2EnergyMeasurement em;
+    bool isMK2 = false;
+
+    MicAnalogParams micap;
+    MicEnergyMeasurement micem;
+    Mk2AnalogParams mk2ap;
+    Mk2EnergyMeasurement mk2em;
     int serverAddress = -1;
 
     //QModbusDataUnit readRequest(int regType, int startAddress, int numberOfEntries) const;
@@ -52,7 +56,7 @@ private:
     double RegistersToDouble(quint16 highWord, quint16 lowWord);
 
     void readReady();
-    void RegsToEm(QModbusDataUnit du);
+    void RegsToMk2Em(QModbusDataUnit du);
     quint32 RegistersToDWord(quint16 highWord, quint16 lowWord);
 };
 

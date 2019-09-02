@@ -35,11 +35,11 @@ void DEIFModbus::readReady()
         }
 
         switch (unit.startAddress()) {
-        case METER_PARAM_BASE_ADDRESS:
-            RegsToAp(unit);
+        case MK2_ANALOG_BASE_ADDRESS:
+            RegsToMk2Ap(unit);
             break;
-        case RT_ENERGY_BASE_ADDRESS:
-            RegsToEm(unit);
+        case MK2_ENERGY_BASE_ADDRESS:
+            RegsToMk2Em(unit);
             break;
         default:
             break;
@@ -119,43 +119,43 @@ void DEIFModbus::readAll()
 
 }
 
-void DEIFModbus::RegsToAp(QModbusDataUnit du)
+void DEIFModbus::RegsToMk2Ap(QModbusDataUnit du)
 {
-    ap.freq = RegistersToDouble(du.value(0), du.value(1));
+    mk2ap.freq = RegistersToDouble(du.value(0), du.value(1));
 
-    ap.phaseVoltage1 = RegistersToDouble(du.value(2), du.value(3));
-    ap.phaseVoltage2 = RegistersToDouble(du.value(4), du.value(5));
-    ap.phaseVoltage3 = RegistersToDouble(du.value(6), du.value(7));
-    ap.avgVoltage = RegistersToDouble(du.value(8), du.value(9));
+    mk2ap.phaseVoltage1 = RegistersToDouble(du.value(2), du.value(3));
+    mk2ap.phaseVoltage2 = RegistersToDouble(du.value(4), du.value(5));
+    mk2ap.phaseVoltage3 = RegistersToDouble(du.value(6), du.value(7));
+    mk2ap.avgVoltage = RegistersToDouble(du.value(8), du.value(9));
 
-    ap.phaseCurrent1 = RegistersToDouble(du.value(18), du.value(19));
-    ap.phaseCurrent2 = RegistersToDouble(du.value(20), du.value(21));
-    ap.phaseCurrent3 = RegistersToDouble(du.value(22), du.value(23));
+    mk2ap.phaseCurrent1 = RegistersToDouble(du.value(18), du.value(19));
+    mk2ap.phaseCurrent2 = RegistersToDouble(du.value(20), du.value(21));
+    mk2ap.phaseCurrent3 = RegistersToDouble(du.value(22), du.value(23));
     //ap.avgCurrent = RegistersToDouble(du.value(24), du.value(25));
 
-    ap.phaseL1Power = RegistersToDouble(du.value(28), du.value(29));
-    ap.phaseL2Power = RegistersToDouble(du.value(30), du.value(31));
-    ap.phaseL3Power = RegistersToDouble(du.value(32), du.value(33));
-    ap.systemPower = RegistersToDouble(du.value(34), du.value(35));
+    mk2ap.phaseL1Power = RegistersToDouble(du.value(28), du.value(29));
+    mk2ap.phaseL2Power = RegistersToDouble(du.value(30), du.value(31));
+    mk2ap.phaseL3Power = RegistersToDouble(du.value(32), du.value(33));
+    mk2ap.systemPower = RegistersToDouble(du.value(34), du.value(35));
 
     qDebug() << du.valueCount() << du.value(0) << du.value(1) << endl
-             << "Phase Voltage: " << ap.phaseVoltage1 << ap.phaseVoltage2 << ap.phaseVoltage3 << ap.avgVoltage << endl
-             << "Current: " << ap.phaseCurrent1 << ap.phaseCurrent2 << ap.phaseCurrent3 << endl
-             << "PhaseL Power: " << ap.phaseL1Power << ap.phaseL2Power << ap.phaseL3Power << endl
-             << "System power: " << ap.systemPower << endl
-             << "Freq: " << ap.freq;
+             << "Phase Voltage: " << mk2ap.phaseVoltage1 << mk2ap.phaseVoltage2 << mk2ap.phaseVoltage3 << mk2ap.avgVoltage << endl
+             << "Current: " << mk2ap.phaseCurrent1 << mk2ap.phaseCurrent2 << mk2ap.phaseCurrent3 << endl
+             << "PhaseL Power: " << mk2ap.phaseL1Power << mk2ap.phaseL2Power << mk2ap.phaseL3Power << endl
+             << "System power: " << mk2ap.systemPower << endl
+             << "Freq: " << mk2ap.freq;
     emit dataReady();
 }
 
-void DEIFModbus::RegsToEm(QModbusDataUnit du)
+void DEIFModbus::RegsToMk2Em(QModbusDataUnit du)
 {
-    em.energyTotal = RegistersToDWord(du.value(16), du.value(17));
+    mk2em.energyTotal = RegistersToDWord(du.value(16), du.value(17));
 
 
     qDebug() << du.valueCount()
              <<  du.value(16) << du.value(17)
              << du.value(18) << du.value(19)
-             << "Total Energy: " << em.energyTotal;
+             << "Total Energy: " << mk2em.energyTotal;
 
     emit dataReady();
 }
@@ -181,9 +181,9 @@ double DEIFModbus::ByteArrayToDouble(QByteArray ba, double defaultValue = 0.0)
 
 //=======Getters and Setters===================================================
 
-Mk2AnalogParams DEIFModbus::getAp() const
+Mk2AnalogParams DEIFModbus::getMk2Ap() const
 {
-    return ap;
+    return mk2ap;
 }
 
 int DEIFModbus::getServerAddress() const
