@@ -127,22 +127,22 @@ void DEIFModbus::readAll()
 
 void DEIFModbus::RegsToMicAp(QModbusDataUnit du)
 {
-    micap.freq = RegistersToDouble(du.value(0), du.value(1));
+    micap.freq = du.value(0)/ 100.0;
 
-    micap.phaseVoltage1 = RegistersToDouble(du.value(2), du.value(3));
-    micap.phaseVoltage2 = RegistersToDouble(du.value(4), du.value(5));
-    micap.phaseVoltage3 = RegistersToDouble(du.value(6), du.value(7));
-    micap.avgVoltage = RegistersToDouble(du.value(8), du.value(9));
+    micap.phaseVoltage1 = du.value(1) / 10.0;
+    micap.phaseVoltage2 = du.value(2) / 10.0;
+    micap.phaseVoltage3 = du.value(3) / 10.0;
+    micap.avgVoltage =    du.value(4) / 10.0;
 
-    micap.phaseCurrent1 = RegistersToDouble(du.value(18), du.value(19));
-    micap.phaseCurrent2 = RegistersToDouble(du.value(20), du.value(21));
-    micap.phaseCurrent3 = RegistersToDouble(du.value(22), du.value(23));
-    //micap.avgCurrent = RegistersToDouble(du.value(24), du.value(25));
+    micap.phaseCurrent1 = du.value(9) / 1000.0;
+    micap.phaseCurrent2 = du.value(10) / 1000.0;
+    micap.phaseCurrent3 = du.value(11) / 1000.0;
+    micap.avgCurrent = du.value(12) / 1000.0;
 
-    micap.phaseL1Power = RegistersToDouble(du.value(28), du.value(29));
-    micap.phaseL2Power = RegistersToDouble(du.value(30), du.value(31));
-    micap.phaseL3Power = RegistersToDouble(du.value(32), du.value(33));
-    micap.systemPower = RegistersToDouble(du.value(34), du.value(35));
+    micap.phaseL1Power = du.value(14) / 5.0;
+    micap.phaseL2Power = du.value(15) / 5.0;
+    micap.phaseL3Power = du.value(16) / 5.0;
+    micap.systemPower = du.value(17) / 5.0;
 
     qDebug() << du.valueCount() << du.value(0) << du.value(1) << endl
              << "Phase Voltage: " << micap.phaseVoltage1
@@ -162,12 +162,10 @@ void DEIFModbus::RegsToMicAp(QModbusDataUnit du)
 
 void DEIFModbus::RegsToMicEm(QModbusDataUnit du)
 {
-    micem.energyTotal = RegistersToDWord(du.value(16), du.value(17));
-
+    micem.energyTotal = RegistersToDWord(du.value(8), du.value(9)) / 10.0;
 
     qDebug() << du.valueCount()
-             <<  du.value(16) << du.value(17)
-             << du.value(18) << du.value(19)
+             << du.value(8) << du.value(9)
              << "Total Energy: " << micem.energyTotal;
 
     emit dataReady();
@@ -204,7 +202,6 @@ void DEIFModbus::RegsToMk2Ap(QModbusDataUnit du)
 void DEIFModbus::RegsToMk2Em(QModbusDataUnit du)
 {
     mk2em.energyTotal = RegistersToDWord(du.value(16), du.value(17));
-
 
     qDebug() << du.valueCount()
              <<  du.value(16) << du.value(17)
