@@ -35,6 +35,12 @@ void DEIFModbus::readReady()
         }
 
         switch (unit.startAddress()) {
+        case MIC_ANALOG_BASE_ADDRESS:
+            RegsToMicAp(unit);
+            break;
+        case MIC_ENERGY_BASE_ADDRESS:
+            RegsToMicEm(unit);
+            break;
         case MK2_ANALOG_BASE_ADDRESS:
             RegsToMk2Ap(unit);
             break;
@@ -119,6 +125,54 @@ void DEIFModbus::readAll()
 
 }
 
+void DEIFModbus::RegsToMicAp(QModbusDataUnit du)
+{
+    micap.freq = RegistersToDouble(du.value(0), du.value(1));
+
+    micap.phaseVoltage1 = RegistersToDouble(du.value(2), du.value(3));
+    micap.phaseVoltage2 = RegistersToDouble(du.value(4), du.value(5));
+    micap.phaseVoltage3 = RegistersToDouble(du.value(6), du.value(7));
+    micap.avgVoltage = RegistersToDouble(du.value(8), du.value(9));
+
+    micap.phaseCurrent1 = RegistersToDouble(du.value(18), du.value(19));
+    micap.phaseCurrent2 = RegistersToDouble(du.value(20), du.value(21));
+    micap.phaseCurrent3 = RegistersToDouble(du.value(22), du.value(23));
+    //micap.avgCurrent = RegistersToDouble(du.value(24), du.value(25));
+
+    micap.phaseL1Power = RegistersToDouble(du.value(28), du.value(29));
+    micap.phaseL2Power = RegistersToDouble(du.value(30), du.value(31));
+    micap.phaseL3Power = RegistersToDouble(du.value(32), du.value(33));
+    micap.systemPower = RegistersToDouble(du.value(34), du.value(35));
+
+    qDebug() << du.valueCount() << du.value(0) << du.value(1) << endl
+             << "Phase Voltage: " << micap.phaseVoltage1
+                                  << micap.phaseVoltage2
+                                  << micap.phaseVoltage3
+                                  << micap.avgVoltage << endl
+             << "Current: " << micap.phaseCurrent1
+                            << micap.phaseCurrent2
+                            << micap.phaseCurrent3 << endl
+             << "PhaseL Power: " << micap.phaseL1Power
+                                 << micap.phaseL2Power
+                                 << micap.phaseL3Power << endl
+             << "System power: " << micap.systemPower << endl
+             << "Freq: " << micap.freq;
+    emit dataReady();
+}
+
+void DEIFModbus::RegsToMicEm(QModbusDataUnit du)
+{
+    micem.energyTotal = RegistersToDWord(du.value(16), du.value(17));
+
+
+    qDebug() << du.valueCount()
+             <<  du.value(16) << du.value(17)
+             << du.value(18) << du.value(19)
+             << "Total Energy: " << micem.energyTotal;
+
+    emit dataReady();
+}
+
 void DEIFModbus::RegsToMk2Ap(QModbusDataUnit du)
 {
     mk2ap.freq = RegistersToDouble(du.value(0), du.value(1));
@@ -194,6 +248,16 @@ int DEIFModbus::getServerAddress() const
 void DEIFModbus::setServerAddress(int value)
 {
     serverAddress = value;
+}
+
+bool DEIFModbus::getIsMK2() const
+{
+    return isMK2;
+}
+
+void DEIFModbus::setIsMK2(bool value)
+{
+    isMK2 = value;
 }
 
 //=======================================================================

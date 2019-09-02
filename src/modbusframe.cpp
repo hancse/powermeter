@@ -175,11 +175,19 @@ void ModbusFrame::onStateChanged(int state)
 void ModbusFrame::on_readButton_clicked()
 {
     //readDEIF();
-    deif->readDEIF(ui->writeTable->currentData().toInt(),
-                   ui->serverEdit->value(),
-                   MK2_ANALOG_BASE_ADDRESS,
-                   18);
-    //deif->readDEIF(deif->getServerAddress(), ui->writeTable->currentData().toInt());
+    if ( deif->getIsMK2() ) {
+        deif->readDEIF(ui->writeTable->currentData().toInt(),
+                       ui->serverEdit->value(),
+                       MK2_ANALOG_BASE_ADDRESS,
+                       18);
+        //deif->readDEIF(deif->getServerAddress(), ui->writeTable->currentData().toInt());
+    } else {
+        deif->readDEIF(ui->writeTable->currentData().toInt(),
+                       ui->serverEdit->value(),
+                       MIC_ANALOG_BASE_ADDRESS,
+                       18);
+    }
+
 }
 
 void ModbusFrame::on_writeButton_clicked()
