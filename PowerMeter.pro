@@ -51,7 +51,8 @@ HEADERS += \
     commonsrc/aboutdialog.h \
     commonsrc/stripframetriple.h \
     src/backendhandler.h \
-    src/deifregisters.h \
+    src/deifmicregisters.h \
+    src/deifmk2registers.h \
         src/mainwindow.h \
     commonsrc/serialdialog.h \
     commonsrc/tcpdialog.h \

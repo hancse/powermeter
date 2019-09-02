@@ -5,7 +5,8 @@
 #include <QModbusClient>
 #include <QTimer>
 
-#include "deifregisters.h"
+#include "deifmicregisters.h"
+#include "deifmk2registers.h"
 
 class DEIFModbus : public QObject
 {
@@ -21,7 +22,7 @@ public:
 
     void readDEIF(int regType, int serverAddress, int StartAddress, int numberOfEntries);
 
-    AnalogParams getAp() const;
+    Mk2AnalogParams getAp() const;
     void RegsToAp(QModbusDataUnit du);
 
     void readAll();
@@ -39,8 +40,8 @@ private:
     //QModbusReply* lastRequest;
     //QModbusClient* modbusDevice;
 
-    AnalogParams ap;
-    EnergyMeasurement em;
+    Mk2AnalogParams ap;
+    Mk2EnergyMeasurement em;
     int serverAddress = -1;
 
     //QModbusDataUnit readRequest(int regType, int startAddress, int numberOfEntries) const;

@@ -48,7 +48,7 @@ ModbusFrame::~ModbusFrame()
 
 void ModbusFrame::displayData()
 {
-    AnalogParams a = deif->getAp();
+    Mk2AnalogParams a = deif->getAp();
     ui->lblFreq->setText(QString("%1 Hz").arg(a.freq));
     ui->lblV1->setText(QString("%1 V").arg(a.phaseVoltage1));
     ui->lblV2->setText(QString("%1 V").arg(a.phaseVoltage2));

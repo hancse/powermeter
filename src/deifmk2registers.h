@@ -1,5 +1,5 @@
-#ifndef DEIFREGISTERS_H
-#define DEIFREGISTERS_H
+#ifndef DEIFMK2REGISTERS_H
+#define DEIFMK2REGISTERS_H
 
 #include <QModbusClient>
 
@@ -8,7 +8,7 @@
 // 0x4000 = 16384 dec
 // 0x4048 = 16456 dec
 
-struct SysParams {  //@address 0x3000
+struct Mk2SysParams {  //@address 0x3000
     uint16_t passwd;
     uint16_t mbAddress;
     uint16_t mbAaddress;
@@ -18,7 +18,7 @@ struct SysParams {  //@address 0x3000
     uint16_t lcdTime;
 };
 
-struct SysStatus {  //@address 0x3000
+struct Mk2SysStatus {  //@address 0x3000
     uint16_t passwd;
     uint16_t mbAddress;
     uint16_t mbAaddress;
@@ -28,7 +28,7 @@ struct SysStatus {  //@address 0x3000
     uint16_t lcdTime;
 };
 
-struct MeterParams {  //@address 0x3000
+struct Mk2MeterParams {  //@address 0x3000
     double freq;
     double phaseVoltage1;
     double phaseVoltage2;
@@ -64,7 +64,7 @@ struct MeterParams {  //@address 0x3000
     //double systemPF;
 };
 
-struct AnalogParams {  //@address 0x4000
+struct Mk2AnalogParams {  //@address 0x4000
     double freq;
 
     double phaseVoltage1;
@@ -108,7 +108,7 @@ struct AnalogParams {  //@address 0x4000
     //double apptPowerDemand;
 };
 
-struct EnergyMeasurement {  //@address 0x4048
+struct Mk2EnergyMeasurement {  //@address 0x4048
     //Energy IMP F4/F7 0~999999999 dword R/W
     //Energy EXP F4/F7 0~999999999 dword R/W
     //Reactive energy IMP F5/F8 0~999999999 dword R/W
@@ -120,25 +120,14 @@ struct EnergyMeasurement {  //@address 0x4048
    // Apparent energy F6/F9 0~999999999 dword R/W
 };
 
-
-// Mk I Modbus registers
-//const int SYSTEM_PARAMS_BASE_ADDRESS = 0x1000;
-//const int DATE_TIME_BASE_ADDRESS = 0x1040;
-//const int LIMIT_ALARM_BASE_ADDRESS = 0x1046;
-const int METER_PARAM_BASE_ADDRESS = 0x0130;
-//const int BASIC_ANALOG_BASE_ADDRESS = 0x4000;
-const int RT_ENERGY_BASE_ADDRESS = 0x4048;
-//const int HARMONICS_BASE_ADDRESS = 0x405A;
-//const int MIN_MAX_BASE_ADDRESS = 0x4136;
-
 // Mk II Modbus registers
-const int MKII_SYSTEM_PARAMS_BASE_ADDRESS = 0x1000;
-const int MKII_DATE_TIME_BASE_ADDRESS = 0x1040;
-const int MKII_LIMIT_ALARM_BASE_ADDRESS = 0x1046;
-const int MKII_METER_PARAM_BASE_ADDRESS = 0x3000;
-const int MKII_BASIC_ANALOG_BASE_ADDRESS = 0x4000;
-const int MKII_RT_ENERGY_BASE_ADDRESS = 0x4048;
-const int MKII_HARMONICS_BASE_ADDRESS = 0x405A;
-const int MKII_MIN_MAX_BASE_ADDRESS = 0x4136;
+const int MK2_SYSTEM_PARAMS_BASE_ADDRESS = 0x1000;
+const int MK2_DATE_TIME_BASE_ADDRESS = 0x1040;
+const int MK2_LIMIT_ALARM_BASE_ADDRESS = 0x1046;
+const int MK2_METER_PARAM_BASE_ADDRESS = 0x3000;
+const int MK2_BASIC_ANALOG_BASE_ADDRESS = 0x4000;
+const int MK2_RT_ENERGY_BASE_ADDRESS = 0x4048;
+const int MK2_HARMONICS_BASE_ADDRESS = 0x405A;
+const int MK2_MIN_MAX_BASE_ADDRESS = 0x4136;
 
-#endif // DEIFREGISTERS_H
+#endif // DEIFMK2REGISTERS_H

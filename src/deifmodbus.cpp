@@ -181,7 +181,7 @@ double DEIFModbus::ByteArrayToDouble(QByteArray ba, double defaultValue = 0.0)
 
 //=======Getters and Setters===================================================
 
-AnalogParams DEIFModbus::getAp() const
+Mk2AnalogParams DEIFModbus::getAp() const
 {
     return ap;
 }

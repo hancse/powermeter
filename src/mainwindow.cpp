@@ -96,7 +96,7 @@ void MainWindow::displayAllMeas()
     timestamp.setTimeZone(QTimeZone::utc());
     qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
 
-    AnalogParams ap = mbf[0]->deif->getAp();
+    Mk2AnalogParams ap = mbf[0]->deif->getAp();
 
     QString strmsg = "{ ";
     strmsg.append( QString("\"phaseVoltageL1\": %1,").arg(ap.phaseVoltage1, 0, 'f', 1) );
