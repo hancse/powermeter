@@ -96,18 +96,19 @@ void MainWindow::displayAllMeas()
     timestamp.setTimeZone(QTimeZone::utc());
     qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
 
-    Mk2AnalogParams mk2ap = mbf[0]->deif->getMk2Ap();
+    //Mk2AnalogParams ap = mbf[0]->deif->getMk2Ap();
+    MicAnalogParams ap = mbf[0]->deif->getMicap();
 
     QString strmsg = "{ ";
-    strmsg.append( QString("\"phaseVoltageL1\": %1,").arg(mk2ap.phaseVoltage1, 0, 'f', 1) );
-    strmsg.append( QString("\"phaseVoltageL2\": %1,").arg(mk2ap.phaseVoltage2, 0, 'f', 1) );
-    strmsg.append( QString("\"phaseVoltageL3\": %1,").arg(mk2ap.phaseVoltage3, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL1\": %1,").arg(mk2ap.phaseCurrent1, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL2\": %1,").arg(mk2ap.phaseCurrent2, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL3\": %1,").arg(mk2ap.phaseCurrent3, 0, 'f', 1) );
-    strmsg.append( QString("\"power\": %1,").arg(mk2ap.systemPower, 0, 'f', 1) );
+    strmsg.append( QString("\"phaseVoltageL1\": %1,").arg(ap.phaseVoltage1, 0, 'f', 1) );
+    strmsg.append( QString("\"phaseVoltageL2\": %1,").arg(ap.phaseVoltage2, 0, 'f', 1) );
+    strmsg.append( QString("\"phaseVoltageL3\": %1,").arg(ap.phaseVoltage3, 0, 'f', 1) );
+    strmsg.append( QString("\"currentL1\": %1,").arg(ap.phaseCurrent1, 0, 'f', 1) );
+    strmsg.append( QString("\"currentL2\": %1,").arg(ap.phaseCurrent2, 0, 'f', 1) );
+    strmsg.append( QString("\"currentL3\": %1,").arg(ap.phaseCurrent3, 0, 'f', 1) );
+    strmsg.append( QString("\"power\": %1,").arg(ap.systemPower, 0, 'f', 1) );
     //strmsg.append( QString("\"energy\": %1,").arg(mk2ap.energy, 0, 'f', 1) );
-    strmsg.append( QString("\"frequency\": %1,").arg(mk2ap.freq, 0, 'f', 1) );
+    strmsg.append( QString("\"frequency\": %1,").arg(ap.freq, 0, 'f', 1) );
     strmsg.append( QString("\"timestamp\": %1").arg(unixTimestamp) );
     strmsg.append( " }_json");
 
@@ -116,7 +117,7 @@ void MainWindow::displayAllMeas()
     qDebug() << bamsg;
 
     //backend->postRequest("", bamsg);
-    backend->postRequest("http://localhost:8080/sevci_backend_war/measurements", bamsg);
+    //backend->postRequest("http://localhost:8080/sevci_backend_war/measurements", bamsg);
 
     qDebug() << "POST done";
 }

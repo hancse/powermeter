@@ -31,22 +31,6 @@
    <property name="title">
     <string>Plot Controls</string>
    </property>
-   <widget class="QPushButton" name="btnDetach">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>30</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Detach</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btnClear">
     <property name="geometry">
      <rect>

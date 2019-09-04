@@ -33,6 +33,8 @@ public:
     bool getIsMK2() const;
     void setIsMK2(bool value);
 
+    MicAnalogParams getMicap() const;
+
 signals:
     void dataReady();
 
@@ -62,6 +64,7 @@ private:
     void RegsToMk2Ap(QModbusDataUnit du);
     void RegsToMk2Em(QModbusDataUnit du);
     quint32 RegistersToDWord(quint16 highWord, quint16 lowWord);
+    void readDummyAll();
 };
 
 #endif // DEIFMODBUS_H

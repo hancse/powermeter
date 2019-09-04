@@ -9,6 +9,7 @@ DEIFModbus::DEIFModbus(QObject *parent) :
 {
     deifTimer = new QTimer(this);
     //connect(deifTimer, &QTimer::timeout, this, &DEIFModbus::readAll);
+    connect(deifTimer, &QTimer::timeout, this, &DEIFModbus::readDummyAll);
 }
 
 DEIFModbus::~DEIFModbus()
@@ -123,6 +124,51 @@ quint32 DEIFModbus::RegistersToDWord(quint16 highWord, quint16 lowWord)
 void DEIFModbus::readAll()
 {
 
+}
+
+void DEIFModbus::readDummyAll()
+{
+    qDebug() << "read dummy data";
+    if ( isMK2) {
+        mk2ap.freq = 50.0;
+
+        mk2ap.phaseVoltage1 = 230.0;
+        mk2ap.phaseVoltage2 = 230.0;
+        mk2ap.phaseVoltage3 = 230.0;
+        mk2ap.avgVoltage =    230.0;
+
+        mk2ap.phaseCurrent1 = 20.0;
+        mk2ap.phaseCurrent2 = 20.0;
+        mk2ap.phaseCurrent3 = 20.0;
+        //mk2ap.avgCurrent = 20.0;
+
+        mk2ap.phaseL1Power = 5.0;
+        mk2ap.phaseL2Power = 5.0;
+        mk2ap.phaseL3Power = 5.0;
+        mk2ap.systemPower = 5.0;
+
+        mk2em.energyTotal = 100.0;
+    } else {
+        micap.freq = 50.0;
+
+        micap.phaseVoltage1 = 230.0;
+        micap.phaseVoltage2 = 230.0;
+        micap.phaseVoltage3 = 230.0;
+        micap.avgVoltage =    230.0;
+
+        micap.phaseCurrent1 = 20.0;
+        micap.phaseCurrent2 = 20.0;
+        micap.phaseCurrent3 = 20.0;
+        micap.avgCurrent = 20.0;
+
+        micap.phaseL1Power = 5.0;
+        micap.phaseL2Power = 5.0;
+        micap.phaseL3Power = 5.0;
+        micap.systemPower = 5.0;
+
+        micem.energyTotal = 100.0;
+    }
+    emit dataReady();
 }
 
 void DEIFModbus::RegsToMicAp(QModbusDataUnit du)
@@ -255,6 +301,11 @@ bool DEIFModbus::getIsMK2() const
 void DEIFModbus::setIsMK2(bool value)
 {
     isMK2 = value;
+}
+
+MicAnalogParams DEIFModbus::getMicap() const
+{
+    return micap;
 }
 
 //=======================================================================
