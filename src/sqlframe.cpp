@@ -24,7 +24,7 @@ SQLFrame::SQLFrame(QWidget *parent) :
 
 // -- DATABASE INIT --
     qDebug() << QSqlDatabase::drivers();
-    //DatabaseConnect();
+    DatabaseConnect();
     //DatabaseInit();
     //DatabasePopulate();
     DatabaseTest();
@@ -49,10 +49,14 @@ void SQLFrame::DatabaseConnect()
         db.setDatabaseName("sustainablecharging_nl_evcharging");
         //db.setHostName("ec2-54-208-101-222.compute-1.amazonaws.com");
         //db.setHostName("ec2-54-208-101-222.compute-1.amazonaws.com");
+        //db.setHostName("hannl-lmrt-db.mysql.database.azure.com");
         db.setHostName("hannl-lmrt-db.mysql.database.azure.com");
         db.setPort(3306);
-        db.setUserName("sevci-admin");
-        db.setPassword("canterbury");
+        //db.setPort(1433);
+        //db.setUserName("sevci-admin");
+        //db.setPassword("canterbury");
+        db.setUserName("myadmin@hannl-lmrt-db");
+        db.setPassword("Lmrt@2019");
 
         if(!db.open())
             qWarning() << "MainWindow::DatabaseConnect - ERROR: " << db.lastError().text();

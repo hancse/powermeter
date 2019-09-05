@@ -79,11 +79,11 @@ QByteArray BackendHandler::test_serialize()
 //https://gist.github.com/rla/3163550
 void BackendHandler::postRequest(QString ipName, QByteArray &postData)
 {
-    //ipName = "https://hannl-sustainablecharching-be-app.azurewebsites.net";
+    ipName = "https://hannl-sustainablecharching-be-app.azurewebsites.net";
 
     //ipName = "http://localhost:8080/sevci_backend_war/measurements";
     //Local Development URL (endpoint) when running the Java API
-    ipName = "http://localhost:8080/sevci-backend-2.0/measurements";
+    //ipName = "http://localhost:8080/sevci-backend-2.0/measurements";
 
     QUrl url = QUrl(ipName);
     QNetworkRequest request(url);
