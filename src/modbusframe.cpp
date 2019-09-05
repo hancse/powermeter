@@ -47,61 +47,34 @@ ModbusFrame::~ModbusFrame()
     delete ui;
 }
 
-void ModbusFrame::displayData()
+void ModbusFrame::displayData(int addr, UniversalAEParams ae)
 {
-    if ( deif->getIsMK2() ) {
-        Mk2AnalogParams a2 = deif->getMk2Ap();
-        ui->lblFreq->setText(QString("%1 Hz").arg(a2.freq));
-        ui->lblV1->setText(QString("%1 V").arg(a2.phaseVoltage1));
-        ui->lblV2->setText(QString("%1 V").arg(a2.phaseVoltage2));
-        ui->lblV3->setText(QString("%1 V").arg(a2.phaseVoltage3));
-        ui->lblCurr1->setText(QString("%1 A").arg(a2.phaseCurrent1));
-        ui->lblCurr2->setText(QString("%1 A").arg(a2.phaseCurrent2));
-        ui->lblCurr3->setText(QString("%1 A").arg(a2.phaseCurrent3));
-        ui->lblPower1->setText(QString("%1 W").arg(a2.phaseL1Power));
-        ui->lblPower2->setText(QString("%1 W").arg(a2.phaseL2Power));
-        ui->lblPower3->setText(QString("%1 W").arg(a2.phaseL3Power));
-        ui->lblTotalEnergy->setText(QString("%1 kWh").arg(a2.systemPower));
+    //UniversalAEParams ae = deif->getAep();
+    ui->lblFreq->setText(QString("%1 Hz").arg(ae.freq));
+    ui->lblV1->setText(QString("%1 V").arg(ae.phaseVoltage[1]));
+    ui->lblV2->setText(QString("%1 V").arg(ae.phaseVoltage[1]));
+    ui->lblV3->setText(QString("%1 V").arg(ae.phaseVoltage[2]));
+    ui->lblCurr1->setText(QString("%1 A").arg(ae.phaseCurrent[0]));
+    ui->lblCurr2->setText(QString("%1 A").arg(ae.phaseCurrent[1]));
+    ui->lblCurr3->setText(QString("%1 A").arg(ae.phaseCurrent[2]));
+    ui->lblPower1->setText(QString("%1 W").arg(ae.phaseLPower[0]));
+    ui->lblPower2->setText(QString("%1 W").arg(ae.phaseLPower[1]));
+    ui->lblPower3->setText(QString("%1 W").arg(ae.phaseLPower[2]));
+    ui->lblTotalEnergy->setText(QString("%1 kWh").arg(ae.systemPower));
 
-        QDateTime dt = QDateTime::currentDateTime();
-        QVector<double> yd;
-        yd.push_back(a2.phaseVoltage1);
-        yd.push_back(a2.phaseVoltage2);
-        yd.push_back(a2.phaseVoltage3);
-        yd.push_back(a2.phaseCurrent1);
-        yd.push_back(a2.phaseCurrent2);
-        yd.push_back(a2.phaseCurrent3);
-        yd.push_back(a2.phaseL1Power);
-        yd.push_back(a2.phaseL2Power);
-        yd.push_back(a2.phaseL3Power);
-        strpf->realTimeAllSlot(dt, yd, true);
-    } else {
-        MicAnalogParams a = deif->getMicap();
-        ui->lblFreq->setText(QString("%1 Hz").arg(a.freq));
-        ui->lblV1->setText(QString("%1 V").arg(a.phaseVoltage1));
-        ui->lblV2->setText(QString("%1 V").arg(a.phaseVoltage2));
-        ui->lblV3->setText(QString("%1 V").arg(a.phaseVoltage3));
-        ui->lblCurr1->setText(QString("%1 A").arg(a.phaseCurrent1));
-        ui->lblCurr2->setText(QString("%1 A").arg(a.phaseCurrent2));
-        ui->lblCurr3->setText(QString("%1 A").arg(a.phaseCurrent3));
-        ui->lblPower1->setText(QString("%1 W").arg(a.phaseL1Power));
-        ui->lblPower2->setText(QString("%1 W").arg(a.phaseL2Power));
-        ui->lblPower3->setText(QString("%1 W").arg(a.phaseL3Power));
-        ui->lblTotalEnergy->setText(QString("%1 kWh").arg(a.systemPower));
+    //QDateTime dt = QDateTime::currentDateTime();
 
-        QDateTime dt = QDateTime::currentDateTime();
-        QVector<double> yd;
-        yd.push_back(a.phaseVoltage1);
-        yd.push_back(a.phaseVoltage2);
-        yd.push_back(a.phaseVoltage3);
-        yd.push_back(a.phaseCurrent1);
-        yd.push_back(a.phaseCurrent2);
-        yd.push_back(a.phaseCurrent3);
-        yd.push_back(a.phaseL1Power);
-        yd.push_back(a.phaseL2Power);
-        yd.push_back(a.phaseL3Power);
-        strpf->realTimeAllSlot(dt, yd, true);
-    }
+    QVector<double> yd;
+    yd.push_back(ae.phaseVoltage[0]);
+    yd.push_back(ae.phaseVoltage[1]);
+    yd.push_back(ae.phaseVoltage[2]);
+    yd.push_back(ae.phaseCurrent[0]);
+    yd.push_back(ae.phaseCurrent[1]);
+    yd.push_back(ae.phaseCurrent[2]);
+    yd.push_back(ae.phaseLPower[0]);
+    yd.push_back(ae.phaseLPower[1]);
+    yd.push_back(ae.phaseLPower[2]);
+    strpf->realTimeAllSlot(ae.dt, yd, true);
 }
 
 void ModbusFrame::connectRTU()

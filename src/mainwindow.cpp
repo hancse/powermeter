@@ -62,14 +62,11 @@ MainWindow::~MainWindow()
  * @param timestamp: from load cell bridge measurement
  * @param ratio: from load cell
  */
-void MainWindow::displayAllMeas()
+void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
 {
-    //ratio = ratio - bf->bridge->getZeroRatio();
-    //double position = mf->pot->getPotmeterRatio();
     QDateTime timestamp = QDateTime(QDateTime::currentDateTime());
-    double ratio = 0.500;
     if (isLogging) {
-    //QString line;
+        //QString line;
 
         //QDateTime dt = QDateTime::currentDateTime();
         qint64 unixTime = timestamp.toMSecsSinceEpoch();
@@ -83,7 +80,7 @@ void MainWindow::displayAllMeas()
                        .arg(unixTime)
                        .arg(dateStr)
                        .arg(timeStr)
-                       .arg(ratio);
+                       .arg(ae.freq);
                        //.arg(position);
 
          logf->write(line);
@@ -92,24 +89,42 @@ void MainWindow::displayAllMeas()
              commentLine.clear();
          }
     }
-
     timestamp.setTimeZone(QTimeZone::utc());
     qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
 
-    //Mk2AnalogParams ap = mbf[0]->deif->getMk2Ap();
-    MicAnalogParams ap = mbf[0]->deif->getMicap();
+    if (addr == mbf[0]->deif->getServerAddress()) {
+        //UniversalAEParams aep = mbf[0]->deif->getAep();
+        topf->displayPVData(ae);
+    } else if (addr == mbf[1]->deif->getServerAddress()) {
+        //UniversalAEParams aep = mbf[1]->deif->getAep();
+        topf->displayGridData(ae);
+    } else if (addr == mbf[0]->deif->getServerAddress()) {
+        //UniversalAEParams aep = mbf[0]->deif->getAep();
+        topf->displayBatteryData(ae);
+    } else if (addr == mbf[0]->deif->getServerAddress()) {
+        //UniversalAEParams aep = mbf[0]->deif->getAep();
+        topf->displayLoadData(ae);
+    } else if (addr == -1) {
+        //UniversalAEParams aep = mbf[0]->deif->getAep();
+        topf->displayGridData(ae);
+        topf->displayPVData(ae);
+        topf->displayBatteryData(ae);
+        topf->displayLoadData(ae);
+    }
 
     QString strmsg = "{ ";
-    strmsg.append( QString("\"phaseVoltageL1\": %1,").arg(ap.phaseVoltage1, 0, 'f', 1) );
-    strmsg.append( QString("\"phaseVoltageL2\": %1,").arg(ap.phaseVoltage2, 0, 'f', 1) );
-    strmsg.append( QString("\"phaseVoltageL3\": %1,").arg(ap.phaseVoltage3, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL1\": %1,").arg(ap.phaseCurrent1, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL2\": %1,").arg(ap.phaseCurrent2, 0, 'f', 1) );
-    strmsg.append( QString("\"currentL3\": %1,").arg(ap.phaseCurrent3, 0, 'f', 1) );
-    strmsg.append( QString("\"power\": %1,").arg(ap.systemPower, 0, 'f', 1) );
-    //strmsg.append( QString("\"energy\": %1,").arg(mk2ap.energy, 0, 'f', 1) );
-    strmsg.append( QString("\"frequency\": %1,").arg(ap.freq, 0, 'f', 1) );
-    strmsg.append( QString("\"timestamp\": %1").arg(unixTimestamp) );
+    strmsg.append( QString("\"phaseVoltageL1\": %1,").arg(ae.phaseVoltage[0], 0, 'f', 1) );
+    strmsg.append( QString("\"phaseVoltageL2\": %1,").arg(ae.phaseVoltage[1], 0, 'f', 1) );
+    strmsg.append( QString("\"phaseVoltageL3\": %1,").arg(ae.phaseVoltage[2], 0, 'f', 1) );
+    strmsg.append( QString("\"currentL1\": %1,").arg(ae.phaseCurrent[0], 0, 'f', 1) );
+    strmsg.append( QString("\"currentL2\": %1,").arg(ae.phaseCurrent[1], 0, 'f', 1) );
+    strmsg.append( QString("\"currentL3\": %1,").arg(ae.phaseCurrent[2], 0, 'f', 1) );
+    strmsg.append( QString("\"power\": %1,").arg(ae.systemPower, 0, 'f', 1) );
+    strmsg.append( QString("\"energy\": %1,").arg(ae.energyTotal, 0, 'f', 1) );
+    strmsg.append( QString("\"frequency\": %1,").arg(ae.freq, 0, 'f', 1) );
+    strmsg.append( QString("\"timestamp\": %1").arg(ae.timestamp) );
+    strmsg.append( QString("\"userId\": %1").arg(ae.userID) );
+    strmsg.append( QString("\"socketId\": %1").arg(ae.socketID) );
     strmsg.append( " }_json");
 
     QByteArray bamsg = QByteArray();

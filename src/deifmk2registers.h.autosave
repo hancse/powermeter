@@ -4,7 +4,7 @@
 #include <QModbusClient>
 
 // DEIF is at comport (config button)
-// 0x3000 = 12288 dec
+
 // 0x4000 = 16384 dec
 // 0x4048 = 16456 dec
 
@@ -124,7 +124,7 @@ struct Mk2EnergyMeasurement {  //@address 0x4048
 const int MK2_SYSTEM_PARAMS_BASE_ADDRESS = 0x1000;
 const int MK2_DATE_TIME_BASE_ADDRESS = 0x1040;
 const int MK2_LIMIT_ALARM_BASE_ADDRESS = 0x1046;
-const int MK2_METER_PARAM_BASE_ADDRESS = 0x3000;
+const int MK2_METER_PARAM_BASE_ADDRESS = 0x3000; // 0x3000 = 12288 dec
 const int MK2_ANALOG_BASE_ADDRESS = 0x4000;
 const int MK2_ENERGY_BASE_ADDRESS = 0x4048;
 const int MK2_HARMONICS_BASE_ADDRESS = 0x405A;

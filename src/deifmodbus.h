@@ -5,8 +5,7 @@
 #include <QModbusClient>
 #include <QTimer>
 
-#include "deifmicregisters.h"
-#include "deifmk2registers.h"
+#include "deifregisters.h"
 
 class DEIFModbus : public QObject
 {
@@ -22,8 +21,6 @@ public:
 
     void readDEIF(int regType, int serverAddress, int StartAddress, int numberOfEntries);
 
-    Mk2AnalogParams getMk2Ap() const;
-
     void readAll();
     //QModbusDataUnit DEIFReadRequest(int startAddress, quint16 numEntries) const;
 
@@ -33,10 +30,11 @@ public:
     bool getIsMK2() const;
     void setIsMK2(bool value);
 
-    MicAnalogParams getMicap() const;
+    UniversalAEParams getAep() const;
+    void setAep(const UniversalAEParams &value);
 
 signals:
-    void dataReady();
+    void dataReady(int mbaddress, UniversalAEParams anAep);
 
 public slots:
 
@@ -45,10 +43,11 @@ private:
     //QModbusClient* modbusDevice;
 
     bool isMK2 = false;
-    MicAnalogParams micap;
-    MicEnergyMeasurement micem;
-    Mk2AnalogParams mk2ap;
-    Mk2EnergyMeasurement mk2em;
+    UniversalAEParams aep;
+    //MicAnalogParams micap;
+    //MicEnergyMeasurement micem;
+    //Mk2AnalogParams mk2ap;
+    //Mk2EnergyMeasurement mk2em;
     int serverAddress = -1;
 
     //QModbusDataUnit readRequest(int regType, int startAddress, int numberOfEntries) const;
@@ -59,10 +58,8 @@ private:
     double RegistersToDouble(quint16 highWord, quint16 lowWord);
 
     void readReady();
-    void RegsToMicAp(QModbusDataUnit du);
-    void RegsToMicEm(QModbusDataUnit du);
-    void RegsToMk2Ap(QModbusDataUnit du);
-    void RegsToMk2Em(QModbusDataUnit du);
+    void RegsToAp(QModbusDataUnit du);
+    void RegsToEm(QModbusDataUnit du);
     quint32 RegistersToDWord(quint16 highWord, quint16 lowWord);
     void readDummyAll();
 };

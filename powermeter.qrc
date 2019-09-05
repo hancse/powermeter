@@ -9,4 +9,7 @@
         <file>fonts/rainbow.svg</file>
         <file>images/Charging.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>images/Sevci.png</file>
+    </qresource>
 </RCC>

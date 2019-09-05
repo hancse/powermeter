@@ -37,22 +37,20 @@ void DEIFModbus::readReady()
 
         switch (unit.startAddress()) {
         case MIC_ANALOG_BASE_ADDRESS:
-            RegsToMicAp(unit);
+            RegsToAp(unit);
             break;
         case MIC_ENERGY_BASE_ADDRESS:
-            RegsToMicEm(unit);
+            RegsToEm(unit);
             break;
         case MK2_ANALOG_BASE_ADDRESS:
-            RegsToMk2Ap(unit);
+            RegsToAp(unit);
             break;
         case MK2_ENERGY_BASE_ADDRESS:
-            RegsToMk2Em(unit);
+            RegsToEm(unit);
             break;
         default:
             break;
         }
-
-        //this->RegsToAp(unit);
 
     } else if (reply->error() == QModbusDevice::ProtocolError) {
         QString errmsg(tr("Read response error: %1 (Modbus exception: 0x%2)").
@@ -129,132 +127,102 @@ void DEIFModbus::readAll()
 void DEIFModbus::readDummyAll()
 {
     qDebug() << "read dummy data";
-    if ( isMK2) {
-        mk2ap.freq = 50.0;
+    aep.freq = 50.0;
 
-        mk2ap.phaseVoltage1 = 230.0;
-        mk2ap.phaseVoltage2 = 230.0;
-        mk2ap.phaseVoltage3 = 230.0;
-        mk2ap.avgVoltage =    230.0;
+    aep.phaseVoltage[0] = 230.0;
+    aep.phaseVoltage[1] = 230.0;
+    aep.phaseVoltage[2] = 230.0;
+    aep.avgVoltage      = 230.0;
 
-        mk2ap.phaseCurrent1 = 20.0;
-        mk2ap.phaseCurrent2 = 20.0;
-        mk2ap.phaseCurrent3 = 20.0;
-        //mk2ap.avgCurrent = 20.0;
+    aep.phaseCurrent[0] = 20.0;
+    aep.phaseCurrent[1] = 20.0;
+    aep.phaseCurrent[2] = 20.0;
+    aep.avgCurrent = 20.0;
 
-        mk2ap.phaseL1Power = 5.0;
-        mk2ap.phaseL2Power = 5.0;
-        mk2ap.phaseL3Power = 5.0;
-        mk2ap.systemPower = 5.0;
+    aep.phaseLPower[0] = 5.0;
+    aep.phaseLPower[1] = 5.0;
+    aep.phaseLPower[2] = 5.0;
+    aep.systemPower = 5.0;
 
-        mk2em.energyTotal = 100.0;
+    aep.energyTotal = 100.0;
+    aep.dt = QDateTime::currentDateTime();
+    aep.timestamp = aep.dt.toSecsSinceEpoch();
+    //aep.timestamp = aep.dt.toMSecsSinceEpoch();
+    aep.userID = 0;
+    aep.socketID = 0;
+
+    emit dataReady(serverAddress, aep);
+}
+
+void DEIFModbus::RegsToAp(QModbusDataUnit du)
+{
+    if (isMK2) {
+        aep.freq = RegistersToDouble(du.value(0), du.value(1));
+
+        aep.phaseVoltage[0] = RegistersToDouble(du.value(2), du.value(3));
+        aep.phaseVoltage[1] = RegistersToDouble(du.value(4), du.value(5));
+        aep.phaseVoltage[2] = RegistersToDouble(du.value(6), du.value(7));
+        aep.avgVoltage = RegistersToDouble(du.value(8), du.value(9));
+
+        aep.phaseCurrent[0] = RegistersToDouble(du.value(18), du.value(19));
+        aep.phaseCurrent[1] = RegistersToDouble(du.value(20), du.value(21));
+        aep.phaseCurrent[2] = RegistersToDouble(du.value(22), du.value(23));
+        aep.avgCurrent = RegistersToDouble(du.value(24), du.value(25));
+
+        aep.phaseLPower[0] = RegistersToDouble(du.value(28), du.value(29));
+        aep.phaseLPower[1] = RegistersToDouble(du.value(30), du.value(31));
+        aep.phaseLPower[2] = RegistersToDouble(du.value(32), du.value(33));
+        aep.systemPower = RegistersToDouble(du.value(34), du.value(35));
     } else {
-        micap.freq = 50.0;
+        aep.freq = du.value(0)/ 100.0;
 
-        micap.phaseVoltage1 = 230.0;
-        micap.phaseVoltage2 = 230.0;
-        micap.phaseVoltage3 = 230.0;
-        micap.avgVoltage =    230.0;
+        aep.phaseVoltage[0] = du.value(1) / 10.0;
+        aep.phaseVoltage[1] = du.value(2) / 10.0;
+        aep.phaseVoltage[2] = du.value(3) / 10.0;
+        aep.avgVoltage =    du.value(4) / 10.0;
 
-        micap.phaseCurrent1 = 20.0;
-        micap.phaseCurrent2 = 20.0;
-        micap.phaseCurrent3 = 20.0;
-        micap.avgCurrent = 20.0;
+        aep.phaseCurrent[0] = du.value(9) / 1000.0;
+        aep.phaseCurrent[1] = du.value(10) / 1000.0;
+        aep.phaseCurrent[2] = du.value(11) / 1000.0;
+        aep.avgCurrent = du.value(12) / 1000.0;
 
-        micap.phaseL1Power = 5.0;
-        micap.phaseL2Power = 5.0;
-        micap.phaseL3Power = 5.0;
-        micap.systemPower = 5.0;
-
-        micem.energyTotal = 100.0;
+        aep.phaseLPower[0] = du.value(14) / 5.0;
+        aep.phaseLPower[1] = du.value(15) / 5.0;
+        aep.phaseLPower[2] = du.value(16) / 5.0;
+        aep.systemPower = du.value(17) / 5.0;
     }
-    emit dataReady();
-}
-
-void DEIFModbus::RegsToMicAp(QModbusDataUnit du)
-{
-    micap.freq = du.value(0)/ 100.0;
-
-    micap.phaseVoltage1 = du.value(1) / 10.0;
-    micap.phaseVoltage2 = du.value(2) / 10.0;
-    micap.phaseVoltage3 = du.value(3) / 10.0;
-    micap.avgVoltage =    du.value(4) / 10.0;
-
-    micap.phaseCurrent1 = du.value(9) / 1000.0;
-    micap.phaseCurrent2 = du.value(10) / 1000.0;
-    micap.phaseCurrent3 = du.value(11) / 1000.0;
-    micap.avgCurrent = du.value(12) / 1000.0;
-
-    micap.phaseL1Power = du.value(14) / 5.0;
-    micap.phaseL2Power = du.value(15) / 5.0;
-    micap.phaseL3Power = du.value(16) / 5.0;
-    micap.systemPower = du.value(17) / 5.0;
 
     qDebug() << du.valueCount() << du.value(0) << du.value(1) << endl
-             << "Phase Voltage: " << micap.phaseVoltage1
-                                  << micap.phaseVoltage2
-                                  << micap.phaseVoltage3
-                                  << micap.avgVoltage << endl
-             << "Current: " << micap.phaseCurrent1
-                            << micap.phaseCurrent2
-                            << micap.phaseCurrent3 << endl
-             << "PhaseL Power: " << micap.phaseL1Power
-                                 << micap.phaseL2Power
-                                 << micap.phaseL3Power << endl
-             << "System power: " << micap.systemPower << endl
-             << "Freq: " << micap.freq;
-    emit dataReady();
+             << "Phase Voltage: " << aep.phaseVoltage[0]
+                                  << aep.phaseVoltage[1]
+                                  << aep.phaseVoltage[2]
+                                  << aep.avgVoltage << endl
+             << "Current: " << aep.phaseCurrent[0]
+                            << aep.phaseCurrent[1]
+                            << aep.phaseCurrent[2] << endl
+             << "PhaseL Power: " << aep.phaseLPower[0]
+                                 << aep.phaseLPower[1]
+                                 << aep.phaseLPower[2] << endl
+             << "System power: " << aep.systemPower << endl
+             << "Freq: " << aep.freq;
+    emit dataReady(serverAddress, aep);
 }
 
-void DEIFModbus::RegsToMicEm(QModbusDataUnit du)
+void DEIFModbus::RegsToEm(QModbusDataUnit du)
 {
-    micem.energyTotal = RegistersToDWord(du.value(8), du.value(9)) / 10.0;
-
-    qDebug() << du.valueCount()
-             << du.value(8) << du.value(9)
-             << "Total Energy: " << micem.energyTotal;
-
-    emit dataReady();
-}
-
-void DEIFModbus::RegsToMk2Ap(QModbusDataUnit du)
-{
-    mk2ap.freq = RegistersToDouble(du.value(0), du.value(1));
-
-    mk2ap.phaseVoltage1 = RegistersToDouble(du.value(2), du.value(3));
-    mk2ap.phaseVoltage2 = RegistersToDouble(du.value(4), du.value(5));
-    mk2ap.phaseVoltage3 = RegistersToDouble(du.value(6), du.value(7));
-    mk2ap.avgVoltage = RegistersToDouble(du.value(8), du.value(9));
-
-    mk2ap.phaseCurrent1 = RegistersToDouble(du.value(18), du.value(19));
-    mk2ap.phaseCurrent2 = RegistersToDouble(du.value(20), du.value(21));
-    mk2ap.phaseCurrent3 = RegistersToDouble(du.value(22), du.value(23));
-    //ap.avgCurrent = RegistersToDouble(du.value(24), du.value(25));
-
-    mk2ap.phaseL1Power = RegistersToDouble(du.value(28), du.value(29));
-    mk2ap.phaseL2Power = RegistersToDouble(du.value(30), du.value(31));
-    mk2ap.phaseL3Power = RegistersToDouble(du.value(32), du.value(33));
-    mk2ap.systemPower = RegistersToDouble(du.value(34), du.value(35));
-
-    qDebug() << du.valueCount() << du.value(0) << du.value(1) << endl
-             << "Phase Voltage: " << mk2ap.phaseVoltage1 << mk2ap.phaseVoltage2 << mk2ap.phaseVoltage3 << mk2ap.avgVoltage << endl
-             << "Current: " << mk2ap.phaseCurrent1 << mk2ap.phaseCurrent2 << mk2ap.phaseCurrent3 << endl
-             << "PhaseL Power: " << mk2ap.phaseL1Power << mk2ap.phaseL2Power << mk2ap.phaseL3Power << endl
-             << "System power: " << mk2ap.systemPower << endl
-             << "Freq: " << mk2ap.freq;
-    emit dataReady();
-}
-
-void DEIFModbus::RegsToMk2Em(QModbusDataUnit du)
-{
-    mk2em.energyTotal = RegistersToDWord(du.value(16), du.value(17));
-
-    qDebug() << du.valueCount()
-             <<  du.value(16) << du.value(17)
-             << du.value(18) << du.value(19)
-             << "Total Energy: " << mk2em.energyTotal;
-
-    emit dataReady();
+    if (isMK2) {
+        aep.energyTotal = RegistersToDWord(du.value(16), du.value(17));
+        qDebug() << du.valueCount()
+                 <<  du.value(16) << du.value(17)
+                 << du.value(18) << du.value(19)
+                 << "Total Energy: " << aep.energyTotal;
+    } else {
+        aep.energyTotal = RegistersToDWord(du.value(8), du.value(9)) / 10.0;
+        qDebug() << du.valueCount()
+                 << du.value(8) << du.value(9)
+                 << "Total Energy: " << aep.energyTotal;
+    }
+    emit dataReady(serverAddress, aep);
 }
 
 double DEIFModbus::ByteArrayToDouble(QByteArray ba, double defaultValue = 0.0)
@@ -278,11 +246,6 @@ double DEIFModbus::ByteArrayToDouble(QByteArray ba, double defaultValue = 0.0)
 
 //=======Getters and Setters===================================================
 
-Mk2AnalogParams DEIFModbus::getMk2Ap() const
-{
-    return mk2ap;
-}
-
 int DEIFModbus::getServerAddress() const
 {
     return serverAddress;
@@ -303,9 +266,14 @@ void DEIFModbus::setIsMK2(bool value)
     isMK2 = value;
 }
 
-MicAnalogParams DEIFModbus::getMicap() const
+UniversalAEParams DEIFModbus::getAep() const
 {
-    return micap;
+    return aep;
+}
+
+void DEIFModbus::setAep(const UniversalAEParams &value)
+{
+    aep = value;
 }
 
 //=======================================================================

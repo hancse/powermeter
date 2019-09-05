@@ -48,7 +48,7 @@ private:
     TcpDialog* tcpd;
     StripFrameTriple* strpf;
 
-    void displayData();
+    void displayData(int addr, UniversalAEParams ae);
     void readDEIF();
 };
 

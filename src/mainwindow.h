@@ -45,13 +45,13 @@ private:
     QString iniPathFileName;
 
     TopFrame* topf;
-    ModbusFrame* mbf[NUMDEIFS];
+    ModbusFrame* mbf[NUMDEIFS];    ///<  array of NUMDEIFS ModbusFrame pointers on heap */
     SQLFrame* sqlf;
     LoggingFrame* logf;
     BackendHandler* backend;
 
     void populateStack();
-    void displayAllMeas();
+    void displayAllMeas(int addr, UniversalAEParams ae);
     void loadSettings(QString iniFilename);
     void saveSettings(QString iniFilename);
     QString searchIniFile();
