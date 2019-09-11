@@ -50,6 +50,7 @@ private:
 
     void displayData(int addr, UniversalAEParams ae);
     void readDEIF();
+    void setupConnections();
 };
 
 #endif // MODBUSFRAME_H

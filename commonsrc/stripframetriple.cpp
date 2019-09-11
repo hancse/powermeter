@@ -5,6 +5,7 @@
 #include <qwt_scale_widget.h>
 #include <qwt_symbol.h>
 #include <cmath>
+#include <QRandomGenerator>
 
 StripFrameTriple::StripFrameTriple(QWidget *parent) :
     QFrame(parent),
@@ -154,7 +155,7 @@ void StripFrameTriple::setupPlot()
  */
 void StripFrameTriple::realTimeDummySlot()
 {
-    double newDummyData = 230.0 + 0.0002*qrand();
+    double newDummyData = 230.0 + QRandomGenerator::global()->generateDouble();
     realTimeSlot(0, QDateTime::currentDateTime(), newDummyData, true);
 }
 

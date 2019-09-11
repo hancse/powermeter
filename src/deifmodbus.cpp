@@ -1,6 +1,7 @@
 #include "deifmodbus.h"
 
 #include <QDebug>
+#include <QRandomGenerator>
 
 DEIFModbus::DEIFModbus(QObject *parent) :
     QObject(parent),
@@ -129,22 +130,22 @@ void DEIFModbus::readDummyAll()
     qDebug() << "read dummy data";
     aep.freq = 50.0;
 
-    aep.phaseVoltage[0] = 230.0;
-    aep.phaseVoltage[1] = 230.0;
-    aep.phaseVoltage[2] = 230.0;
-    aep.avgVoltage      = 230.0;
+    aep.phaseVoltage[0] = 230.0 + QRandomGenerator::global()->generateDouble();
+    aep.phaseVoltage[1] = 230.0 + QRandomGenerator::global()->generateDouble();
+    aep.phaseVoltage[2] = 230.0 + QRandomGenerator::global()->generateDouble();
+    aep.avgVoltage      = 230.0 + QRandomGenerator::global()->generateDouble();
 
-    aep.phaseCurrent[0] = 20.0;
-    aep.phaseCurrent[1] = 20.0;
-    aep.phaseCurrent[2] = 20.0;
-    aep.avgCurrent = 20.0;
+    aep.phaseCurrent[0] = 20.0 + QRandomGenerator::global()->generateDouble();
+    aep.phaseCurrent[1] = 20.0 + QRandomGenerator::global()->generateDouble();
+    aep.phaseCurrent[2] = 20.0 + QRandomGenerator::global()->generateDouble();
+    aep.avgCurrent = 20.0 + QRandomGenerator::global()->generateDouble();
 
-    aep.phaseLPower[0] = 5.0;
-    aep.phaseLPower[1] = 5.0;
-    aep.phaseLPower[2] = 5.0;
-    aep.systemPower = 5.0;
+    aep.phaseLPower[0] = 5.0 + QRandomGenerator::global()->generateDouble();
+    aep.phaseLPower[1] = 5.0 + QRandomGenerator::global()->generateDouble();
+    aep.phaseLPower[2] = 5.0 + QRandomGenerator::global()->generateDouble();
+    aep.systemPower = 5.0 + QRandomGenerator::global()->generateDouble();
 
-    aep.energyTotal = 100.0;
+    aep.energyTotal = 100.0 + QRandomGenerator::global()->generateDouble();
     aep.dt = QDateTime::currentDateTime();
     aep.timestamp = aep.dt.toSecsSinceEpoch();
     //aep.timestamp = aep.dt.toMSecsSinceEpoch();

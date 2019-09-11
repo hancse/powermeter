@@ -55,6 +55,7 @@ private:
     void loadSettings(QString iniFilename);
     void saveSettings(QString iniFilename);
     QString searchIniFile();
+    void setupConnections();
 };
 
 #endif // MAINWINDOW_H

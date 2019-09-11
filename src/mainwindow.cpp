@@ -43,10 +43,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //loadSettings(iniPathFileName);
     backend = new BackendHandler(this);
 
-    for (int n = 0; n < NUMDEIFS; n++) {
-        connect(mbf[n]->deif, &DEIFModbus::dataReady,
-                this, &MainWindow::displayAllMeas);
-    }
+    //for (int n = 0; n < NUMDEIFS; n++) {
+      //  connect(mbf[n]->deif, &DEIFModbus::dataReady,
+       //         this, &MainWindow::displayAllMeas);
+    //}
+
+    setupConnections();
 }
 
 /**
@@ -55,6 +57,18 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+/**
+ * @brief setup connections from child SIGNALS to MainWindow SLOTS
+ */
+void MainWindow::setupConnections()
+{
+// connect SIGNALS DeifModbus::dataReady to MainWindow::displayAllMeas
+    for (int n = 0; n < NUMDEIFS; n++) {
+        connect(mbf[n]->deif, &DEIFModbus::dataReady,
+                this, &MainWindow::displayAllMeas);
+    }
 }
 
 /**
@@ -92,24 +106,26 @@ void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
     timestamp.setTimeZone(QTimeZone::utc());
     qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
 
-    if (addr == mbf[0]->deif->getServerAddress()) {
-        //UniversalAEParams aep = mbf[0]->deif->getAep();
+    qDebug() << "Address:" << addr;
+    if (addr < 0 ) {
+        topf->displayGridData(ae);
         topf->displayPVData(ae);
-    } else if (addr == mbf[1]->deif->getServerAddress()) {
+        topf->displayBatteryData(ae);
+        topf->displayLoadData(ae);
+    } else if (addr > 0) {
+        if (addr == mbf[0]->deif->getServerAddress()) {
+        //UniversalAEParams aep = mbf[0]->deif->getAep();
+            topf->displayPVData(ae);
+        } else if (addr == mbf[1]->deif->getServerAddress()) {
         //UniversalAEParams aep = mbf[1]->deif->getAep();
-        topf->displayGridData(ae);
-    } else if (addr == mbf[0]->deif->getServerAddress()) {
+            topf->displayGridData(ae);
+        } else if (addr == mbf[2]->deif->getServerAddress()) {
         //UniversalAEParams aep = mbf[0]->deif->getAep();
-        topf->displayBatteryData(ae);
-    } else if (addr == mbf[0]->deif->getServerAddress()) {
+            topf->displayBatteryData(ae);
+        } else if (addr == mbf[3]->deif->getServerAddress()) {
         //UniversalAEParams aep = mbf[0]->deif->getAep();
-        topf->displayLoadData(ae);
-    } else if (addr == -1) {
-        //UniversalAEParams aep = mbf[0]->deif->getAep();
-        topf->displayGridData(ae);
-        topf->displayPVData(ae);
-        topf->displayBatteryData(ae);
-        topf->displayLoadData(ae);
+            topf->displayLoadData(ae);
+        }
     }
 
     QString strmsg = "{ ";
@@ -171,8 +187,6 @@ void MainWindow::setStackIndex(int index)
         break;
     }
 }
-
-
 
 /**
    @brief adds frames to stackedWidget, including dummy pages.

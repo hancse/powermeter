@@ -22,11 +22,11 @@ ModbusFrame::ModbusFrame(QWidget *parent) :
 
     deif = new DEIFModbus(this);
 
-    connect(deif->deifTimer, &QTimer::timeout,
-            this, &ModbusFrame::on_readButton_clicked);
+    //connect(deif->deifTimer, &QTimer::timeout,
+         //   this, &ModbusFrame::on_readButton_clicked);
 
-    connect(deif, &DEIFModbus::dataReady,
-            this, &ModbusFrame::displayData);
+    //connect(deif, &DEIFModbus::dataReady,
+     //      this, &ModbusFrame::displayData);
 
     sd = new SerialDialog(this);
     tcpd = new TcpDialog(this);
@@ -40,6 +40,8 @@ ModbusFrame::ModbusFrame(QWidget *parent) :
     ui->connectType->setCurrentIndex(0);
     on_connectType_currentIndexChanged(0);
 
+    setupConnections();
+
 }
 
 ModbusFrame::~ModbusFrame()
@@ -47,20 +49,35 @@ ModbusFrame::~ModbusFrame()
     delete ui;
 }
 
+/**
+ * @brief setup connections with child SIGNALS
+ *
+ * connect SIGNAL DEIFModbus::deifTimer::timeout to SLOT on_readButton_clicked
+ * connect SIGNAL DEIFModbus::dataReady to SLOT displayData
+ */
+void ModbusFrame::setupConnections()
+{
+    connect(deif->deifTimer, &QTimer::timeout,
+            this, &ModbusFrame::on_readButton_clicked);
+
+    connect(deif, &DEIFModbus::dataReady,
+            this, &ModbusFrame::displayData);
+}
+
 void ModbusFrame::displayData(int addr, UniversalAEParams ae)
 {
     //UniversalAEParams ae = deif->getAep();
-    ui->lblFreq->setText(QString("%1 Hz").arg(ae.freq));
-    ui->lblV1->setText(QString("%1 V").arg(ae.phaseVoltage[1]));
-    ui->lblV2->setText(QString("%1 V").arg(ae.phaseVoltage[1]));
-    ui->lblV3->setText(QString("%1 V").arg(ae.phaseVoltage[2]));
-    ui->lblCurr1->setText(QString("%1 A").arg(ae.phaseCurrent[0]));
-    ui->lblCurr2->setText(QString("%1 A").arg(ae.phaseCurrent[1]));
-    ui->lblCurr3->setText(QString("%1 A").arg(ae.phaseCurrent[2]));
-    ui->lblPower1->setText(QString("%1 W").arg(ae.phaseLPower[0]));
-    ui->lblPower2->setText(QString("%1 W").arg(ae.phaseLPower[1]));
-    ui->lblPower3->setText(QString("%1 W").arg(ae.phaseLPower[2]));
-    ui->lblTotalEnergy->setText(QString("%1 kWh").arg(ae.systemPower));
+    ui->lblFreq->setText(QString("%1 Hz").arg(ae.freq, 0, 'f', 1));
+    ui->lblV1->setText(QString("%1 V").arg(ae.phaseVoltage[0], 0, 'f', 1));
+    ui->lblV2->setText(QString("%1 V").arg(ae.phaseVoltage[1], 0, 'f', 1));
+    ui->lblV3->setText(QString("%1 V").arg(ae.phaseVoltage[2], 0, 'f', 1));
+    ui->lblCurr1->setText(QString("%1 A").arg(ae.phaseCurrent[0], 0, 'f', 1));
+    ui->lblCurr2->setText(QString("%1 A").arg(ae.phaseCurrent[1], 0, 'f', 1));
+    ui->lblCurr3->setText(QString("%1 A").arg(ae.phaseCurrent[2], 0, 'f', 1));
+    ui->lblPower1->setText(QString("%1 W").arg(ae.phaseLPower[0], 0, 'f', 1));
+    ui->lblPower2->setText(QString("%1 W").arg(ae.phaseLPower[1], 0, 'f', 1));
+    ui->lblPower3->setText(QString("%1 W").arg(ae.phaseLPower[2], 0, 'f', 1));
+    ui->lblTotalEnergy->setText(QString("%1 kWh").arg(ae.energyTotal, 0, 'f', 1));
 
     //QDateTime dt = QDateTime::currentDateTime();
 
