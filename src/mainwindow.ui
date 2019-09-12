@@ -145,7 +145,7 @@
    <widget class="QGroupBox" name="gblogging">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>210</x>
       <y>620</y>
       <width>902</width>
       <height>56</height>
@@ -215,6 +215,19 @@
     </property>
     <property name="text">
      <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>640</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>auto</string>
     </property>
    </widget>
   </widget>

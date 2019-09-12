@@ -8,9 +8,9 @@ DEIFModbus::DEIFModbus(QObject *parent) :
     lastRequest(nullptr),
     modbusDevice(nullptr)
 {
-    deifTimer = new QTimer(this);
+    //deifTimer = new QTimer(this);
     //connect(deifTimer, &QTimer::timeout, this, &DEIFModbus::readAll);
-    connect(deifTimer, &QTimer::timeout, this, &DEIFModbus::readDummyAll);
+    //connect(deifTimer, &QTimer::timeout, this, &DEIFModbus::readDummyAll);
 }
 
 DEIFModbus::~DEIFModbus()
@@ -206,7 +206,7 @@ void DEIFModbus::RegsToAp(QModbusDataUnit du)
                                  << aep.phaseLPower[2] << endl
              << "System power: " << aep.systemPower << endl
              << "Freq: " << aep.freq;
-    emit dataReady(serverAddress, aep);
+    //emit dataReady(serverAddress, aep);
 }
 
 void DEIFModbus::RegsToEm(QModbusDataUnit du)

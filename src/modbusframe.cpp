@@ -41,7 +41,6 @@ ModbusFrame::ModbusFrame(QWidget *parent) :
     on_connectType_currentIndexChanged(0);
 
     setupConnections();
-
 }
 
 ModbusFrame::~ModbusFrame()
@@ -60,8 +59,8 @@ void ModbusFrame::setupConnections()
     //connect(ui->serverEdit, &QSpinBox::valueChanged,
       //      this, &ModbusFrame::setMbAddress);
 
-    connect(deif->deifTimer, &QTimer::timeout,
-            this, &ModbusFrame::on_readButton_clicked);
+    //connect(deif->deifTimer, &QTimer::timeout,
+            //this, &ModbusFrame::on_readButton_clicked);
 
     connect(deif, &DEIFModbus::dataReady,
             this, &ModbusFrame::displayData);
@@ -315,7 +314,7 @@ void ModbusFrame::on_writeTable_currentIndexChanged(int index)
 
 void ModbusFrame::on_checkAuto_clicked(bool checked)
 {
-    (checked) ? deif->deifTimer->start(2000) : deif->deifTimer->stop();
+    //(checked) ? deif->deifTimer->start(2000) : deif->deifTimer->stop();
 }
 
 

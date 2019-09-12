@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    sd = new SerialDialog(this);
+    tcpd = new TcpDialog(this);
+
     mainTimer = new QTimer(this);
     mainTimer->setInterval(5000);
 
@@ -82,8 +85,13 @@ void MainWindow::setupConnections()
 
 void MainWindow::readComplete()
 {
+    bool isDummy = true;
     for ( int n = 0; n < NUMDEIFS; n++ ) {
-        mbf[n]->readAllParameters();
+        if (!isDummy) {
+            mbf[n]->readAllParameters();
+        } else {
+            mbf[n]->deif->readDummyAll();
+        }
     }
 }
 
@@ -383,3 +391,9 @@ void MainWindow::saveSettings(QString iniFilename)
 }
 
 
+
+void MainWindow::on_checkBox_clicked(bool checked)
+{
+    (checked) ? mainTimer->start(2000) : mainTimer->stop();
+
+}

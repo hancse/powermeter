@@ -17,10 +17,10 @@ public:
     QModbusReply* lastRequest;
     QModbusClient* modbusDevice;
 
-    QTimer* deifTimer;
+    //QTimer* deifTimer;
 
     void readDEIF(int regType, int serverAddress, int StartAddress, int numberOfEntries);
-
+    void readDummyAll();
     void readAll();
     //QModbusDataUnit DEIFReadRequest(int startAddress, quint16 numEntries) const;
 
@@ -44,10 +44,6 @@ private:
 
     bool isMK2 = false;
     UniversalAEParams aep;
-    //MicAnalogParams micap;
-    //MicEnergyMeasurement micem;
-    //Mk2AnalogParams mk2ap;
-    //Mk2EnergyMeasurement mk2em;
     int serverAddress = -1;
 
     //QModbusDataUnit readRequest(int regType, int startAddress, int numberOfEntries) const;
@@ -61,7 +57,7 @@ private:
     void RegsToAp(QModbusDataUnit du);
     void RegsToEm(QModbusDataUnit du);
     quint32 RegistersToDWord(quint16 highWord, quint16 lowWord);
-    void readDummyAll();
+
 };
 
 #endif // DEIFMODBUS_H

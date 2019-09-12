@@ -70,6 +70,7 @@ public:
     };
 
     PortParameters getCp() const;
+    void setCp(const PortParameters &value);
 
 private slots:
     void showPortInfo(int idx);

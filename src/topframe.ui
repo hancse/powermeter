@@ -717,6 +717,19 @@ color: lime;</string>
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>330</y>
+     <width>161</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>GroupBox</string>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="../powermeter.qrc"/>

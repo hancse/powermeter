@@ -8,6 +8,9 @@
 #include "src/modbusframe.h"
 #include "src/sqlframe.h"
 #include "commonsrc/loggingframe.h"
+#include "commonsrc/serialdialog.h"
+#include "commonsrc/tcpdialog.h"
+
 #include "backendhandler.h"
 
 namespace Ui {
@@ -37,8 +40,14 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_checkBox_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
+
+    SerialDialog* sd;
+    TcpDialog* tcpd;
+
     QTimer* mainTimer;
     QTimer* logTimer;
     QString commentLine;

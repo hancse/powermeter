@@ -207,3 +207,8 @@ void SerialDialog::updateParameters()
     cp.numberOfRetries = ui->retriesSpinner->value();
 }
 
+void SerialDialog::setCp(const PortParameters &value)
+{
+    cp = value;
+}
+
