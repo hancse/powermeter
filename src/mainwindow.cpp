@@ -21,6 +21,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    mainTimer = new QTimer(this);
+    mainTimer->setInterval(5000);
+
     logTimer = new QTimer(this);
     logTimer->setInterval(5000);
     //logTimer->start();
@@ -65,10 +69,21 @@ MainWindow::~MainWindow()
  */
 void MainWindow::setupConnections()
 {
+// connect SIGNAL from mainTimer to SLOT MainWindow::readComplete
+    connect(this->mainTimer, &QTimer::timeout,
+            this,&MainWindow::readComplete);
+
 // connect SIGNALS DeifModbus::dataReady to MainWindow::displayAllMeas
     for (int n = 0; n < NUMDEIFS; n++) {
         connect(mbf[n]->deif, &DEIFModbus::dataReady,
                 this, &MainWindow::displayAllMeas);
+    }
+}
+
+void MainWindow::readComplete()
+{
+    for ( int n = 0; n < NUMDEIFS; n++ ) {
+        mbf[n]->readAllParameters();
     }
 }
 
@@ -105,7 +120,7 @@ void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
          }
     }
     timestamp.setTimeZone(QTimeZone::utc());
-    qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
+    //qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
 
     qDebug() << "Address:" << addr;
     if (addr < 0 ) {

@@ -73,6 +73,13 @@ void ModbusFrame::setMbAddress(int addr)
     //deif->setServerAddress(addr);
 }
 
+/**
+ * @brief display data from DEIF on ModbusFrame
+ *
+ * SLOT connected with SIGNAL DEIFModbus::dataReady
+ * @param addr: needed  because SIGNAL DEIFModbus::dataReady carries address as payload
+ * @param ae: struct with data payload from SIGNAL DEIFModbus::dataReady
+ */
 void ModbusFrame::displayData(int addr, UniversalAEParams ae)
 {
     //UniversalAEParams ae = deif->getAep();
@@ -209,20 +216,34 @@ void ModbusFrame::onStateChanged(int state)
 
 void ModbusFrame::on_readButton_clicked()
 {
-    //readDEIF();
+    readAllParameters();
+}
+
+void ModbusFrame::readAllParameters()
+{
     if ( deif->getIsMK2() ) {
+
         deif->readDEIF(ui->writeTable->currentData().toInt(),
                        ui->serverEdit->value(),
                        MK2_ANALOG_BASE_ADDRESS,
                        18);
-        //deif->readDEIF(deif->getServerAddress(), ui->writeTable->currentData().toInt());
+        deif->readDEIF(ui->writeTable->currentData().toInt(),
+                       ui->serverEdit->value(),
+                       MK2_ENERGY_BASE_ADDRESS,
+                       12);
+
     } else {
+
         deif->readDEIF(ui->writeTable->currentData().toInt(),
                        ui->serverEdit->value(),
                        MIC_ANALOG_BASE_ADDRESS,
                        18);
-    }
+        deif->readDEIF(ui->writeTable->currentData().toInt(),
+                       ui->serverEdit->value(),
+                       MIC_ENERGY_BASE_ADDRESS,
+                       12);
 
+    }
 }
 
 void ModbusFrame::on_writeButton_clicked()

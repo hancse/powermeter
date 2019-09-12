@@ -39,6 +39,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QTimer* mainTimer;
     QTimer* logTimer;
     QString commentLine;
     bool isLogging = false;
@@ -56,6 +57,7 @@ private:
     void saveSettings(QString iniFilename);
     QString searchIniFile();
     void setupConnections();
+    void readComplete();
 };
 
 #endif // MAINWINDOW_H

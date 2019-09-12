@@ -26,6 +26,8 @@ public:
     void connectTCP();
 
     void setMbAddress(int addr);
+    void readAllParameters();
+
 private slots:
     void on_btnConnect_clicked();
     void on_btnConfig_clicked();
@@ -36,13 +38,13 @@ private slots:
     void on_writeButton_clicked();
     //void on_readWriteButton_clicked();
     void on_writeTable_currentIndexChanged(int index);
-
     void on_checkAuto_clicked(bool checked);
-
     void on_serverEdit_valueChanged(int arg1);
 
 private:
-    QModbusDataUnit writeRequest(int regType, int startAddress, int numOfEntries) const;
+    QModbusDataUnit writeRequest(int regType,
+                                 int startAddress,
+                                 int numOfEntries) const;
 
 private:
     Ui::ModbusFrame *ui;
