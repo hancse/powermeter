@@ -38,9 +38,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->listWidget->setCurrentRow(1);
     ui->stackedWidget->setCurrentIndex(1);
 
-    //iniPathFileName = searchIniFile();
-    //qDebug() << iniPathFileName;
-    //loadSettings(iniPathFileName);
+    iniPathFileName = searchIniFile();
+    qDebug() << iniPathFileName;
+    loadSettings(iniPathFileName);
+
     backend = new BackendHandler(this);
 
     //for (int n = 0; n < NUMDEIFS; n++) {
@@ -282,7 +283,7 @@ void MainWindow::on_pushButton_clicked()
  * Aborts the application if not found.
  * @return The valid filename
  */
-/*
+
 QString MainWindow::searchIniFile()
 {
     QString binDir = QApplication::applicationDirPath();
@@ -305,8 +306,7 @@ QString MainWindow::searchIniFile()
         return "config file not found";
     }
 }
-*/
-/*
+
 void MainWindow::loadSettings(QString iniFilename)
 {
 // beware that the dir names in *.ini match their case
@@ -318,57 +318,53 @@ void MainWindow::loadSettings(QString iniFilename)
     QString sText;
 
 // dispatch data to frames
-    qs.beginGroup("Bridge");
-    int bSerial = qs.value("Serial", "0").toInt();
-    int bChannel = qs.value("Channel", "0").toInt();
-    bf->setIniParameters(bSerial, bChannel);
+    qs.beginGroup("General");
+    int comport = qs.value("COMPort", "1").toInt();
+    int baudrate = qs.value("Baudrate", "9600").toInt();
+    QString ipaddrStr = qs.value("IPAddress", "0.0.0.0").toString();
+    //bf->setIniParameters(bSerial, bChannel);
     qs.endGroup();
 
-    qs.beginGroup("DCMotor");
-    int mSerial = qs.value("Serial", "0").toInt();
-    int mChannel = qs.value("Channel", "0").toInt();
-    int mHubPort = qs.value("HubPort", "0").toInt();
-    mf->setMotorIniParameters(mSerial, mChannel, mHubPort);
+    qs.beginGroup("DEIF");
+    int gridAddress = qs.value("GridAddress", "-1").toInt();
+    int pvAddress = qs.value("PVAddress", "-1").toInt();
+    int batteryAddress = qs.value("BatteryAddress", "-1").toInt();
+    int loadAddress = qs.value("LoadAddress", "-1").toInt();
+    mbf[0]->setMbAddress(gridAddress);
+    mbf[1]->setMbAddress(pvAddress);
+    mbf[2]->setMbAddress(batteryAddress);
+    mbf[3]->setMbAddress(loadAddress);
     qs.endGroup();
 
-    qs.beginGroup("Potmeter");
-    int rSerial = qs.value("Serial", "0").toInt();
-    int rChannel = qs.value("Channel", "0").toInt();
-    int rHubPort = qs.value("HubPort", "0").toInt();
-    mf->setPotmeterIniParameters(rSerial, rChannel, rHubPort);
-
-    double lowLim = (qs.value("LowLimit", "0.1").toDouble());
-    mf->setLowLimitRatio(lowLim);
-    double highLim = (qs.value("HighLimit", "0.9").toDouble());
-    mf->setHighLimitRatio(highLim);
-    double fullRange = (qs.value("FullRangeMM", "100.0").toDouble());
-    mf->setFullRangeMM(fullRange);
-    qs.endGroup();
+    qs.beginGroup("Database");
+    QString dbName = qs.value("DbName", "").toString();
+    int dbPort = qs.value("DbPort", "3306").toInt();
+    QString dbUser = qs.value("DbUser", "NoUser").toString();
+    QString dbPass = qs.value("DbPass", "").toString();
+    //mf->setPotmeterIniParameters(rSerial, rChannel, rHubPort);
 }
-*/
-/*
+
 void MainWindow::saveSettings(QString iniFilename)
 {
     QSettings qs(iniFilename, QSettings::IniFormat);
     QString sText;
 
-    qs.beginGroup("Dirs");
-    QString dirText = projf->getPIDir().absolutePath();
-    qs.setValue("PIDir", dirText);
-    dirText = projf->getLogDir().absolutePath();
-    qs.setValue("LogDir", dirText);
+    qs.beginGroup("General");
+    //QString dirText = projf->getPIDir().absolutePath();
+    //qs.setValue("PIDir", dirText);
+    //dirText = projf->getLogDir().absolutePath();
+    //qs.setValue("LogDir", dirText);
     qs.endGroup();
 
-    qs.beginGroup("Form");
+    qs.beginGroup("DEIF");
     //this->setGeometry( = qs.value("Top", "100.0").toString();
-    sText = qs.value("Left", "100.0").toString();
+    //sText = qs.value("Left", "100.0").toString();
     qs.endGroup();
 
-    qs.beginGroup("PI_C884");
-    qs.setValue("ComPort", "true").toInt());
-    QString ip = (qs.value("IP", "true").toString());
+    qs.beginGroup("Database");
+    //qs.setValue("ComPort", "true").toInt());
+    //QString ip = (qs.value("IP", "true").toString());
     qs.endGroup();
 }
-*/
 
 
