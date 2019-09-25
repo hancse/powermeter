@@ -345,7 +345,17 @@ void MainWindow::loadSettings(QString iniFilename)
     int comport = qs.value("COMPort", "1").toInt();
     int baudrate = qs.value("Baudrate", "9600").toInt();
     QString ipaddrStr = qs.value("IPAddress", "0.0.0.0").toString();
-    //bf->setIniParameters(bSerial, bChannel);
+    SerialDialog::PortParameters p;
+    p.name = QString("COM%1").arg(comport);
+    p.baudRate = baudrate;
+    //p.parity = QSerialPort::Parity::NoParity;
+    //p.dataBits = QSerialPort::Data8;
+    //p.stopBits = QSerialPort::StopBits::OneStop;
+    //p.flowControl = QSerialPort::FlowControl::NoFlowControl;
+    mbf[0]->setSerialParameters(p);
+    mbf[1]->setSerialParameters(p);
+    mbf[2]->setSerialParameters(p);
+    mbf[3]->setSerialParameters(p);
     qs.endGroup();
 
     qs.beginGroup("DEIF");

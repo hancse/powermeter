@@ -109,9 +109,9 @@ void ModbusFrame::displayData(int addr, UniversalAEParams ae)
     strpf->realTimeAllSlot(ae.dt, yd, true);
 }
 
-void ModbusFrame::connectRTU()
+void ModbusFrame::connectRTU(SerialDialog::PortParameters p)
 {
-    SerialDialog::PortParameters p = sd->getCp();
+    //SerialDialog::PortParameters p = sd->getCp();
     ui->portEdit->setText(p.name);
     deif->modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
                                             ui->portEdit->text());
@@ -127,9 +127,9 @@ void ModbusFrame::connectRTU()
     deif->modbusDevice->setNumberOfRetries(p.numberOfRetries);
 }
 
-void ModbusFrame::connectTCP()
+void ModbusFrame::connectTCP(TcpDialog::PortParameters u)
 {
-    TcpDialog::PortParameters u = tcpd->getUp();
+    //TcpDialog::PortParameters u = tcpd->getUp();
     //const QUrl url = QUrl::fromUserInput(ui->portEdit->text());
     deif->modbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter, u.url.port());
     deif->modbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter, u.url.host());
@@ -145,9 +145,11 @@ void ModbusFrame::on_btnConnect_clicked()
     ui->lblStatus->clear();
     if (deif->modbusDevice->state() != QModbusDevice::ConnectedState) {
         if (static_cast<ModbusConnection> (ui->connectType->currentIndex()) == Serial) {
-            connectRTU();
+            SerialDialog::PortParameters p = sd->getCp();
+            connectRTU(p);
         } else {
-            connectTCP();
+            TcpDialog::PortParameters u = tcpd->getUp();
+            connectTCP(u);
         }
 
         if (!deif->modbusDevice->connectDevice()) {
@@ -322,4 +324,24 @@ void ModbusFrame::on_checkAuto_clicked(bool checked)
 void ModbusFrame::on_serverEdit_valueChanged(int arg1)
 {
     deif->setServerAddress(arg1);
+}
+
+/**
+ * @brief get serial port parameters from built-in SerialDialog object
+ * @return
+ */
+SerialDialog::PortParameters ModbusFrame::getSerialParameters() const
+{
+    return sd->getCp();
+}
+
+/**
+ * @brief set serial port parameters of built-in SerialDialog object
+ * @param value
+ */
+void ModbusFrame::setSerialParameters(SerialDialog::PortParameters &value)
+{
+    sd->setCp(value);
+    ui->portEdit->setText(value.name);
+
 }

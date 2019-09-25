@@ -22,11 +22,14 @@ public:
 
     DEIFModbus* deif;
 
-    void connectRTU();
-    void connectTCP();
+    void connectRTU(SerialDialog::PortParameters p);
+    void connectTCP(TcpDialog::PortParameters u);
 
     void setMbAddress(int addr);
     void readAllParameters();
+
+    SerialDialog::PortParameters getSerialParameters() const;
+    void setSerialParameters(SerialDialog::PortParameters &value);
 
 private slots:
     void on_btnConnect_clicked();
@@ -48,7 +51,6 @@ private:
 
 private:
     Ui::ModbusFrame *ui;
-
     SerialDialog* sd;
     TcpDialog* tcpd;
     StripFrameTriple* strpf;
