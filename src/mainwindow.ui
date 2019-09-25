@@ -145,9 +145,9 @@
    <widget class="QGroupBox" name="gblogging">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>270</x>
       <y>620</y>
-      <width>902</width>
+      <width>841</width>
       <height>56</height>
      </rect>
     </property>
@@ -196,38 +196,86 @@
     <widget class="QLineEdit" name="leComment">
      <property name="geometry">
       <rect>
-       <x>300</x>
+       <x>290</x>
        <y>24</y>
-       <width>581</width>
+       <width>541</width>
        <height>23</height>
       </rect>
      </property>
     </widget>
    </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>616</y>
+      <width>211</width>
+      <height>64</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Control</string>
+    </property>
+    <widget class="QPushButton" name="btnConnect">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>22</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>CONNECT</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblConnect">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>19</y>
+       <width>87</width>
+       <height>37</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: red;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>30</y>
+       <width>70</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>auto</string>
+     </property>
+    </widget>
+    <zorder>lblConnect</zorder>
+    <zorder>btnConnect</zorder>
+    <zorder>checkBox</zorder>
+   </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>640</y>
+      <x>200</x>
+      <y>670</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>640</y>
-      <width>70</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>auto</string>
     </property>
    </widget>
   </widget>

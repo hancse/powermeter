@@ -22,6 +22,8 @@ public:
     void displayBatteryData(UniversalAEParams ae);
     void displayLoadData(UniversalAEParams ae);
 
+private slots:
+
 private:
     Ui::TopFrame *ui;
     //StripFrameTriple* strpf;

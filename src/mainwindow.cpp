@@ -71,7 +71,7 @@ MainWindow::~MainWindow()
  * @brief setup connections from child SIGNALS to MainWindow SLOTS
  */
 void MainWindow::setupConnections()
-{
+{   
 // connect SIGNAL from mainTimer to SLOT MainWindow::readComplete
     connect(this->mainTimer, &QTimer::timeout,
             this,&MainWindow::readComplete);
@@ -406,4 +406,11 @@ void MainWindow::on_checkBox_clicked(bool checked)
 {
     (checked) ? mainTimer->start(2000) : mainTimer->stop();
 
+}
+
+void MainWindow::on_btnConnect_clicked(bool checked)
+{
+    for (int n = 0; n < NUMDEIFS; n++) {
+        mbf[n]->connectFromOutside();
+    }
 }

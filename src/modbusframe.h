@@ -31,6 +31,9 @@ public:
     SerialDialog::PortParameters getSerialParameters() const;
     void setSerialParameters(SerialDialog::PortParameters &value);
 
+public slots:
+    void connectFromOutside();
+
 private slots:
     void on_btnConnect_clicked();
     void on_btnConfig_clicked();

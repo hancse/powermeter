@@ -57,3 +57,4 @@ void TopFrame::displayLoadData(UniversalAEParams ae)
     ui->lblPowerLoad->setText(QString("%1 W").arg(ae.systemPower, 0, 'f', 1));
     ui->lblTotalEnergyLoad->setText(QString("%1 kWh").arg(ae.energyTotal, 0, 'f', 1));
 }
+

@@ -17,7 +17,7 @@ public:
     QModbusReply* lastRequest;
     QModbusClient* modbusDevice;
 
-    //QTimer* deifTimer;
+    //QTimer* deifTimer;  // removed from non-GUI class
 
     void readDEIF(int regType, int serverAddress, int StartAddress, int numberOfEntries);
     void readDummyAll();

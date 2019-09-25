@@ -8,7 +8,7 @@ DEIFModbus::DEIFModbus(QObject *parent) :
     lastRequest(nullptr),
     modbusDevice(nullptr)
 {
-    //deifTimer = new QTimer(this);
+    //deifTimer = new QTimer(this); // removed from non-GUI class
     //connect(deifTimer, &QTimer::timeout, this, &DEIFModbus::readAll);
     //connect(deifTimer, &QTimer::timeout, this, &DEIFModbus::readDummyAll);
 }

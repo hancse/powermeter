@@ -42,13 +42,15 @@ private slots:
 
     void on_checkBox_clicked(bool checked);
 
+    void on_btnConnect_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
 
     SerialDialog* sd;
     TcpDialog* tcpd;
 
-    QTimer* mainTimer;
+    QTimer* mainTimer;  /**< timer to synchronize reading of all DEIF units*/
     QTimer* logTimer;
     QString commentLine;
     bool isLogging = false;
