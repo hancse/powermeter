@@ -51,11 +51,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     backend = new BackendHandler(this);
 
-    //for (int n = 0; n < NUMDEIFS; n++) {
-      //  connect(mbf[n]->deif, &DEIFModbus::dataReady,
-       //         this, &MainWindow::displayAllMeas);
-    //}
-
     setupConnections();
 }
 
@@ -130,7 +125,7 @@ void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
     timestamp.setTimeZone(QTimeZone::utc());
     //qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
 
-    qDebug() << "Address:" << addr;
+    qDebug() << "MainWindow::displayAllMeas Address:" << addr;
     if (addr < 0 ) {
         topf->displayGridData(ae);
         topf->displayPVData(ae);
