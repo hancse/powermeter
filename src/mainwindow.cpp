@@ -22,6 +22,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    qDebug() << "_MSC_VER : " << _MSC_VER;
+    qDebug() << "_MSC_FULL_VER : " << _MSC_FULL_VER;
+    qDebug() << "_MSC_BUILD : " << _MSC_BUILD;
+
     sd = new SerialDialog(this);
     tcpd = new TcpDialog(this);
 

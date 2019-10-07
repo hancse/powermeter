@@ -88,11 +88,11 @@ RESOURCES += \
 include ( C:\Qwt-6.1.4\features\qwt.prf )
 #include ( C:\QwtPolar-1.1.1\features\qwtpolar.prf )
 
-win32: LIBS += -LC:/OpenSSL-Win64/lib/ -llibeay32
-win32: LIBS += -LC:/OpenSSL-Win64/lib/ -lssleay32
+#win32: LIBS += -LC:/OpenSSL-Win64/lib/ -llibeay32
+#win32: LIBS += -LC:/OpenSSL-Win64/lib/ -lssleay32
 
-INCLUDEPATH += C:/OpenSSL-Win64/include
-DEPENDPATH += C:/OpenSSL-Win64/include
+#INCLUDEPATH += C:/OpenSSL-Win64/include
+#DEPENDPATH += C:/OpenSSL-Win64/include
 
 
 
