@@ -38,11 +38,11 @@
     <string>LogFile</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btnBrowse">
    <property name="geometry">
     <rect>
      <x>450</x>
-     <y>16</y>
+     <y>20</y>
      <width>75</width>
      <height>31</height>
     </rect>
@@ -68,7 +68,7 @@
    <property name="geometry">
     <rect>
      <x>750</x>
-     <y>16</y>
+     <y>20</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -84,7 +84,7 @@
    <property name="geometry">
     <rect>
      <x>820</x>
-     <y>16</y>
+     <y>20</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -97,9 +97,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>99</y>
+     <y>60</y>
      <width>881</width>
-     <height>491</height>
+     <height>71</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -113,7 +113,7 @@
    <property name="geometry">
     <rect>
      <x>530</x>
-     <y>16</y>
+     <y>20</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -126,7 +126,7 @@
    <property name="geometry">
     <rect>
      <x>640</x>
-     <y>16</y>
+     <y>20</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -138,9 +138,9 @@
   <widget class="QLineEdit" name="leComment">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>60</y>
-     <width>691</width>
+     <x>130</x>
+     <y>140</y>
+     <width>581</width>
      <height>23</height>
     </rect>
    </property>
@@ -148,8 +148,8 @@
   <widget class="QPushButton" name="btnInsert">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>60</y>
+     <x>10</x>
+     <y>140</y>
      <width>101</width>
      <height>23</height>
     </rect>

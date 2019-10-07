@@ -245,7 +245,7 @@ void MainWindow::on_btnLogStart_clicked()
     logf->setLogHeader("# unixTime, yyyy-MM-dd, hh:mm:ss, Freq, "
                        "V1, V2, V3, I1, I2, I3, P1, P2, P3, TotalEnergy");
 // press on "Start" button in LogFrame
-    logf->on_btnStart_clicked();
+    //logf->on_btnStart_clicked();
     isLogging = true;
 // enable/disable buttons
     ui->btnLogStart->setEnabled(false);
@@ -258,7 +258,7 @@ void MainWindow::on_btnLogStart_clicked()
 void MainWindow::on_btnLogStop_clicked()
 {
     isLogging = false;
-    logf->on_btnStop_clicked();
+    //logf->on_btnStop_clicked();
 
     ui->btnLogStart->setEnabled(true);
     ui->btnLogStop->setEnabled(false);
