@@ -102,23 +102,21 @@ void MainWindow::readComplete()
 void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
 {
     QDateTime timestamp = QDateTime(QDateTime::currentDateTime());
-    if (isLogging) {
-        //QString line;
 
-        //QDateTime dt = QDateTime::currentDateTime();
-        qint64 unixTime = timestamp.toMSecsSinceEpoch();
+    if (isLogging) {
+        qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
         QString dateStr = timestamp.toString("yyyy-MM-dd");
         QString timeStr = timestamp.toString("hh:mm:ss:zzz");
 
-        //line.sprintf("%10i, %s, %s, %5.2lf, %5.2lf",
-        //             unixTime, dateStr, timeStr, ratio, position);
-
-        QString line = QString("%1, %2, %3, %4, %5")
-                       .arg(unixTime)
+        QString line = QString("%1, %2, %3, %4, %5 %6 %7 %8")
+                       .arg(unixTimestamp)
                        .arg(dateStr)
                        .arg(timeStr)
-                       .arg(ae.freq);
-                       //.arg(position);
+                       .arg(ae.avgVoltage, 0, 'f', 1)
+                       .arg(ae.avgCurrent, 0, 'f', 1)
+                       .arg(ae.systemPower, 0, 'f', 1)
+                       .arg(ae.energyTotal, 0, 'f', 1)
+                       .arg(ae.freq, 0, 'f', 2);
 
          logf->write(line);
          if (!commentLine.isEmpty()) {
@@ -126,8 +124,7 @@ void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
              commentLine.clear();
          }
     }
-    timestamp.setTimeZone(QTimeZone::utc());
-    //qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
+    //timestamp.setTimeZone(QTimeZone::utc());
 
     qDebug() << "MainWindow::displayAllMeas Address:" << addr;
     if (addr < 0 ) {
@@ -170,8 +167,8 @@ void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
     bamsg.append(strmsg);
     qDebug() << bamsg;
 
-    backend->postRequest("", bamsg);
-    //backend->postRequest("http://localhost:8080/sevci_backend_war/measurements", bamsg);
+    //backend->postRequest("", bamsg);
+    backend->postRequest("http://localhost:8080/sevci_backend_war/measurements", bamsg);
 
     qDebug() << "POST done";
 }
@@ -222,6 +219,7 @@ void MainWindow::populateStack()
     for (int n = 0; n < NUMDEIFS; n++) {
         mbf[n] = new ModbusFrame();
         ui->stackedWidget->addWidget(mbf[n]);  //1,2,3,4
+        qDebug() << QString("ModbusFrame %1 created and stacked").arg(n);
     }
 
     sqlf = new SQLFrame();
@@ -362,6 +360,8 @@ void MainWindow::loadSettings(QString iniFilename)
     int pvAddress = qs.value("PVAddress", "-1").toInt();
     int batteryAddress = qs.value("BatteryAddress", "-1").toInt();
     int loadAddress = qs.value("LoadAddress", "-1").toInt();
+    qDebug() << gridAddress << pvAddress << batteryAddress << loadAddress << endl;
+
     mbf[0]->setMbAddress(gridAddress);
     mbf[1]->setMbAddress(pvAddress);
     mbf[2]->setMbAddress(batteryAddress);

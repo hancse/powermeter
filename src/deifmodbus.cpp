@@ -255,6 +255,7 @@ int DEIFModbus::getServerAddress() const
 void DEIFModbus::setServerAddress(int value)
 {
     serverAddress = value;
+    qDebug() << value << serverAddress;
 }
 
 bool DEIFModbus::getIsMK2() const
