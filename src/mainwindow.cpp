@@ -101,10 +101,14 @@ void MainWindow::readComplete()
  */
 void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
 {
-    QDateTime timestamp = QDateTime(QDateTime::currentDateTime());
+    QDateTime timestamp = QDateTime::currentDateTime();
+    qDebug() << timestamp.toString("hh:mm:ss:zzz");
+
+    timestamp.setTimeZone(QTimeZone().utc());
+    qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
 
     if (isLogging) {
-        qint64 unixTimestamp = timestamp.toMSecsSinceEpoch();
+
         QString dateStr = timestamp.toString("yyyy-MM-dd");
         QString timeStr = timestamp.toString("hh:mm:ss:zzz");
 
@@ -158,9 +162,9 @@ void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
     strmsg.append( QString("\"power\": %1,").arg(ae.systemPower, 0, 'f', 1) );
     strmsg.append( QString("\"energy\": %1,").arg(ae.energyTotal, 0, 'f', 1) );
     strmsg.append( QString("\"frequency\": %1,").arg(ae.freq, 0, 'f', 1) );
-    strmsg.append( QString("\"timestamp\": %1").arg(ae.timestamp) );
-    strmsg.append( QString("\"userId\": %1").arg(ae.userID) );
-    strmsg.append( QString("\"socketId\": %1").arg(ae.socketID) );
+    strmsg.append( QString("\"timestamp\": %1").arg(unixTimestamp) );
+    //strmsg.append( QString("\"userId\": %1,").arg(ae.userID) );
+    //strmsg.append( QString("\"socketId\": %1").arg(ae.socketID) );
     strmsg.append( " }_json");
 
     QByteArray bamsg = QByteArray();

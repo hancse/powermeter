@@ -83,7 +83,7 @@ void BackendHandler::postRequest(QString ipName, QByteArray &postData)
 
     //ipName = "http://localhost:8080/sevci_backend_war/measurements";
     //Local Development URL (endpoint) when running the Java API
-    //ipName = "http://localhost:8080/sevci-backend-2.0/measurements";
+    ipName = "http://localhost:8080/sevci-backend-2.0/measurements";
 
     QUrl url = QUrl(ipName);
     QNetworkRequest request(url);
