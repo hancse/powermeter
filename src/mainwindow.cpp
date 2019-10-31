@@ -32,8 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mainTimer = new QTimer(this);
     mainTimer->setInterval(5000);
 
-    logTimer = new QTimer(this);
-    logTimer->setInterval(5000);
+    //logTimer = new QTimer(this);
+    //logTimer->setInterval(5000);
     //logTimer->start();
 
     //connect(this->logTimer, &QTimer::timeout,
@@ -112,7 +112,8 @@ void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
         QString dateStr = timestamp.toString("yyyy-MM-dd");
         QString timeStr = timestamp.toString("hh:mm:ss:zzz");
 
-        QString line = QString("%1, %2, %3, %4, %5 %6 %7 %8")
+        QString line = QString("%1, %2, %3, %4, %5, %6, %7, %8, %9")
+                       .arg(addr)
                        .arg(unixTimestamp)
                        .arg(dateStr)
                        .arg(timeStr)
@@ -121,6 +122,8 @@ void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
                        .arg(ae.systemPower, 0, 'f', 1)
                        .arg(ae.energyTotal, 0, 'f', 1)
                        .arg(ae.freq, 0, 'f', 2);
+
+        qDebug() << "Logging: " << line;
 
          logf->write(line);
          if (!commentLine.isEmpty()) {
@@ -237,19 +240,30 @@ void MainWindow::populateStack()
  */
 void MainWindow::on_btnLogStart_clicked()
 {
+    // set log folder
+    if  ( !mainLogDir.exists() ) {
+        mainLogDir.mkpath(mainLogDir.absolutePath());
+    }
+    logf->setLogDir( mainLogDir );
+
 // create a string from current datetime
     QDateTime datetime(QDateTime::currentDateTime());
     QString dtString = datetime.toString("yyyyMMdd_hhmmss");
-// set log folder
-    logf->setLogDir( QDir("C:/Data") );
+
 // set log file with timestamp in filename
-    logf->setLogFile("C:/Data/Phidgets_" + dtString + ".log");
+    QString logPathFileExt = mainLogDir.absoluteFilePath(dtString + ".log");
+    qDebug() << logPathFileExt;
+    logf->setLogFile( logPathFileExt );
+
 // set header of logfile according to displayMeas method
-    logf->setLogHeader("# unixTime, yyyy-MM-dd, hh:mm:ss, Freq, "
-                       "V1, V2, V3, I1, I2, I3, P1, P2, P3, TotalEnergy");
+    logf->setLogHeader("# MBAddress, unixTime, yyyy-MM-dd, hh:mm:ss, "
+                       "avgVoltage, avgCurrent, systemPower, "
+                       "energyTotal, frequency");
+
 // press on "Start" button in LogFrame
-    //logf->on_btnStart_clicked();
+    logf->on_btnStart_clicked();
     isLogging = true;
+
 // enable/disable buttons
     ui->btnLogStart->setEnabled(false);
     ui->btnLogStop->setEnabled(true);
@@ -261,7 +275,7 @@ void MainWindow::on_btnLogStart_clicked()
 void MainWindow::on_btnLogStop_clicked()
 {
     isLogging = false;
-    //logf->on_btnStop_clicked();
+    logf->on_btnStop_clicked();
 
     ui->btnLogStart->setEnabled(true);
     ui->btnLogStop->setEnabled(false);
@@ -367,12 +381,15 @@ void MainWindow::loadSettings(QString iniFilename)
     qDebug() << "DEIF Modbus Addresses: "
              << gridAddress << pvAddress
              << batteryAddress << loadAddress;
+    int interval = qs.value("Interval", "5000").toInt();
     qs.endGroup();
 
     mbf[0]->setMbAddress(gridAddress);
     mbf[1]->setMbAddress(pvAddress);
     mbf[2]->setMbAddress(batteryAddress);
     mbf[3]->setMbAddress(loadAddress);
+
+    mainTimer->setInterval(interval);
 
     qs.beginGroup("Database");
     QString dbName = qs.value("DbName", "").toString();
@@ -387,8 +404,13 @@ void MainWindow::loadSettings(QString iniFilename)
     qs.endGroup();
 
     qDebug() << ipname;
-
     backend->setIpName(ipname);
+
+    qs.beginGroup("Logging");
+    QString logdir = qs.value("LogDir", "").toString();
+    qs.endGroup();
+
+    mainLogDir = QDir(logdir);
 }
 
 void MainWindow::saveSettings(QString iniFilename)
@@ -418,7 +440,7 @@ void MainWindow::saveSettings(QString iniFilename)
 
 void MainWindow::on_checkBox_clicked(bool checked)
 {
-    (checked) ? mainTimer->start(10000) : mainTimer->stop();
+    (checked) ? mainTimer->start() : mainTimer->stop();
 
 }
 

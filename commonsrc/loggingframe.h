@@ -34,14 +34,13 @@ public:
     QString getCommentLine() const;
     void setCommentLine(const QString &value);
 
-private slots:
-    void on_btnBrowse_clicked();
+public slots:
     void on_btnStart_clicked();
     void on_btnStop_clicked();
-    void on_btnInsert_clicked();
 
-    void on_btnWrite_clicked();
-    void on_btnRead_clicked();
+private slots:
+    void on_btnBrowse_clicked();
+    void on_btnInsert_clicked();
 
 private:
     Ui::LoggingFrame *ui;

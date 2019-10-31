@@ -144,19 +144,3 @@ void SQLFrame::on_leInput_textChanged(const QString &arg1)
     else
         ui->btnSearch->setEnabled(false);
 }
-
-void SQLFrame::on_pushButton_clicked()
-{
-
-}
-
-void SQLFrame::on_pushButton_2_clicked()
-{
-
-}
-
-
-void SQLFrame::on_btnJSON_clicked()
-{
-
-}

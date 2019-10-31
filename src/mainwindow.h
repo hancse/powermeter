@@ -49,7 +49,9 @@ private:
     TcpDialog* tcpd;
 
     QTimer* mainTimer;  /**< timer to synchronize reading of all DEIF units*/
-    QTimer* logTimer;
+    //QTimer* logTimer;
+
+    QDir mainLogDir;
     QString commentLine;
     bool isLogging = false;
     QString iniPathFileName;

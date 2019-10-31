@@ -90,17 +90,26 @@ void LoggingFrame::setLogHeader(const QString &value)
 void LoggingFrame::on_btnStart_clicked()
 {
     qDebug() << "entry on btn_Start";
-// create a string from current datetime
-    QDateTime datetime(QDateTime::currentDateTime());
-    QString dtString = datetime.toString("yyyyMMdd_hhmmss");
-// set log folder
+
+// set log folder: can be done from calling routine
     //setLogDir( QDir("C:/Data") );
-// set log file with timestamp in filename
-    //setLogFile("C:/Data/Phidgets_" + dtString + ".log");
-// set header of logfile according to displayMeas method
-    setLogHeader("# unixTime, yyyy-MM-dd, hh:mm:ss:zzz, loadratio, act.position");
+
+// create a string from current datetime: can be done in caller
+    //QDateTime datetime(QDateTime::currentDateTime());
+    //QString dtString = datetime.toString("yyyyMMdd_hhmmss");
+
+// set log file with timestamp in filename: can be done in caller
+    //QString logPathFileExt = logDir.absoluteFilePath(dtString + ".log");
+    //qDebug() << logPathFileExt;
+    //setLogFile( logPathFileExt );
+
+// set header of logfile according to displayMeas method: can be done in caller
+    //setLogHeader("# unixTime, yyyy-MM-dd, hh:mm:ss:zzz, "
+                //"param1, param2, param3,"
+                // "loadratio, act.position");
 
     qDebug() << logFile.fileName();
+
     if(logFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
         // We're going to stream text to the file
         qDebug() << logFile.fileName();
@@ -165,12 +174,3 @@ void LoggingFrame::on_btnBrowse_clicked()
     qDebug() << logFile.fileName();
 }
 
-void LoggingFrame::on_btnWrite_clicked()
-{
-    //write(QString line);
-}
-
-void LoggingFrame::on_btnRead_clicked()
-{
-    //read();
-}
