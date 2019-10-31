@@ -407,7 +407,7 @@ void MainWindow::saveSettings(QString iniFilename)
 
 void MainWindow::on_checkBox_clicked(bool checked)
 {
-    (checked) ? mainTimer->start(2000) : mainTimer->stop();
+    (checked) ? mainTimer->start(10000) : mainTimer->stop();
 
 }
 
