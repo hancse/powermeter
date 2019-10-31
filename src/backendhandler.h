@@ -19,9 +19,13 @@ public:
     BackendHandler(QWidget *parent);
     ~BackendHandler();
 
-    void postRequest(QString ipName, QByteArray &postData);
+    void postRequest(QByteArray &postData);
     //int postRequest2(QString requestType, QUrl params);
     QByteArray test_serialize();
+
+    QString getIpName() const;
+    void setIpName(const QString &value);
+
 signals:
 
 public slots:
@@ -31,6 +35,8 @@ private slots:
 
 private:
     json msg2db;
+    QString ipName;
+
     //QSslSocket* socket;
     //QSslConfiguration sslConfig;
     //QSslSocket::sslLibraryBuildVersionString();

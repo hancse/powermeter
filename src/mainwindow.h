@@ -38,8 +38,6 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionExit_triggered();
 
-    void on_pushButton_clicked();
-
     void on_checkBox_clicked(bool checked);
 
     void on_btnConnect_clicked(bool checked);

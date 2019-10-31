@@ -10,7 +10,7 @@
 #include <QSqlQuery>
 #include <QtSql>
 #include <QList>
-#include "backendhandler.h"
+//#include "backendhandler.h"
 
 SQLFrame::SQLFrame(QWidget *parent) :
     QFrame(parent),

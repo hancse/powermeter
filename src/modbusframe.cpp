@@ -69,7 +69,9 @@ void ModbusFrame::setupConnections()
 void ModbusFrame::setMbAddress(int addr)
 {
     ui->serverEdit->setValue(addr);
+    // this->on_serverEdit_valueChanged SLOT takes care of :
     //deif->setServerAddress(addr);
+    // provided the QSpinbox is initialized with value: 0 (not 1,2,3 or 4)
 }
 
 /**
@@ -323,8 +325,6 @@ void ModbusFrame::on_checkAuto_clicked(bool checked)
 {
     //(checked) ? deif->deifTimer->start(2000) : deif->deifTimer->stop();
 }
-
-
 
 void ModbusFrame::on_serverEdit_valueChanged(int arg1)
 {

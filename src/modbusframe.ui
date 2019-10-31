@@ -550,10 +550,13 @@ color: lime;</string>
      </size>
     </property>
     <property name="minimum">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="maximum">
      <number>247</number>
+    </property>
+    <property name="value">
+     <number>0</number>
     </property>
    </widget>
    <widget class="QPushButton" name="btnConnect">

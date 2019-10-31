@@ -77,50 +77,61 @@ QByteArray BackendHandler::test_serialize()
 }
 
 //https://gist.github.com/rla/3163550
-void BackendHandler::postRequest(QString ipName, QByteArray &postData)
+void BackendHandler::postRequest(QByteArray &postData)
 {
     //ipName = "https://hannl-sustainablecharching-be-app.azurewebsites.net";
-
     //ipName = "http://localhost:8080/sevci_backend_war/measurements";
     //Local Development URL (endpoint) when running the Java API
-    ipName = "http://localhost:8080/sevci-backend-2.0/measurements";
+    //ipName = "http://localhost:8080/sevci-backend-2.0/measurements";
 
-    QUrl url = QUrl(ipName);
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    if ( !ipName.isEmpty() ) {
+        QUrl url = QUrl(ipName);
+        QNetworkRequest request(url);
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    if (ipName.startsWith("https")) {
-// SSL Configuration
-        QSslConfiguration sslConfiguration(QSslConfiguration::defaultConfiguration());
-        //QSslConfiguration sslConfiguration = request.sslConfiguration();
-        //sslConfiguration.setProtocol(QSsl::TlsV1_2OrLater);
-        sslConfiguration.setPeerVerifyMode (QSslSocket::VerifyNone);
-        sslConfiguration.setProtocol (QSsl::AnyProtocol);
-        request.setSslConfiguration(sslConfiguration);
-    } else {
+        if (ipName.startsWith("https")) {
+            // SSL Configuration
+            QSslConfiguration sslConfiguration(QSslConfiguration::defaultConfiguration());
+            //QSslConfiguration sslConfiguration = request.sslConfiguration();
+            //sslConfiguration.setProtocol(QSsl::TlsV1_2OrLater);
+            sslConfiguration.setPeerVerifyMode (QSslSocket::VerifyNone);
+            sslConfiguration.setProtocol (QSsl::AnyProtocol);
+            request.setSslConfiguration(sslConfiguration);
+        } else {
            // TODO: Try to get https
+        }
+
+        //request.setSslConfiguration(sslConfig);
+
+        QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+
+        connect(manager,SIGNAL(finished(QNetworkReply*)),
+                this,SLOT(onFinish(QNetworkReply*)));
+        connect(manager,SIGNAL(finished(QNetworkReply*)),
+                manager,SLOT(deleteLater()));
+
+        //QByteArray data = QtJson::Json::serialize(collectSyncData());
+        // FIXME for debug
+        //qDebug() << "Sync" << QString::fromUtf8(postData.data(), postData.size());
+
+        manager->post(request, postData);
     }
-
-    //request.setSslConfiguration(sslConfig);
-
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-
-    connect(manager,SIGNAL(finished(QNetworkReply*)),
-            this,SLOT(onFinish(QNetworkReply*)));
-    connect(manager,SIGNAL(finished(QNetworkReply*)),
-            manager,SLOT(deleteLater()));
-
-    //QByteArray data = QtJson::Json::serialize(collectSyncData());
-    // FIXME for debug
-    //qDebug() << "Sync" << QString::fromUtf8(postData.data(), postData.size());
-
-    manager->post(request, postData);
 }
 
 void BackendHandler::onFinish(QNetworkReply *rep)
 {
     QByteArray replyba = rep->readAll();
  qDebug() << "finished" << replyba;
+}
+
+QString BackendHandler::getIpName() const
+{
+    return ipName;
+}
+
+void BackendHandler::setIpName(const QString &value)
+{
+    ipName = value;
 }
 
 

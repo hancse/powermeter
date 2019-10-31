@@ -46,14 +46,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->listWidget, SIGNAL(currentRowChanged(int)),
              this, SLOT(setStackIndex(int)));
-    ui->listWidget->setCurrentRow(1);
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->listWidget->setCurrentRow(0);
+    ui->stackedWidget->setCurrentIndex(0);
+
+    backend = new BackendHandler(this);
 
     iniPathFileName = searchIniFile();
     qDebug() << iniPathFileName;
     loadSettings(iniPathFileName);
-
-    backend = new BackendHandler(this);
 
     setupConnections();
 }
@@ -171,10 +171,7 @@ void MainWindow::displayAllMeas(int addr, UniversalAEParams ae)
     bamsg.append(strmsg);
     qDebug() << bamsg;
 
-    //backend->postRequest("", bamsg);
-    backend->postRequest("http://localhost:8080/sevci_backend_war/measurements", bamsg);
-
-    qDebug() << "POST done";
+    backend->postRequest(bamsg);
 }
 
 /**
@@ -296,12 +293,6 @@ void MainWindow::on_actionExit_triggered()
     qApp->quit();
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-    QByteArray ba = backend->test_serialize();
-    backend->postRequest("https://hannl-sustainablecharching-be-app.azurewebsites.net", ba);
-}
-
 /**
  * Search the configuration file.
  * Aborts the application if not found.
@@ -345,39 +336,59 @@ void MainWindow::loadSettings(QString iniFilename)
     qs.beginGroup("General");
     int comport = qs.value("COMPort", "1").toInt();
     int baudrate = qs.value("Baudrate", "9600").toInt();
+    QString parity = qs.value("Parity", "None").toString();
+    int databits = qs.value("Databits", "8").toInt();
+    QString stopbits = qs.value("Stopbits", "1").toString();
+    QString flowcontrol = qs.value("Flowcontrol", "None").toString();
     QString ipaddrStr = qs.value("IPAddress", "0.0.0.0").toString();
     SerialDialog::PortParameters p;
     p.name = QString("COM%1").arg(comport);
     p.baudRate = baudrate;
-    //p.parity = QSerialPort::Parity::NoParity;
-    //p.dataBits = QSerialPort::Data8;
-    //p.stopBits = QSerialPort::StopBits::OneStop;
-    //p.flowControl = QSerialPort::FlowControl::NoFlowControl;
+    if ( parity.contains("None") )
+        p.parity = QSerialPort::Parity::NoParity;
+    if ( databits == 8 )
+        p.dataBits = QSerialPort::Data8;
+    if ( stopbits.endsWith("1") )
+        p.stopBits = QSerialPort::StopBits::OneStop;
+    if ( flowcontrol.contains("None") )
+        p.flowControl = QSerialPort::FlowControl::NoFlowControl;
+    qs.endGroup();
+
     mbf[0]->setSerialParameters(p);
     mbf[1]->setSerialParameters(p);
     mbf[2]->setSerialParameters(p);
     mbf[3]->setSerialParameters(p);
-    qs.endGroup();
 
     qs.beginGroup("DEIF");
     int gridAddress = qs.value("GridAddress", "-1").toInt();
     int pvAddress = qs.value("PVAddress", "-1").toInt();
     int batteryAddress = qs.value("BatteryAddress", "-1").toInt();
     int loadAddress = qs.value("LoadAddress", "-1").toInt();
-    qDebug() << gridAddress << pvAddress << batteryAddress << loadAddress << endl;
+    qDebug() << "DEIF Modbus Addresses: "
+             << gridAddress << pvAddress
+             << batteryAddress << loadAddress;
+    qs.endGroup();
 
     mbf[0]->setMbAddress(gridAddress);
     mbf[1]->setMbAddress(pvAddress);
     mbf[2]->setMbAddress(batteryAddress);
     mbf[3]->setMbAddress(loadAddress);
-    qs.endGroup();
 
     qs.beginGroup("Database");
     QString dbName = qs.value("DbName", "").toString();
-    int dbPort = qs.value("DbPort", "3306").toInt();
+    //int dbPort = qs.value("DbPort", "3306").toInt();
     QString dbUser = qs.value("DbUser", "NoUser").toString();
     QString dbPass = qs.value("DbPass", "").toString();
-    //mf->setPotmeterIniParameters(rSerial, rChannel, rHubPort);
+    qs.endGroup();
+
+    qs.beginGroup("Backend");
+    QString ipname = qs.value("IpName", "").toString();
+    //int httpPort = qs.value("HttpPort", "8080").toInt();
+    qs.endGroup();
+
+    qDebug() << ipname;
+
+    backend->setIpName(ipname);
 }
 
 void MainWindow::saveSettings(QString iniFilename)
