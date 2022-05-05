@@ -1,29 +1,31 @@
 #include "stripframetriple.h"
 #include "ui_stripframetriple.h"
 
+#include <QDebug>
+#include <QRandomGenerator>
+
 #include <qwt_plot_layout.h>
 #include <qwt_scale_widget.h>
 #include <qwt_symbol.h>
-#include <cmath>
-#include <QRandomGenerator>
+//#include <cmath>
 
 StripFrameTriple::StripFrameTriple(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::StripFrameTriple)
 {
     ui->setupUi(this);
+    ui->btnDetach->setVisible(false);  // detach function "disabled"
 
+// create QDialog for detached plot
+    pd = new QDialog();
+    pd->setWindowFlags(Qt::WindowTitleHint);
+    //pd->setStyleSheet("font-weight: bold;");  //does not inherit
+    QFont font;
+    font.setBold(true);
+    pd->setFont(font);                          // inheritance OK
 
-
-
-
-
-
-
-
-
-    dataTimer = new QTimer(this);       // dummy timer for testing
-    setXSpanSec(ui->sbSpan->value());   // set x-span (time)
+    dataTimer = new QTimer(this);               // dummy timer for testing
+    setXSpanSec(ui->sbSpan->value());           // set x-span (time)
 
 // initialize all plots: independent numbering from 0 .. NUMPLOTS
     for ( int n=0; n < NUMPLOTS; n++ ) {
@@ -145,9 +147,9 @@ void StripFrameTriple::setupPlot()
 
     }
 // optionally, setup a timer that repeatedly calls realTimeDummySlot:
-    //connect(dataTimer, SIGNAL(timeout()),
-            //this, SLOT(realtimeDummySlot()));
-    //dataTimer->start(1000);
+    connect(dataTimer, SIGNAL(timeout()),
+            this, SLOT(realTimeDummySlot()));
+    dataTimer->start(1000);
 }
 
 /**
@@ -155,8 +157,12 @@ void StripFrameTriple::setupPlot()
  */
 void StripFrameTriple::realTimeDummySlot()
 {
-    double newDummyData = 230.0 + QRandomGenerator::global()->generateDouble();
-    realTimeSlot(0, QDateTime::currentDateTime(), newDummyData, true);
+    int plotNum = 0;
+    int curveNum = 0;
+    double meanVal = 0.5*(yMin[plotNum] + yMax[plotNum]);
+    double noiseVal = QRandomGenerator::global()->generateDouble();
+    double newDummyData = meanVal*(1.0 + 0.05*noiseVal);
+    realTimeSlot(curveNum, QDateTime::currentDateTime(), newDummyData, true);
 }
 
 /**
@@ -206,7 +212,7 @@ void StripFrameTriple::realTimeSlot(int curveIndex,
 
 // check
         //qDebug() << data[curveIndex].timeDT[0].toString("hh:mm:ss:zzz")
-             //    << data[curvIndex].timeDT[dataCount-1].toString("hh:mm:ss:zzz")
+             //    << data[curveIndex].timeDT[dataCount-1].toString("hh:mm:ss:zzz")
              //    << data[curveIndex].yData[0]
              //    << data[curveIndex].yData[dataCount-1]
              //    << dataCount;
@@ -348,6 +354,20 @@ void StripFrameTriple::setHistory(int value)
 void StripFrameTriple::setXSpanSec(double value)
 {
     xSpanSec = value;
+}
+
+void StripFrameTriple::on_btnDetach_clicked(bool checked)
+{
+    if (checked) {
+        plot[0]->setParent(pd);
+        pd->show();
+        ui->btnDetach->setText("Attach");
+    } else {
+        ui->btnDetach->setText("Detach");
+        plot[0]->setParent(this);
+        plot[0]->show();
+        pd->hide();
+    }
 }
 
 void StripFrameTriple::setAutoY(int plotIndex, bool autovalue)

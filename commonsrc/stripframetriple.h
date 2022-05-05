@@ -2,6 +2,7 @@
 #define STRIPFRAMETRIPLE_H
 
 #include <QFrame>
+#include <QDialog>
 #include <QTimer>
 #include <QVector>
 
@@ -58,6 +59,7 @@ public:
     double getYMax(int plotIndex) const;
 
 private slots:
+    void on_btnDetach_clicked(bool checked);
     void on_sbSpan_valueChanged(int arg1);
     void on_btnClear_clicked();    
     void realTimeDummySlot();
@@ -67,6 +69,7 @@ private slots:
 
 private:
     Ui::StripFrameTriple *ui;
+    QDialog* pd;
     QTimer* dataTimer;
 
 // plot objects
