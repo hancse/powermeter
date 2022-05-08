@@ -12,7 +12,6 @@
   </property>
   <property name="font">
    <font>
-    <weight>75</weight>
     <bold>true</bold>
    </font>
   </property>
@@ -25,107 +24,67 @@
   <property name="frameShadow">
    <enum>QFrame::Raised</enum>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>27</y>
-     <width>41</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>LogFile</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnBrowse">
-   <property name="geometry">
-    <rect>
-     <x>800</x>
-     <y>20</y>
-     <width>75</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Browse...</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="leLogDir">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>26</y>
-     <width>721</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>110</y>
-     <width>881</width>
-     <height>471</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnStart">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>60</y>
-     <width>101</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Start logging</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnStop">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>60</y>
-     <width>101</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Stop logging</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="leComment">
-   <property name="geometry">
-    <rect>
-     <x>349</x>
-     <y>64</y>
-     <width>531</width>
-     <height>23</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnInsert">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>60</y>
-     <width>101</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Insert comment</string>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>LogFile</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="leLogDir"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnBrowse">
+       <property name="text">
+        <string>Browse...</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="btnStart">
+       <property name="text">
+        <string>Start logging</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnStop">
+       <property name="text">
+        <string>Stop logging</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnInsert">
+       <property name="text">
+        <string>Insert comment</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="leComment"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="plainTextEdit">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
