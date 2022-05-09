@@ -11,11 +11,20 @@ LoggingFrame::LoggingFrame(QWidget *parent) :
 {
     ui->setupUi(this);
     //setLogDir( QDir("C:/Data") );
+    setupConnections();
 }
 
 LoggingFrame::~LoggingFrame()
 {
     delete ui;
+}
+
+void LoggingFrame::setupConnections()
+{
+    connect(ui->btnStart, &QPushButton::clicked, this, &LoggingFrame::start);
+    connect(ui->btnStop, &QPushButton::clicked, this, &LoggingFrame::stop);
+    connect(ui->btnInsert, &QPushButton::clicked, this, &LoggingFrame::insert);
+    connect(ui->btnBrowse, &QPushButton::clicked, this, &LoggingFrame::browse);
 }
 
 // http://www.bogotobogo.com/Qt/Qt5_QFile.php
@@ -53,41 +62,40 @@ void LoggingFrame::read()
 
 }
 
-QDir LoggingFrame::getLogDir() const
+/*
+void LoggingFrame::addLine(PumpInfo::WMParameters p)
 {
-    return logDir;
+    if (this->getIsLogging()) {
+        //QDateTime dt = QDateTime::currentDateTime();
+        qint64 unixTime = p.dt.toMSecsSinceEpoch();
+        QString dateStr = p.dt.toString("yyyy-MM-dd");
+        QString timeStr = p.dt.toString("hh:mm:ss:zzz");
+
+        //line.sprintf("%10i, %s, %s, %5.2lf, %5.2lf",
+        //             unixTime, dateStr, timeStr, p.RPMvalue);
+
+        QString line = QString("%1, %2, %3, %4, %5")
+                               .arg(unixTime)
+                               .arg(dateStr)
+                               .arg(timeStr)
+                               .arg(p.RPMvalue);
+
+        write(line);
+        QString commentLine = getCommentLine();
+        if (!commentLine.isEmpty()) {
+            write(commentLine);
+            setCommentLine(QString());
+        }
+    }
 }
-
-void LoggingFrame::setLogDir(const QDir &value)
-{
-    logDir = value;
-    //ui->leLogDir->setText(logDir.absolutePath());
-}
-
-void LoggingFrame::setLogFile(const QString &value)
-{
-    logFile.setFileName(logDir.absoluteFilePath(value));
-    ui->leLogDir->setText(logFile.fileName());
-}
-
-QString LoggingFrame::getLogHeader() const
-{
-    return logHeader;
-}
-
-void LoggingFrame::setLogHeader(const QString &value)
-{
-    logHeader = value;
-}
-
-
+*/
 
 /**
- * @brief LoggingFrame::on_btnStart_clicked
+ * @brief LoggingFrame::start
  *
  * https://wiki.qt.io/Simple-logger
  */
-void LoggingFrame::on_btnStart_clicked()
+void LoggingFrame::start()
 {
     qDebug() << "entry on btn_Start";
 
@@ -118,6 +126,7 @@ void LoggingFrame::on_btnStart_clicked()
 
         // Write header line to log file:
         logStream << logHeader << endl;
+        ui->plainTextEdit->clear();
         ui->plainTextEdit->appendPlainText(logHeader);
     }
     isLogging = true;
@@ -126,7 +135,7 @@ void LoggingFrame::on_btnStart_clicked()
     ui->btnStop->setEnabled(true);
 }
 
-void LoggingFrame::on_btnStop_clicked()
+void LoggingFrame::stop()
 {
     isLogging = false;
 
@@ -141,15 +150,36 @@ void LoggingFrame::on_btnStop_clicked()
  * @brief insert comment line into logfile.
  * SLOT for SIGNAL btnInsert::clicked()
  */
-void LoggingFrame::on_btnInsert_clicked()
+void LoggingFrame::insert()
 {
     commentLine = ui->leComment->text();
     commentLine.prepend("# ");
 }
 
-void LoggingFrame::setCommentLine(const QString &value)
+void LoggingFrame::browse()
 {
-    commentLine = value;
+    QFileDialog dlg;
+    QString fn = dlg.getSaveFileName(this,
+                                     tr("Select Logfile"),
+                                     this->logDir.canonicalPath(),
+                                     tr("Text Files (*.log)"));
+
+    qDebug() << fn << QDir(fn).absolutePath();
+    if ( !fn.isEmpty() ) {
+        QFileInfo info(fn);
+        qDebug() << info.absoluteDir() << info.fileName();
+        setLogDir(info.absoluteDir());
+        setLogFile(info.absoluteFilePath());
+        qDebug() << "logDir:" << logDir.canonicalPath()
+                 << "logFile:" << logFile.fileName();
+    }
+}
+
+//--GETTERS and SETTERS---------------------------------------
+
+bool LoggingFrame::getIsLogging() const
+{
+    return isLogging;
 }
 
 QString LoggingFrame::getCommentLine() const
@@ -157,20 +187,36 @@ QString LoggingFrame::getCommentLine() const
     return commentLine;
 }
 
-bool LoggingFrame::getIsLogging() const
+QString LoggingFrame::getLogHeader() const
 {
-    return isLogging;
+    return logHeader;
 }
 
-
-void LoggingFrame::on_btnBrowse_clicked()
+QDir LoggingFrame::getLogDir() const
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Select Logfile"),
-                                                    "C:/",
-                                                    tr("Text Files (*.log)"));
-    setLogDir(QDir(fileName));
-    setLogFile(fileName);
-    qDebug() << logFile.fileName();
+    return logDir;
 }
 
+void LoggingFrame::setCommentLine(const QString &value)
+{
+    commentLine = value;
+}
+
+void LoggingFrame::setLogHeader(const QString &value)
+{
+    logHeader = value;
+}
+
+void LoggingFrame::setLogDir(const QDir &value)
+{
+    logDir = value;
+    //ui->leLogDir->setText(logDir.absolutePath());
+}
+
+void LoggingFrame::setLogFile(const QString &value)
+{
+    if ( !logFile.isOpen() ) {
+        logFile.setFileName(value);
+        ui->leLogDir->setText(logFile.fileName());
+    }
+}

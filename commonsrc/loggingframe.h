@@ -35,23 +35,26 @@ public:
     void setCommentLine(const QString &value);
 
 public slots:
-    void on_btnStart_clicked();
-    void on_btnStop_clicked();
+    void start();
+    void stop();
+    void insert();
+    void browse();
 
 private slots:
-    void on_btnBrowse_clicked();
-    void on_btnInsert_clicked();
+
 
 private:
     Ui::LoggingFrame *ui;
     QTimer* logTimer;
 
-    QDir logDir;
+    QDir logDir = QDir();
     QFile logFile;
     QTextStream logStream;
-    QString logHeader;
-    QString commentLine;
+    QString logHeader = QString("");
+    QString commentLine = QString("");
     bool isLogging = false;
+
+    void setupConnections();
 };
 
 #endif // LOGGINGFRAME_H

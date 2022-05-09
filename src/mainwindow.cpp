@@ -261,7 +261,7 @@ void MainWindow::on_btnLogStart_clicked()
                        "energyTotal, frequency");
 
 // press on "Start" button in LogFrame
-    logf->on_btnStart_clicked();
+    logf->start();
     isLogging = true;
 
 // enable/disable buttons
@@ -275,7 +275,7 @@ void MainWindow::on_btnLogStart_clicked()
 void MainWindow::on_btnLogStop_clicked()
 {
     isLogging = false;
-    logf->on_btnStop_clicked();
+    logf->stop();
 
     ui->btnLogStart->setEnabled(true);
     ui->btnLogStop->setEnabled(false);
@@ -416,7 +416,7 @@ void MainWindow::loadSettings(QString iniFilename)
 void MainWindow::saveSettings(QString iniFilename)
 {
     QSettings qs(iniFilename, QSettings::IniFormat);
-    QString sText;
+    //QString sText;
 
     qs.beginGroup("General");
     //QString dirText = projf->getPIDir().absolutePath();
