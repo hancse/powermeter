@@ -68,16 +68,20 @@ void LoggingFrame::addLine(PumpInfo::WMParameters p)
     if (this->getIsLogging()) {
         //QDateTime dt = QDateTime::currentDateTime();
         qint64 unixTime = p.dt.toMSecsSinceEpoch();
-        QString dateStr = p.dt.toString("yyyy-MM-dd");
-        QString timeStr = p.dt.toString("hh:mm:ss:zzz");
+        //QString dateStr = p.dt.toString("yyyy-MM-dd");
+        //QString timeStr = p.dt.toString("hh:mm:ss:zzz");
+
+        int offset = p.dt.offsetFromUtc();
+        p.dt.setOffsetFromUtc(offset);
+        QString isoStr = p.dt.toString(Qt::ISODate);
+        qDebug() << isoStr;
 
         //line.sprintf("%10i, %s, %s, %5.2lf, %5.2lf",
         //             unixTime, dateStr, timeStr, p.RPMvalue);
 
-        QString line = QString("%1, %2, %3, %4, %5")
+        QString line = QString("%1, %2, %3")
                                .arg(unixTime)
-                               .arg(dateStr)
-                               .arg(timeStr)
+                               .arg(isoStr)
                                .arg(p.RPMvalue);
 
         write(line);
